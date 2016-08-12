@@ -1,3 +1,21 @@
+## help info
+
+```
+composer update
+
+chmod -R 0777 assets/ uploads/ _protected/runtime/
+```
+
+....
+
+`yii2-basic-template used`
+
+`adminlte-assets used`
+
+`editor.md used`
+
+...
+
 yii2-basic-template
 ===================
 
