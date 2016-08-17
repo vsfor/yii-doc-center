@@ -33,47 +33,49 @@ class ProjectLib
         $cacheKey = "Project:Menu:$projectId";
         $cache = \Yii::$app->getCache()->get($cacheKey);
         if ($cache) {
-            return $cache;
-        }
-        $menu = [['label' => '>  '.Yii::t('app', 'Document List'), 'options' => ['class' => 'header']]];
-        //项目根目录页面
-        $pages = Page::find()
-            ->where('`status`='.Page::STATUS_NORMAL)
-            ->andWhere('`project_id`=:project_id and `catalog_id`=:catalog_id', [
-                ':project_id' => $projectId,
-                ':catalog_id' => 0
-            ])
-            ->orderBy('`sort_number` asc,`id` asc')
-            ->all();
-        /** @var Page $page */
-        foreach ($pages as $page) {
-             $menu[] = [
-                 'label' => $page->title,
-                 'icon' => 'fa fa-file-text-o',
-                 'url' => ['/page/view', 'page_id'=>$page->id, 'project_id'=>$projectId],
-             ];
-        }
-        unset($pages);
+            $menu = $cache;
+        } else {
+            $menu = [['label' => '>  '.Yii::t('app', 'Document List'), 'options' => ['class' => 'header']]];
+            //项目根目录页面
+            $pages = Page::find()
+                ->where('`status`='.Page::STATUS_NORMAL)
+                ->andWhere('`project_id`=:project_id and `catalog_id`=:catalog_id', [
+                    ':project_id' => $projectId,
+                    ':catalog_id' => 0
+                ])
+                ->orderBy('`sort_number` asc,`id` asc')
+                ->all();
+            /** @var Page $page */
+            foreach ($pages as $page) {
+                $menu[] = [
+                    'label' => $page->title,
+                    'icon' => 'fa fa-file-text-o',
+                    'url' => ['/page/view', 'page_id'=>$page->id, 'project_id'=>$projectId],
+                ];
+            }
+            unset($pages);
 
-        $cats = Catalog::find()
-            ->where('`status`='.Catalog::STATUS_NORMAL)
-            ->andWhere('`project_id`=:project_id and `parent_id`=:parent_id',[
-                ':project_id' => $projectId,
-                ':parent_id' => 0
-            ])
-            ->orderBy('`sort_number` asc,`id` asc')
-            ->all();
-        /** @var Catalog $cat */
-        foreach ($cats as $cat) {
-            $menu[] = [
-                'label' => $cat->name,
-                'icon' => 'fa fa-folder-o',
-                'url' => 'javascript:;',
-                'items' => $this->getCatSubMenu($projectId, $cat->id),
-            ];
-        }
-        unset($cats);
+            $cats = Catalog::find()
+                ->where('`status`='.Catalog::STATUS_NORMAL)
+                ->andWhere('`project_id`=:project_id and `parent_id`=:parent_id',[
+                    ':project_id' => $projectId,
+                    ':parent_id' => 0
+                ])
+                ->orderBy('`sort_number` asc,`id` asc')
+                ->all();
+            /** @var Catalog $cat */
+            foreach ($cats as $cat) {
+                $menu[] = [
+                    'label' => $cat->name,
+                    'icon' => 'fa fa-folder-o',
+                    'url' => 'javascript:;',
+                    'items' => $this->getCatSubMenu($projectId, $cat->id),
+                ];
+            }
+            unset($cats);
 
+            \Yii::$app->getCache()->set($cacheKey, $menu);
+        }
         $menu[] = [
             'label' => '==== ====',
             'options' => [
@@ -82,35 +84,41 @@ class ProjectLib
             ]
         ];
 
-        $menu[] = [
-            'label' => Yii::t('app', 'Create Page'),
-            'icon' => 'fa fa-file-o',
-            'url' => ['/page/create','project_id'=>$projectId]
-        ];
-        $menu[] = [
-            'label' => Yii::t('app', 'Create Catalog'),
-            'icon' => 'fa fa-plus-square-o',
-            'url' => ['/catalog/create','project_id'=>$projectId]
-        ];
-        $menu[] = [
-            'label' => Yii::t('app', 'Manage Actions'),
-            'icon' => 'fa fa-gear',
-            'url' => 'javascript:;',
-            'items' => [
-                [
-                    'label' => Yii::t('app', 'Manage Project Document'),
-                    'icon' => 'fa fa-folder-open-o',
-                    'url' => ['/project/manage','project_id'=>$projectId]
+        $auth = Yii::$app->getAuthManager();
+        if ($auth->allow('/page/create', ['project_id' => $projectId])) {
+            $menu[] = [
+                'label' => Yii::t('app', 'Create Page'),
+                'icon' => 'fa fa-file-o',
+                'url' => ['/page/create','project_id'=>$projectId]
+            ];
+        }
+        if ($auth->allow('/catalog/create', ['project_id' => $projectId])) {
+            $menu[] = [
+                'label' => Yii::t('app', 'Create Catalog'),
+                'icon' => 'fa fa-plus-square-o',
+                'url' => ['/catalog/create','project_id'=>$projectId]
+            ];
+        }
+        if ($auth->allow('/project/manage', ['project_id'])) {
+            $menu[] = [
+                'label' => Yii::t('app', 'Manage Actions'),
+                'icon' => 'fa fa-gear',
+                'url' => 'javascript:;',
+                'items' => [
+                    [
+                        'label' => Yii::t('app', 'Manage Project Document'),
+                        'icon' => 'fa fa-folder-open-o',
+                        'url' => ['/project/manage','project_id'=>$projectId]
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Manage Project Member'),
+                        'icon' => 'fa fa-users',
+                        'url' => ['/project/member','project_id'=>$projectId]
+                    ],
                 ],
-                [
-                    'label' => Yii::t('app', 'Manage Project Member'),
-                    'icon' => 'fa fa-users',
-                    'url' => ['/project/member','project_id'=>$projectId]
-                ],
-            ],
-        ];
- 
-        \Yii::$app->getCache()->set($cacheKey, $menu);
+            ];
+        }
+
         return $menu;
     }
 

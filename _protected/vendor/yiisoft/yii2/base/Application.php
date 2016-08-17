@@ -7,6 +7,7 @@
 
 namespace yii\base;
 
+use jext\jrbac\vendor\JDbManager;
 use Yii;
 
 /**
@@ -583,7 +584,7 @@ abstract class Application extends Module
 
     /**
      * Returns the auth manager for this application.
-     * @return \yii\rbac\ManagerInterface the auth manager application component.
+     * @return JDbManager|\yii\rbac\ManagerInterface the auth manager application component.
      * Null is returned if auth manager is not configured.
      */
     public function getAuthManager()

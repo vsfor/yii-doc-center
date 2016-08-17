@@ -16,17 +16,21 @@ $this->params['breadcrumbs'][] = [
 
 $this->params['breadcrumbs'][] = $this->title;
 
-$this->params['breadcrumbs'][] = [
-    'label' => Yii::t('app', 'Update'),
-    'url' => ['update', 'page_id' => $model->id, 'project_id' => $model->project_id],
-];
-
-$this->params['breadcrumbs'][] = [
-    'label' => Yii::t('app', 'Delete'),
-    'url' => ['delete', 'page_id' => $model->id, 'project_id' => $model->project_id],
-    'data-method' => 'post',
-    'data-confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-];
+$auth = Yii::$app->getAuthManager();
+if ($auth->allow('/page/update', ['project_id'=>$model->project_id])) {
+    $this->params['breadcrumbs'][] = [
+        'label' => Yii::t('app', 'Update'),
+        'url' => ['update', 'page_id' => $model->id, 'project_id' => $model->project_id],
+    ];
+}
+if ($auth->allow('/page/delete', ['project_id'=>$model->project_id])) {
+    $this->params['breadcrumbs'][] = [
+        'label' => Yii::t('app', 'Delete'),
+        'url' => ['delete', 'page_id' => $model->id, 'project_id' => $model->project_id],
+        'data-method' => 'post',
+        'data-confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+    ];
+}
 
 $this->params['left-menu'] = $leftMenu;
 ?>

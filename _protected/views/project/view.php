@@ -12,6 +12,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $this->params['left-menu'] = $leftMenu;
 
+$auth = Yii::$app->getAuthManager();
+
 ?>
 <div class="project-view">
 
@@ -25,6 +27,7 @@ $this->params['left-menu'] = $leftMenu;
                 <p><i class="fa fa-info-circle"></i> <?php echo $model->description; ?></p>
             </div>
 
+            <?php if ($auth->allow('/project/manage', ['project_id'=>$model->id])) : ?>
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-orange">
                     <div class="inner">
@@ -40,7 +43,9 @@ $this->params['left-menu'] = $leftMenu;
                     </a>
                 </div>
             </div>
+            <?php endif; ?>
 
+            <?php if ($auth->allow('/project/member', ['project_id'=>$model->id])) :?>
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-green">
                     <div class="inner">
@@ -56,9 +61,12 @@ $this->params['left-menu'] = $leftMenu;
                     </a>
                 </div>
             </div>
-
+            <?php endif; ?>
+            
         </div>
         <div class="box-footer">
+
+            <?php if ($auth->allow('/project/update', ['project_id' => $model->id])) : ?>
             <div class="col-md-2 pull-left">
                 <?php
                 echo Html::a(Yii::t('app','Update'), ['update','project_id'=>$model->id],[
@@ -66,7 +74,9 @@ $this->params['left-menu'] = $leftMenu;
                 ]);
                 ?>
             </div>
+            <?php endif; ?>
 
+            <?php if ($auth->allow('/project/delete', ['project_id' => $model->id])) : ?>
             <div class="col-md-2 pull-right">
                 <?php
                 echo Html::a(Yii::t('app','Delete'), ['delete', 'project_id'=>$model->id],[
@@ -78,6 +88,7 @@ $this->params['left-menu'] = $leftMenu;
                 ]);
                 ?>
             </div>
+            <?php endif; ?>
 
         </div>
     </div>

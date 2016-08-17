@@ -11,8 +11,8 @@ use dmstr\widgets\Alert;
     <?php endif; ?>
 
     <section class="content">
-        <?php echo Alert::widget() ?>
-        <?php echo $content ?>
+        <?php echo Alert::widget(); ?>
+        <?php echo $content; ?>
     </section>
     <div style="display: block;width: 100%;height: 1px;clear: both;"></div>
 </div>

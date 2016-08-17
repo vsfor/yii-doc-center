@@ -10,22 +10,33 @@ $this->title = Yii::t('app','Project').':'.$model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Project List'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
+$auth = Yii::$app->getAuthManager();
 
-$this->params['breadcrumbs'][] = [
-    'label' => Yii::t('app', 'Update'),
-    'url' => ['update', 'project_id' => $model->id],
-];
+if ($auth->allow('/project/update', ['project_id'=>$model->id])) {
+    $this->params['breadcrumbs'][] = [
+        'label' => Yii::t('app', 'Update'),
+        'url' => ['update', 'project_id' => $model->id],
+    ];
+}
 
-$this->params['breadcrumbs'][] = [
-    'label' => Yii::t('app', 'Delete'),
-    'url' => ['delete', 'project_id' => $model->id],
-    'data-method' => 'post',
-    'data-confirm' => '删除项目,将会删除所有关联目录及文档,请谨慎操作,确认删除?',
-];
+if ($auth->allow('/project/delete', ['project_id'=>$model->id])) {
+    $this->params['breadcrumbs'][] = [
+        'label' => Yii::t('app', 'Delete'),
+        'url' => ['delete', 'project_id' => $model->id],
+        'data-method' => 'post',
+        'data-confirm' => '删除项目,将会删除所有关联目录及文档,请谨慎操作,确认删除?',
+    ];
+}
+
+$pageUpdateAllow = $auth->allow('/page/update', ['project_id'=>$model->id]);
+$pageDeleteAllow = $auth->allow('/page/delete', ['project_id'=>$model->id]);
+
+$catalogUpdateAllow = $auth->allow('/catalog/update', ['project_id'=>$model->id]);
+$catalogDeleteAllow = $auth->allow('/catalog/delete', ['project_id'=>$model->id]);
 
 $this->params['left-menu'] = $leftMenu;
 
-function getDocListRenderHtml($docList, $level=0)
+function getDocListRenderHtml($docList, $level=0, $pU=true, $pD=true, $cU=true, $cD=true)
 {
     $html = '';
     //可以在标题前  添加层级提示
@@ -38,7 +49,7 @@ function getDocListRenderHtml($docList, $level=0)
             $html .=    '<div class="box-header with-border">';
             $html .=        '<h5 class="box-title">'.$prefix.'<i class="fa fa-file-pdf-o"></i> '.$doc['data']['title'].'</h5>';
             $html .=        '<div class="box-tools pull-right">';
-            $html .=            Html::a('<i class="fa fa-edit"></i>', [
+            $html .=  $pU ?     Html::a('<i class="fa fa-edit"></i>', [
                                         '/page/update',
                                         'page_id' => $doc['data']['id'],
                                         'project_id' => $doc['data']['project_id'],
@@ -48,8 +59,8 @@ function getDocListRenderHtml($docList, $level=0)
                                             'toggle' => 'tooltip',
                                             'original-title' => Yii::t('app', 'Update'),
                                         ],
-                                    ]);
-            $html .=            Html::a('<i class="fa fa-trash-o"></i>', [
+                                    ]) : '';
+            $html .=  $pD ?     Html::a('<i class="fa fa-trash-o"></i>', [
                                         '/page/delete',
                                         'page_id' => $doc['data']['id'],
                                         'project_id' => $doc['data']['project_id']
@@ -61,7 +72,7 @@ function getDocListRenderHtml($docList, $level=0)
                                             'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                                             'method' => 'post',
                                         ],
-                                    ]);
+                                    ]) : '';
             $html .=            Html::button('<i class="fa fa-minus"></i>', [
                                         'class' => 'btn btn-box-tool',
                                         'data-toggle' => 'tooltip', 'data-widget' => 'collapse',
@@ -83,7 +94,7 @@ function getDocListRenderHtml($docList, $level=0)
             $html .=    '<div class="box-header with-border">';
             $html .=        '<h4 class="box-title">'.$prefix.'<i class="fa fa-folder-open-o"></i> '.$doc['data']['name'].'</h4>';
             $html .=        '<div class="box-tools pull-right">';
-            $html .=            Html::a('<i class="fa fa-edit"></i>', [
+            $html .=    $cU ?   Html::a('<i class="fa fa-edit"></i>', [
                                         '/catalog/update',
                                         'catalog_id' => $doc['data']['id'],
                                         'project_id' => $doc['data']['project_id'],
@@ -93,8 +104,8 @@ function getDocListRenderHtml($docList, $level=0)
                                             'toggle' => 'tooltip',
                                             'original-title' => Yii::t('app', 'Update'),
                                         ],
-                                    ]);
-            $html .=            Html::a('<i class="fa fa-trash-o"></i>', [
+                                    ]) : '';
+            $html .=   $cD ?    Html::a('<i class="fa fa-trash-o"></i>', [
                                         '/catalog/delete',
                                         'catalog_id' => $doc['data']['id'],
                                         'project_id' => $doc['data']['project_id']
@@ -106,7 +117,7 @@ function getDocListRenderHtml($docList, $level=0)
                                             'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                                             'method' => 'post',
                                         ],
-                                    ]);
+                                    ]) : '';
             $html .=            Html::button('<i class="fa fa-minus"></i>', [
                                         'class' => 'btn btn-box-tool',
                                         'data-toggle' => 'tooltip', 'data-widget' => 'collapse',
@@ -121,7 +132,7 @@ function getDocListRenderHtml($docList, $level=0)
             $html .=    '</div>';
             if (isset($doc['items']) && $doc['items']) {
                 $html .= '<div class="box-body">';
-                $html .= getDocListRenderHtml($doc['items'], $level+1);
+                $html .= getDocListRenderHtml($doc['items'], $level+1, $pU, $pD, $cU, $cD);
                 $html .= '</div>';
             }
             $html .= '</div>';
@@ -140,7 +151,14 @@ function getDocListRenderHtml($docList, $level=0)
             </div>
         </div>
         <div class="box-body">
-            <?php echo getDocListRenderHtml($docList); ?>
+            <?php echo getDocListRenderHtml(
+                $docList,
+                0,
+                $pageUpdateAllow,
+                $pageDeleteAllow,
+                $catalogUpdateAllow,
+                $catalogDeleteAllow
+            ); ?>
         </div>
     </div>
     <div class="callout callout-warning">
