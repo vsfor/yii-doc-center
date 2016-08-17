@@ -34,7 +34,7 @@ $this->params['left-menu'] = $leftMenu;
                     <div class="icon">
                         <i class="fa fa-folder-open-o"></i>
                     </div>
-                    <a href="<?php echo \yii\helpers\Url::to(['manage','id'=>$model->id])?>" class="small-box-footer">
+                    <a href="<?php echo \yii\helpers\Url::to(['manage','project_id'=>$model->id])?>" class="small-box-footer">
                         <?php echo Yii::t('app','More info');?>
                         <i class="fa fa-arrow-circle-right"></i>
                     </a>
@@ -50,7 +50,7 @@ $this->params['left-menu'] = $leftMenu;
                     <div class="icon">
                         <i class="fa fa-users"></i>
                     </div>
-                    <a href="<?php echo \yii\helpers\Url::to(['member','id'=>$model->id])?>" class="small-box-footer">
+                    <a href="<?php echo \yii\helpers\Url::to(['member','project_id'=>$model->id])?>" class="small-box-footer">
                         <?php echo Yii::t('app','More info');?>
                         <i class="fa fa-arrow-circle-right"></i>
                     </a>
@@ -61,7 +61,7 @@ $this->params['left-menu'] = $leftMenu;
         <div class="box-footer">
             <div class="col-md-2 pull-left">
                 <?php
-                echo Html::a(Yii::t('app','Update'), ['update','id'=>$model->id],[
+                echo Html::a(Yii::t('app','Update'), ['update','project_id'=>$model->id],[
                     'class'=>'btn btn-primary',
                 ]);
                 ?>
@@ -69,7 +69,7 @@ $this->params['left-menu'] = $leftMenu;
 
             <div class="col-md-2 pull-right">
                 <?php
-                echo Html::a(Yii::t('app','Delete'), ['delete', 'id'=>$model->id],[
+                echo Html::a(Yii::t('app','Delete'), ['delete', 'project_id'=>$model->id],[
                     'class'=>'btn btn-danger',
                     'data' => [
                         'confirm' => '删除项目,将会删除所有关联目录及文档,请谨慎操作,确认删除?',

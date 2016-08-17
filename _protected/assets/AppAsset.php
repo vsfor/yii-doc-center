@@ -31,7 +31,9 @@ class AppAsset extends AssetBundle
         '/static/editor.md/lib/codemirror/addon/search/matchesonscrollbar.css',
         '/static/editor.md/lib/codemirror/addon/fold/foldgutter.css',
 //        '/static/editor.md/lib/katex/katex.min.css',//有动态加载
+        '/static/uptop/uptop.css', //返回顶部 ---
         '/static/css/app.css',
+        '/static/toastmessage/resources/css/jquery.toastmessage.css',// for jrbac
     ];
 
 
@@ -46,6 +48,8 @@ class AppAsset extends AssetBundle
         '/static/editor.md/lib/jquery.flowchart.min.js',
 //        '/static/editor.md/lib/katex/katex.min.js',//有动态加载
         '/static/editor.md/editormd.js',
+        '/static/uptop/uptop.js', //返回顶部 ---
+        '/static/toastmessage/javascript/jquery.toastmessage.js', // for jrbac
     ];
 
     /* //或在需要的页面进行加载

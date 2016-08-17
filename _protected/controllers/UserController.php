@@ -13,7 +13,7 @@ use yii\web\UploadedFile;
 /**
  * UserController implements the CRUD actions for User model.
  */
-class UserController extends AppController
+class UserController extends ControllerBase
 {
     /**
      * How many users we want to display per page.
@@ -22,7 +22,7 @@ class UserController extends AppController
     protected $_pageSize = 11;
 
     /**
-     * Lists all User models.
+     * 用户列表管理
      *
      * @return string
      */
@@ -38,7 +38,7 @@ class UserController extends AppController
     }
 
     /**
-     * Displays a single User model.
+     * 查看用户详情
      *
      * @param  integer $id The user id.
      * @return string
@@ -51,7 +51,8 @@ class UserController extends AppController
     }
 
     /**
-     * Creates a new User model.
+     * 添加用户
+     *
      * If creation is successful, the browser will be redirected to the 'view' page.
      *
      * @return string|\yii\web\Response
@@ -83,7 +84,8 @@ class UserController extends AppController
     }
 
     /**
-     * Updates an existing User and Role models.
+     * 编辑用户信息
+     *
      * If update is successful, the browser will be redirected to the 'view' page.
      *
      * @param  integer $id The user id.
@@ -152,18 +154,25 @@ class UserController extends AppController
     }
 
     /**
-     * Deletes an existing User model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * 删除用户
      *
-     * @param  integer $id The user id.
+     * @param $id
      * @return \yii\web\Response
-     *
      * @throws NotFoundHttpException
+     * @throws ServerErrorHttpException
+     * @throws \Exception
      */
     public function actionDelete($id)
     {
+        $user = $this->findModel($id);
+        if (!$user) {
+            Yii::$app->session->setFlash('error', Yii::t('app', 'There was some error while deleting user role.'));
+            return $this->redirect(['index']);
+        }
+
+        $user->status = $user::STATUS_DELETED;
         // delete user or throw exception if could not
-        if (!$this->findModel($id)->delete()) {
+        if (!$user->save()) {
             throw new ServerErrorHttpException(Yii::t('app', 'We could not delete this user.'));
         }
 
@@ -211,12 +220,24 @@ class UserController extends AppController
         return $model;
     }
 
+    /**
+     * 查看个人信息
+     *
+     * @return string
+     * @throws NotFoundHttpException
+     */
     public function actionProfile()
     {
         $id = \Yii::$app->getUser()->getId();
         return $this->render('profile', ['model' => $this->findModel($id)]);
     }
 
+    /**
+     * 编辑个人信息
+     *
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException
+     */
     public function actionUpdateProfile()
     {
         $id = \Yii::$app->getUser()->getId();
@@ -246,6 +267,12 @@ class UserController extends AppController
         return $this->redirect(['profile', 'id' => $user->id]);
     }
 
+    /**
+     * 上传图片
+     *
+     * @return mixed
+     * @throws \yii\base\Exception
+     */
     public function actionUploadImage()
     { //注意:用于上传图片的editor.md/plugins/image-dialog/image-dialog.js 有结合  yii _csrf 验证作部分修改
         $ret = [

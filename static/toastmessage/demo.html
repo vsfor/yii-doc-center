@@ -1,0 +1,97 @@
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>弹出框提示信息</title>
+	<link rel="stylesheet" type="text/css" href="resources/css/jquery.toastmessage.css"/>
+	<script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="javascript/jquery.toastmessage.js"></script>
+</head>
+<body>
+<p>1 Notice</p>
+<button id="demo1">DEMO 1</button>
+
+<p>2 Success</p>
+<button id="demo2">DEMO 2</button>
+
+<p>3 Warning</p>
+<button id="demo3">DEMO 3</button>
+
+<p>4 Error</p>
+<button id="demo4">DEMO 4</button>
+
+<p>5 不自动关闭</p>
+<button id="demo5">DEMO 5</button>
+
+<p>6 自定义相关配置</p>
+<button id="demo6">DEMO 6</button>
+
+<pre>
+inEffectDuration:  600,   // in effect duration in miliseconds
+stayTime:         3000,   // time in miliseconds before the item has to disappear
+text:               '',   // content of the item
+sticky:          false,   // should the toast item sticky or not?
+type:         'notice',   // notice, warning, error, success
+position:  'top-right',   // top-left, top-center, top-right, middle-left, middle-center, middle-right
+                          // Position of the toast container holding different toast.
+                          // Position can be set only once at the very first call,
+                          // changing the position after the first call does nothing
+closeText:         '',    // text which will be shown as close button,
+                          // set to '' when you want to introduce an image via css
+close:            null    // callback function when the toastmessage is closed
+</pre>
+<script type="text/javascript">
+$(function(){
+	$('#demo1').click(function(){
+		$().toastmessage('showNoticeToast', 'some message here');
+		return false;
+	});
+
+	$('#demo2').click(function() { 
+		$().toastmessage('showSuccessToast', "some message here");
+		return false;
+	});
+
+	$('#demo3').click(function() { 
+		$().toastmessage('showWarningToast', "some message here");
+		return false;
+	});
+
+	$('#demo4').click(function() { 
+		$().toastmessage('showErrorToast', "some message here");
+		return false;
+	});
+
+	$('#demo5').click(function() { 
+		// reconfiguring the toasts as sticky
+		$().toastmessage({sticky : true});
+		// saving the newly created toast into a variable
+		var myToast =  $().toastmessage('showNoticeToast', 'some message here');
+		// removing the toast
+		$().toastmessage('removeToast', myToast);
+		return false;
+	});
+
+	$('#demo6').click(function(){
+		// user configuration of all toastmessages to come:
+		$().toastmessage({
+		    text     : 'Hello World',
+		    sticky   : true,
+		    position : 'middle-center',
+		    type     : 'success',
+		    close    : function () {console.log("toast is closed ...");}
+		});
+		$().toastmessage('showToast');
+		/*
+			$().toastmessage('showToast', {
+			    text     : 'Some information for you ...',
+			    sticky   : true,
+			    type     : 'notice'
+			});
+		*/
+		return false;
+	});
+
+});
+</script>
+</body>
+</html>

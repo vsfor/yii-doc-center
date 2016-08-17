@@ -13,12 +13,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $this->params['breadcrumbs'][] = [
     'label' => Yii::t('app', 'Update'),
-    'url' => ['update', 'id' => $model->id],
+    'url' => ['update', 'project_id' => $model->id],
 ];
 
 $this->params['breadcrumbs'][] = [
     'label' => Yii::t('app', 'Delete'),
-    'url' => ['delete', 'id' => $model->id],
+    'url' => ['delete', 'project_id' => $model->id],
     'data-method' => 'post',
     'data-confirm' => '删除项目,将会删除所有关联目录及文档,请谨慎操作,确认删除?',
 ];
@@ -40,7 +40,7 @@ function getDocListRenderHtml($docList, $level=0)
             $html .=        '<div class="box-tools pull-right">';
             $html .=            Html::a('<i class="fa fa-edit"></i>', [
                                         '/page/update',
-                                        'id' => $doc['data']['id'],
+                                        'page_id' => $doc['data']['id'],
                                         'project_id' => $doc['data']['project_id'],
                                     ], [
                                         'class' => 'btn btn-box-tool',
@@ -49,7 +49,11 @@ function getDocListRenderHtml($docList, $level=0)
                                             'original-title' => Yii::t('app', 'Update'),
                                         ],
                                     ]);
-            $html .=            Html::a('<i class="fa fa-trash-o"></i>', ['/page/delete', 'id' => $doc['data']['id'], 'project_id' => $doc['data']['project_id']], [
+            $html .=            Html::a('<i class="fa fa-trash-o"></i>', [
+                                        '/page/delete',
+                                        'page_id' => $doc['data']['id'],
+                                        'project_id' => $doc['data']['project_id']
+                                    ], [
                                         'class' => 'btn btn-box-tool',
                                         'data' => [
                                             'toggle' => 'tooltip',
@@ -81,7 +85,7 @@ function getDocListRenderHtml($docList, $level=0)
             $html .=        '<div class="box-tools pull-right">';
             $html .=            Html::a('<i class="fa fa-edit"></i>', [
                                         '/catalog/update',
-                                        'id' => $doc['data']['id'],
+                                        'catalog_id' => $doc['data']['id'],
                                         'project_id' => $doc['data']['project_id'],
                                     ], [
                                         'class' => 'btn btn-box-tool',
@@ -90,15 +94,19 @@ function getDocListRenderHtml($docList, $level=0)
                                             'original-title' => Yii::t('app', 'Update'),
                                         ],
                                     ]);
-            $html .=            Html::a('<i class="fa fa-trash-o"></i>', ['/catalog/delete', 'id' => $doc['data']['id'], 'project_id' => $doc['data']['project_id']], [
-                                    'class' => 'btn btn-box-tool',
-                                    'data' => [
-                                        'toggle' => 'tooltip',
-                                        'original-title' => Yii::t('app', 'Delete'),
-                                        'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                                        'method' => 'post',
-                                    ],
-                                ]);
+            $html .=            Html::a('<i class="fa fa-trash-o"></i>', [
+                                        '/catalog/delete',
+                                        'catalog_id' => $doc['data']['id'],
+                                        'project_id' => $doc['data']['project_id']
+                                    ], [
+                                        'class' => 'btn btn-box-tool',
+                                        'data' => [
+                                            'toggle' => 'tooltip',
+                                            'original-title' => Yii::t('app', 'Delete'),
+                                            'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                                            'method' => 'post',
+                                        ],
+                                    ]);
             $html .=            Html::button('<i class="fa fa-minus"></i>', [
                                         'class' => 'btn btn-box-tool',
                                         'data-toggle' => 'tooltip', 'data-widget' => 'collapse',
@@ -151,9 +159,5 @@ $this->registerCss('
 .project-manage .box .box .box-header { padding:4px 6px; }
 .project-manage .box .box .box-header>.box-tools { top:0px; }
 ');
-$this->registerJs('
-$("[data-widget=\"update\"]").click(function() {
-    
-});
-');
+
 ?>

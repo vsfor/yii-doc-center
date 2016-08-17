@@ -24,3 +24,8 @@ use dmstr\widgets\Alert;
     <strong>&copy; <?= date('Y') ?> <?= Yii::t('app', Yii::$app->name) ?>.</strong>Jeen All rights
     reserved.
 </footer>
+<!-- up to top button -->
+<div id="uptop">
+    <div style="opacity:0;display:block;" class="level-2"></div>
+    <div class="level-3"></div>
+</div>

@@ -40,6 +40,14 @@ $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed201
             'directoryAsset' => $directoryAsset
         ]);
     ?>
+
+
+    <?php
+    if (!function_exists('j_view_show_mask')) {
+        echo $this->render('mask.php');
+    }
+    ?>
+    
 </div>
 <?php $this->endBody() ?>
 </body>

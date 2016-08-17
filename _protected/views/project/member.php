@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
 
 $this->title = Yii::t('app', 'Project Member List');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Project List'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app','Project').':'.$model->name, 'url' => ['view','id'=>$model->id]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app','Project').':'.$model->name, 'url' => ['view','project_id'=>$model->id]];
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->params['left-menu'] = $leftMenu;
@@ -132,7 +132,7 @@ $this->registerJs('
         $.ajax({
             url: "'.\yii\helpers\Url::to(['/project/add-member']).'",
             type: "POST",
-            data: {id: projectId, username: memberUserName, level: memberLevel},
+            data: {project_id: projectId, username: memberUserName, level: memberLevel},
             success: function(res) {
                 console.log(res);
             }

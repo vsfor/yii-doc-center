@@ -7,6 +7,7 @@
 
 namespace app\console\controllers;
 
+use app\components\Jeen;
 use yii\console\Controller;
 
 /**
@@ -26,4 +27,12 @@ class HelloController extends Controller
     {
         echo $message . "\n";
     }
+    
+    public function actionTc()
+    {
+        $c = new \app\controllers\SiteController('','',[]);
+        $t = $c->actions();
+        Jeen::echoln($t);
+    }
+    
 }

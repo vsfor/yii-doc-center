@@ -42,7 +42,7 @@ $roleSetHtml = \app\components\ProjectLib::getInstance()->getMemberLevelSetHtml(
             </div>
             <?php echo \yii\bootstrap\Html::a('<i class="fa fa-user-times"></i>',[
                 '/project/del-member',
-                'id' => $model['project_id'],
+                'project_id' => $model['project_id'],
                 'user_id' => $model['user_id'],
             ],['class'=>'act-btn', 'data-method'=>'post']); ?>
             <a href="javascript:;" title="<?php echo Yii::t('app','Delete');?>" class="act-btn"></a>

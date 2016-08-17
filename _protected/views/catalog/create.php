@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Catalog */
 
 $this->title = Yii::t('app', 'Create Catalog');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Project'), 'url' => ['/project/view','id'=>$model->project_id]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Project'), 'url' => ['/project/view','project_id'=>$model->project_id]];
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->params['left-menu'] = $leftMenu;

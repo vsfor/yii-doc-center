@@ -12,39 +12,35 @@ use yii\web\NotFoundHttpException;
 /**
  * PageController implements the CRUD actions for Page model.
  */
-class PageController extends AppController
+class PageController extends ControllerBase
 {
     /**
-     * useful
-     * @param int $id
+     * 查看项目文档
+     * @param int $page_id
      * @param int $project_id
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException
      */
-    public function actionView($id, $project_id)
+    public function actionView($page_id, $project_id)
     {
         $project_id = intval($project_id);
-        $userId = \Yii::$app->getUser()->getId();
-        $projectLib = ProjectLib::getInstance();
-        $pm = $projectLib->getMemberLevel($project_id, $userId);
-        if (!$pm || $pm['level'] < ProjectMember::LEVEL_READER) {
-            Yii::$app->getSession()->addFlash('warning',Yii::t('app', 'Permission Denied').' to view this page');
-            return $this->goBack();
-        }
-
+        $page_id = intval($page_id);
         $this->initGoBackUrl();
 
+        $projectLib = ProjectLib::getInstance();
         $leftMenu = $projectLib->getMenu($project_id);
-        $historyList = $projectLib->getPageHistoryList($id);
+        $historyList = $projectLib->getPageHistoryList($page_id);
+        $preNext = $projectLib->getPagePreNext($project_id, $page_id);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel($page_id),
             'leftMenu' => $leftMenu,
             'historyList' => $historyList,
+            'preNext' => $preNext,
         ]);
     }
 
     /**
-     * useful
+     * 添加项目文档
      * @param int $project_id
      * @return string|\yii\web\Response
      */
@@ -52,12 +48,6 @@ class PageController extends AppController
     {
         $project_id = intval($project_id);
         $userId = \Yii::$app->getUser()->getId();
-        $projectLib = ProjectLib::getInstance();
-        $pm = $projectLib->getMemberLevel($project_id, $userId);
-        if (!$pm || $pm['level'] < ProjectMember::LEVEL_EDITOR) {
-            Yii::$app->getSession()->addFlash('warning',Yii::t('app', 'Permission Denied').' to create page');
-            return $this->goBack();
-        }
         $model = new Page();
         $model->project_id = $project_id;
         $model->author_id = $userId;
@@ -66,10 +56,12 @@ class PageController extends AppController
             Yii::$app->getCache()->delete("Project:Menu:$project_id");
             Yii::$app->getCache()->delete("Project:Catalog:$project_id");
             Yii::$app->getCache()->delete("Project:DocList:$project_id");
+            Yii::$app->getCache()->delete("Project:PageList:$project_id");
 
             Yii::$app->getSession()->addFlash('success',Yii::t('app', 'Create Success'));
-            return $this->redirect(['view', 'id' => $model->id, 'project_id' => $project_id]);
+            return $this->redirect(['view', 'page_id' => $model->id, 'project_id' => $project_id]);
         }
+        $projectLib = ProjectLib::getInstance();
         $leftMenu = $projectLib->getMenu($project_id);
         $catalogs = $projectLib->getCatOptions($project_id);
         return $this->render('create', [
@@ -80,27 +72,21 @@ class PageController extends AppController
     }
 
     /**
-     * useful
-     * @param int $id
+     * 更新项目文档
+     * @param int $page_id
      * @param int $project_id
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException
      */
-    public function actionUpdate($id, $project_id)
+    public function actionUpdate($page_id, $project_id)
     {
         $project_id = intval($project_id);
-        $userId = \Yii::$app->getUser()->getId();
-        $projectLib = ProjectLib::getInstance();
-        $pm = $projectLib->getMemberLevel($project_id, $userId);
-        if (!$pm || $pm['level'] < ProjectMember::LEVEL_EDITOR) {
-            Yii::$app->getSession()->addFlash('warning',Yii::t('app', 'Permission Denied').' to update page');
-            return $this->goBack();
-        }
-        $model = $this->findModel($id);
+        $page_id = intval($page_id);
+        $model = $this->findModel($page_id);
 
         if ($model->load(Yii::$app->request->post())) {
             $historyAttrs = $model->getOldAttributes();
-            $model->author_id = $userId;
+            $model->author_id = Yii::$app->getUser()->getId();
             if ($model->save()) {
                 //仅当文档内容有变更时,保存历史版本
                 if ($model->content != $historyAttrs['content']) {
@@ -114,11 +100,13 @@ class PageController extends AppController
                 Yii::$app->getCache()->delete("Project:Menu:$project_id");
                 Yii::$app->getCache()->delete("Project:Catalog:$project_id");
                 Yii::$app->getCache()->delete("Project:DocList:$project_id");
+                Yii::$app->getCache()->delete("Project:PageList:$project_id");
 
                 Yii::$app->getSession()->addFlash('success',Yii::t('app', 'Update Success'));
-                return $this->redirect(['view', 'id' => $model->id, 'project_id' => $project_id]);
+                return $this->redirect(['view', 'page_id' => $model->id, 'project_id' => $project_id]);
             }
         }
+        $projectLib = ProjectLib::getInstance();
         $leftMenu = $projectLib->getMenu($project_id);
         $catalogs = $projectLib->getCatOptions($project_id);
         return $this->render('update', [
@@ -130,22 +118,16 @@ class PageController extends AppController
 
     /**
      * 删除项目文档
-     * @param $id
+     * @param $page_id
      * @param $project_id
      * @return \yii\web\Response
      * @throws NotFoundHttpException
      */
-    public function actionDelete($id, $project_id)
+    public function actionDelete($page_id, $project_id)
     {
         $project_id = intval($project_id);
-        $userId = \Yii::$app->getUser()->getId();
-        $projectLib = ProjectLib::getInstance();
-        $pm = $projectLib->getMemberLevel($project_id, $userId);
-        if (!$pm || $pm['level'] < ProjectMember::LEVEL_ADMIN) {
-            Yii::$app->getSession()->addFlash('warning',Yii::t('app', 'Permission Denied').' to delete page');
-            return $this->goBack();
-        }
-        $model = $this->findModel($id);
+        $page_id = intval($page_id);
+        $model = $this->findModel($page_id);
         if ($model && $model->project_id == $project_id) {
             $model->status = Page::STATUS_DELETED;
             $model->save();
@@ -154,8 +136,9 @@ class PageController extends AppController
         Yii::$app->getCache()->delete("Project:Menu:$project_id");
         Yii::$app->getCache()->delete("Project:Catalog:$project_id");
         Yii::$app->getCache()->delete("Project:DocList:$project_id");
-        
-        return $this->goBack();
+        Yii::$app->getCache()->delete("Project:PageList:$project_id");
+
+        return $this->redirect(['/project/view', 'project_id' => $project_id]);
     }
 
     /**
@@ -176,7 +159,11 @@ class PageController extends AppController
         }
     }
 
-    /** useful */
+    /**
+     * 查看文档历史版本
+     * @param $id
+     * @return mixed
+     */
     public function actionGethistory($id)
     {
         $ret = [

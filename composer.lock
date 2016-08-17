@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e73d9ce393536dd297961a46bdc1a8fd",
-    "content-hash": "6695f4165298c6dcc3f760a2e56c9a15",
+    "hash": "a7b9a76402d861c77462244660fd99c0",
+    "content-hash": "5dac26da091bec82656898ac4730bd02",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -441,6 +441,53 @@
                 "html"
             ],
             "time": "2016-07-16 12:58:58"
+        },
+        {
+            "name": "jext/yii2-jrbac",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JeanWolf/yii2-jrbac.git",
+                "reference": "df1bd2dafce9f214a7902d1c56905b389a6e0003"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JeanWolf/yii2-jrbac/zipball/df1bd2dafce9f214a7902d1c56905b389a6e0003",
+                "reference": "df1bd2dafce9f214a7902d1c56905b389a6e0003",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "2.*",
+                "yiisoft/yii2-bootstrap": "2.*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "jext\\jrbac\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeen Wang",
+                    "email": "jeen@vsfor.com",
+                    "homepage": "http://vsfor.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "JRBAC - Yii2 RBAC admin control panel and dashboard that's based on Bootstrap 3",
+            "homepage": "http://blog.jeen.wang/",
+            "keywords": [
+                "admin",
+                "extension",
+                "module",
+                "rbac",
+                "yii2"
+            ],
+            "time": "2016-07-21 03:11:39"
         },
         {
             "name": "kartik-v/strength-meter",

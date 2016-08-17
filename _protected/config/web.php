@@ -1,4 +1,5 @@
 <?php
+require (__DIR__ . '/funs.php');
 
 $params = require(__DIR__ . '/params.php');
 
@@ -8,6 +9,11 @@ $config = [
     'language' => 'cn',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log', 'app\components\Aliases'],
+    'modules' => [
+        'jrbac' => [
+            'class' => 'jext\jrbac\Module',
+        ],
+    ],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -48,7 +54,7 @@ $config = [
             'savePath' => '@app/runtime/session'
         ],
         'authManager' => [
-            'class' => 'yii\rbac\DbManager',
+            'class' => 'jext\jrbac\vendor\JDbManager',
             'cache' => 'cache',
         ],
         'errorHandler' => [

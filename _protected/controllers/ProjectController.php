@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\Jeen;
 use app\components\ProjectLib;
 use app\models\ProjectMember;
 use app\models\User;
@@ -14,7 +15,7 @@ use yii\web\NotFoundHttpException;
 /**
  * ProjectController implements the CRUD actions for Project model.
  */
-class ProjectController extends AppController
+class ProjectController extends ControllerBase
 {
     /**
      * 我的项目列表
@@ -33,21 +34,14 @@ class ProjectController extends AppController
 
     /**
      * 项目详情页
-     * @param int $id
+     * @param int $project_id
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException
      */
-    public function actionView($id)
+    public function actionView($project_id)
     {
-        $userId = \Yii::$app->getUser()->getId();
-        $projectLib = ProjectLib::getInstance();
-        $pm = $projectLib->getMemberLevel($id, $userId);
-        if (!$pm || $pm['level'] < ProjectMember::LEVEL_READER) {
-            Yii::$app->getSession()->addFlash('warning',Yii::t('app', 'Permission Denied').' to view this project');
-            return $this->goBack();
-        }
-
-        $model = $this->findModel($id);
+        $project_id = intval($project_id);
+        $model = $this->findModel($project_id);
         if (!$model) {
             return $this->redirect(['index']);
         }
@@ -68,15 +62,6 @@ class ProjectController extends AppController
      */
     public function actionCreate()
     {
-        $totalProjects = Project::find()->where('`user_id`=:user_id and `status`=:status', [
-            ':user_id' => Yii::$app->getUser()->getId(),
-            ':status' => Project::STATUS_NORMAL
-        ])->count();
-        if ((!Yii::$app->getUser()->can('createProject')) || ($totalProjects > 2)) {
-            Yii::$app->getSession()->addFlash('warning',Yii::t('app', 'Permission Denied'));
-            return $this->redirect(['index']);
-        }
-
         $model = new Project();
         $model->user_id = \Yii::$app->getUser()->getId();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -88,8 +73,10 @@ class ProjectController extends AppController
                 Yii::$app->getSession()->addFlash('warning',Yii::t('app', 'Create Failed,please contact us.'));
                 return $this->redirect(['/site/contact']);
             } else {
+                ProjectLib::getInstance()->setMemberLevelRole($pm->user_id, $pm->level);
+
                 Yii::$app->getSession()->addFlash('success',Yii::t('app', 'Create Success'));
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'project_id' => $model->id]);
             }
         } else {
             return $this->render('create', [
@@ -100,25 +87,17 @@ class ProjectController extends AppController
 
     /**
      * 更新项目
-     * @param int $id
+     * @param int $project_id
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException
      */
-    public function actionUpdate($id)
+    public function actionUpdate($project_id)
     {
-        $id = intval($id);
-        $userId = \Yii::$app->getUser()->getId();
-        $projectLib = ProjectLib::getInstance();
-        $pm = $projectLib->getMemberLevel($id, $userId);
-        if (!$pm || $pm['level'] < ProjectMember::LEVEL_ADMIN) {
-            Yii::$app->getSession()->addFlash('warning',Yii::t('app', 'Permission Denied').' to update project');
-            return $this->goBack();
-        }
-
-        $model = $this->findModel($id);
+        $project_id = intval($project_id);
+        $model = $this->findModel($project_id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->getSession()->addFlash('success',Yii::t('app', 'Update Success'));
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'project_id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -128,22 +107,15 @@ class ProjectController extends AppController
 
     /**
      * 删除项目
-     * @param int $id
+     * @param int $project_id
      * @return \yii\web\Response
      * @throws NotFoundHttpException
      */
-    public function actionDelete($id)
+    public function actionDelete($project_id)
     {
-        $userId = \Yii::$app->getUser()->getId();
-        $projectLib = ProjectLib::getInstance();
-        $pm = $projectLib->getMemberLevel($id, $userId);
-        if (!$pm || $pm['level'] < ProjectMember::LEVEL_OWNER) {
-            Yii::$app->getSession()->addFlash('warning',Yii::t('app', 'Permission Denied').' to delete project');
-            return $this->goBack();
-        }
-
-        $id = intval($id);
-        $model = $this->findModel($id);
+        $project_id = intval($project_id);
+        
+        $model = $this->findModel($project_id);
         if ($model) {
             $model->status = Project::STATUS_DELETED;
             $model->save();
@@ -171,21 +143,14 @@ class ProjectController extends AppController
 
     /**
      * 项目文档管理
-     * @param int $id
+     * @param int $project_id
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException
      */
-    public function actionManage($id)
+    public function actionManage($project_id)
     {
-        $userId = \Yii::$app->getUser()->getId();
-        $projectLib = ProjectLib::getInstance();
-        $pm = $projectLib->getMemberLevel($id, $userId);
-        if (!$pm || $pm['level'] < ProjectMember::LEVEL_EDITOR) {
-            Yii::$app->getSession()->addFlash('warning',Yii::t('app', 'Permission Denied').' to manage catalog docs');
-            return $this->goBack();
-        }
-
-        $model = $this->findModel($id);
+        $project_id = intval($project_id);
+        $model = $this->findModel($project_id);
         if (!$model) {
             return $this->redirect(['index']);
         }
@@ -204,21 +169,13 @@ class ProjectController extends AppController
 
     /**
      * 项目成员管理
-     * @param int $id
+     * @param int $project_id
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException
      */
-    public function actionMember($id)
-    {
-        $userId = \Yii::$app->getUser()->getId();
-        $projectLib = ProjectLib::getInstance();
-        $pm = $projectLib->getMemberLevel($id, $userId);
-        if (!$pm || $pm['level'] < ProjectMember::LEVEL_EDITOR) {
-            Yii::$app->getSession()->addFlash('warning',Yii::t('app', 'Permission Denied').' to manage member');
-            return $this->goBack();
-        }
-
-        $model = $this->findModel($id);
+    public function actionMember($project_id)
+    { 
+        $model = $this->findModel($project_id);
         if (!$model) {
             return $this->redirect(['index']);
         }
@@ -226,8 +183,8 @@ class ProjectController extends AppController
         $this->initGoBackUrl();
 
         $projectLib = ProjectLib::getInstance();
-        $leftMenu = $projectLib->getMenu($id);
-        $memberList = $projectLib->getMemberList($id);
+        $leftMenu = $projectLib->getMenu($project_id);
+        $memberList = $projectLib->getMemberList($project_id);
         $dataProvider = new ArrayDataProvider();
         $dataProvider->setModels($memberList);
         return $this->render('member', [
@@ -243,13 +200,7 @@ class ProjectController extends AppController
      */
     public function actionAddMember()
     {
-        $projectId = intval(\Yii::$app->getRequest()->post('id',0));
-        $userId = Yii::$app->getUser()->getId();
-        $pm = ProjectLib::getInstance()->getMemberLevel($projectId, $userId);
-        if (!$pm || $pm['level'] < ProjectMember::LEVEL_EDITOR) {
-            Yii::$app->getSession()->addFlash('error',Yii::t('app','Permission Denied').' to add member');
-            return $this->goBack();
-        }
+        $projectId = intval(\Yii::$app->getRequest()->post('project_id',0));
         $username = trim(\Yii::$app->getRequest()->post('username',''));
         $member = User::findByUsername($username);
         if (!$member) {
@@ -275,7 +226,9 @@ class ProjectController extends AppController
             Yii::$app->getCache()->delete("Project:MemberIds:$projectId");
             Yii::$app->getCache()->delete("Project:MemberList:$projectId");
             Yii::$app->getCache()->delete("Project:MemberLevel:$projectId:{$pm->user_id}");
-            
+
+            ProjectLib::getInstance()->setMemberLevelRole($pm->user_id, $pm->level);
+
             Yii::$app->getSession()->addFlash('success',Yii::t('app','Member add success.'));
         } else {
             Yii::$app->getSession()->addFlash('error',Yii::t('app','Member add failed,please contact us.'));
@@ -286,32 +239,27 @@ class ProjectController extends AppController
 
     /**
      * 设置项目成员级别
-     * @param $id
+     * @param $project_id
      * @param $user_id
      * @param $level
      * @return \yii\web\Response
      */
-    public function actionSetMemberLevel($id,$user_id,$level)
+    public function actionSetMemberLevel($project_id,$user_id,$level)
     {
-        $projectId = intval(\Yii::$app->getRequest()->post('id',0));
-        $userId = Yii::$app->getUser()->getId();
-        $pm = ProjectLib::getInstance()->getMemberLevel($projectId, $userId);
-        if (!$pm || $pm['level'] < ProjectMember::LEVEL_EDITOR) {
-            Yii::$app->getSession()->addFlash('error',Yii::t('app','Permission Denied').' to add member');
-            return $this->goBack();
-        }
+        $project_id = intval($project_id);
         if (Yii::$app->getRequest()->getIsPost()) {
             if (isset(ProjectMember::$levelList[$level])) {
                 if(ProjectMember::updateAll(['level' => intval($level)],[
-                    'project_id' => $id,
+                    'project_id' => $project_id,
                     'user_id' => $user_id,
                 ])) {
                     //cache reset logic
-                    Yii::$app->getCache()->delete("Project:MemberList:$id");
-                    Yii::$app->getCache()->delete("Project:MemberLevel:$id:$user_id");
-                    
+                    Yii::$app->getCache()->delete("Project:MemberList:$project_id");
+                    Yii::$app->getCache()->delete("Project:MemberLevel:$project_id:$user_id");
+
+                    ProjectLib::getInstance()->setMemberLevelRole($user_id, $level);
+
                     Yii::$app->getSession()->addFlash('success',Yii::t('app','Update Success'));
-                    
                     return $this->goBack();
                 }
             }
@@ -321,28 +269,22 @@ class ProjectController extends AppController
 
     /**
      * 移除项目成员
-     * @param $id
+     * @param $project_id
      * @param $user_id
      * @return \yii\web\Response
      */
-    public function actionDelMember($id,$user_id)
+    public function actionDelMember($project_id,$user_id)
     {
-        $projectId = intval(\Yii::$app->getRequest()->post('id',0));
-        $userId = Yii::$app->getUser()->getId();
-        $pm = ProjectLib::getInstance()->getMemberLevel($projectId, $userId);
-        if (!$pm || $pm['level'] < ProjectMember::LEVEL_EDITOR) {
-            Yii::$app->getSession()->addFlash('error',Yii::t('app','Permission Denied').' to add member');
-            return $this->goBack();
-        }
+        $project_id = intval($project_id);
         if (Yii::$app->getRequest()->getIsPost()) {
             if(ProjectMember::deleteAll([
-                'project_id' => $id,
+                'project_id' => $project_id,
                 'user_id' => $user_id,
             ])) {
                 //cache reset logic
-                Yii::$app->getCache()->delete("Project:MemberIds:$id");
-                Yii::$app->getCache()->delete("Project:MemberList:$id");
-                Yii::$app->getCache()->delete("Project:MemberLevel:$id:$user_id");
+                Yii::$app->getCache()->delete("Project:MemberIds:$project_id");
+                Yii::$app->getCache()->delete("Project:MemberList:$project_id");
+                Yii::$app->getCache()->delete("Project:MemberLevel:$project_id:$user_id");
                 
                 Yii::$app->getSession()->addFlash('success',Yii::t('app','Delete Success'));
                 

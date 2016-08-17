@@ -2,11 +2,12 @@
 namespace app\rbac\rules;
 
 use app\components\ProjectLib;
+use app\models\ProjectMember;
 use yii\rbac\Rule;
 
-class ProjectMemberRule extends Rule
+class ProjectEditorRule extends Rule
 {
-    public $name = 'isProjectMember';
+    public $name = 'isProjectEditor';
 
     /**
      * @param  string|integer $user   The user ID.
@@ -17,9 +18,17 @@ class ProjectMemberRule extends Rule
      */
     public function execute($user, $item, $params)
     {
-        $project_id = intval($params['project_id']);
-        $projectLib = ProjectLib::getInstance();
-        $memberIds = $projectLib->getMemberIds($project_id);
-        return in_array($user, $memberIds);
+        if (!isset($params['project_id'])) {
+            return false;
+        }
+
+        $pm = ProjectLib::getInstance()->getMemberLevel(intval($params['project_id']), $user);
+
+        if (!$pm || $pm['level'] < ProjectMember::LEVEL_EDITOR) {
+            return false;
+        }
+
+        return true;
     }
+    
 }

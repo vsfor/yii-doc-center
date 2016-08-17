@@ -179,4 +179,32 @@ class Jeen
     }
 
 
+    //递归解析Json字符串或数组Json键值
+    public static function handleBodyParams($t)
+    {
+        if(is_numeric($t) || is_bool($t)) return $t;
+        if(is_string($t)) {
+            $temp = json_decode($t,true,512,JSON_BIGINT_AS_STRING);
+            if($temp === null || $temp === false) return $t;
+            if(is_int($temp)) {
+                $tArr = str_split($t);
+                return $tArr[0] ? $temp : $t;
+            } else if(!is_array($temp)) {
+                return $temp;
+            }
+            $t = json_decode($t,true,512,JSON_BIGINT_AS_STRING);
+            foreach($t as $k=>$v) {
+                $t[$k] = self::handleBodyParams($v);
+            }
+        } else if(is_array($t)) {
+            foreach($t as $k=>$v) {
+                $t[$k] = self::handleBodyParams($v);
+            }
+        } else {
+            return [];
+        }
+        return $t;
+    }
+
+
 }

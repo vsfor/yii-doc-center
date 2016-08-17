@@ -29,7 +29,23 @@
             </div>
         </div>
 
-        <?= dmstr\widgets\Menu::widget(
+        <?php
+            if (Yii::$app->getAuthManager()->isRoot()) {
+                $extMenu = [
+                    'label' => 'RBAC',
+                    'url' => ['/jrbac/user/index'],
+                    'icon' => 'fa fa-share',
+                    'items' => [
+                        ['label' => 'Permission', 'icon'=>'fa fa-circle-o', 'url' => ['/jrbac/permission/index']],
+                        ['label' => 'Role', 'icon'=>'fa fa-circle-o', 'url' => ['/jrbac/role/index']],
+                        ['label' => 'Rule', 'icon'=>'fa fa-circle-o', 'url' => ['/jrbac/rule/index']],
+                    ]
+                ];
+            } else {
+                $extMenu = [];
+            }
+
+            echo dmstr\widgets\Menu::widget(
             [
                 'options' => ['class' => 'sidebar-menu'],
                 'items' => isset($this->params['left-menu']) && $this->params['left-menu'] ? $this->params['left-menu'] : [
@@ -39,6 +55,7 @@
                     ['label' => Yii::t('app','News'), 'icon' => 'fa fa-newspaper-o', 'url' => ['/article/index']],
                     ['label' => Yii::t('app','About'), 'icon' => 'fa fa-info', 'url' => ['/site/about']],
                     ['label' => Yii::t('app','Contact'), 'icon' => 'fa fa-bug', 'url' => ['/site/contact']],
+                    $extMenu,
                 ],
             ]
         ) ?>

@@ -19,7 +19,7 @@ $bg_colors = [
         <div class="icon">
             <i class="fa fa-bookmark-o"></i>
         </div>
-        <a href="<?php echo Url::to(['view','id'=>$model->id])?>" class="small-box-footer">
+        <a href="<?php echo Url::to(['view','project_id'=>$model->id])?>" class="small-box-footer">
             <?php echo Yii::t('app','More info');?>
             <i class="fa fa-arrow-circle-right"></i>
         </a>

@@ -26,7 +26,7 @@ class ProjectLib
     }
     private function __construct() { }
     public function __clone() { throw new \Exception('Clone is not allowed !'); }
-
+    
     public function getMenu($projectId)
     {
         $projectId = intval($projectId);
@@ -50,7 +50,7 @@ class ProjectLib
              $menu[] = [
                  'label' => $page->title,
                  'icon' => 'fa fa-file-text-o',
-                 'url' => ['/page/view', 'id'=>$page->id, 'project_id'=>$projectId],
+                 'url' => ['/page/view', 'page_id'=>$page->id, 'project_id'=>$projectId],
              ];
         }
         unset($pages);
@@ -100,12 +100,12 @@ class ProjectLib
                 [
                     'label' => Yii::t('app', 'Manage Project Document'),
                     'icon' => 'fa fa-folder-open-o',
-                    'url' => ['/project/manage','id'=>$projectId]
+                    'url' => ['/project/manage','project_id'=>$projectId]
                 ],
                 [
                     'label' => Yii::t('app', 'Manage Project Member'),
                     'icon' => 'fa fa-users',
-                    'url' => ['/project/member','id'=>$projectId]
+                    'url' => ['/project/member','project_id'=>$projectId]
                 ],
             ],
         ];
@@ -132,7 +132,7 @@ class ProjectLib
             $menu[] = [
                 'label' => $page->title,
                 'icon' => 'fa fa-file-text-o',
-                'url' => ['/page/view', 'id'=>$page->id, 'project_id'=>$projectId],
+                'url' => ['/page/view', 'page_id'=>$page->id, 'project_id'=>$projectId],
             ];
         }
         unset($pages);
@@ -377,7 +377,7 @@ class ProjectLib
         Yii::$app->getCache()->set($cacheKey,$list);
         return $list;
     }
-
+    
     public function getMemberLevel($projectId, $userId)
     {
         $cacheKey = "Project:MemberLevel:$projectId:$userId";
@@ -419,7 +419,7 @@ class ProjectLib
                     'li',
                     Html::a(Yii::t('app',$level),[
                         '/project/set-member-level',
-                        'id' => $model['project_id'],
+                        'project_id' => $model['project_id'],
                         'user_id' => $model['user_id'],
                         'level' => $k,
                         ],['data-method'=>'post']),
@@ -430,5 +430,146 @@ class ProjectLib
         return $html;
     }
 
+    public function setMemberLevelRole($userId, $level)
+    {
+        try {
+            $auth = Yii::$app->getAuthManager();
+            $roles = $auth->getRolesByUser($userId);
+            switch ($level) {
+                case ProjectMember::LEVEL_READER : {
+                    if (!isset($roles['projectReader'])) {
+                        $auth->assign($auth->getRole('projectReader'), $userId);
+                    }
+                } break;
+                case ProjectMember::LEVEL_EDITOR : {
+                    if (!isset($roles['projectEditor'])) {
+                        $auth->assign($auth->getRole('projectEditor'), $userId);
+                    }
+                } break;
+                case ProjectMember::LEVEL_ADMIN : {
+                    if (!isset($roles['projectAdmin'])) {
+                        $auth->assign($auth->getRole('projectAdmin'), $userId);
+                    }
+                } break;
+                case ProjectMember::LEVEL_OWNER : {
+                    if (!isset($roles['projectOwner'])) {
+                        $auth->assign($auth->getRole('projectOwner'), $userId);
+                    }
+                } break;
+            }
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    public function getPageList($projectId) 
+    {
+
+        $projectId = intval($projectId);
+        $cacheKey = "Project:PageList:$projectId";
+        $cache = \Yii::$app->getCache()->get($cacheKey);
+        if ($cache) {
+            return $cache;
+        }
+        $list = [];
+        //项目根目录页面
+        $pages = Page::find()
+            ->select(['id','project_id','title'])
+            ->where('`status`='.Page::STATUS_NORMAL)
+            ->andWhere('`project_id`=:project_id and `catalog_id`=:catalog_id', [
+                ':project_id' => $projectId,
+                ':catalog_id' => 0
+            ])
+            ->orderBy('`sort_number` asc,`id` asc')
+            ->all();
+        /** @var Page $page */
+        foreach ($pages as $page) {
+            $list[] = $page->toArray(['id','project_id','title']);
+        }
+        unset($pages);
+
+        $cats = Catalog::find()
+            ->select(['id'])
+            ->where('`status`='.Catalog::STATUS_NORMAL)
+            ->andWhere('`project_id`=:project_id and `parent_id`=:parent_id',[
+                ':project_id' => $projectId,
+                ':parent_id' => 0
+            ])
+            ->orderBy('`sort_number` asc,`id` asc')
+            ->all();
+        /** @var Catalog $cat */
+        foreach ($cats as $cat) {
+            $items = $this->getCatPageList($projectId, $cat->id);
+            foreach ($items as $item) {
+                $list[] = $item;
+            }
+        }
+        unset($cats);
+
+        \Yii::$app->getCache()->set($cacheKey, $list);
+        return $list;
+    }
+    
+    public function getCatPageList($projectId, $catId)
+    {
+
+        $projectId = intval($projectId);
+        $catId = intval($catId);
+        $list = [];
+        $pages = Page::find()
+            ->select(['id','project_id','title'])
+            ->where('`status`='.Page::STATUS_NORMAL)
+            ->andWhere('`project_id`=:project_id and `catalog_id`=:catalog_id', [
+                ':project_id' => $projectId,
+                ':catalog_id' => $catId
+            ])
+            ->orderBy('`sort_number` asc,`id` asc')
+            ->all();
+        /** @var Page $page */
+        foreach ($pages as $page) {
+            $list[] = $page->toArray(['id','project_id','title']);
+        }
+        unset($pages);
+
+        $cats = Catalog::find()
+            ->select(['id'])
+            ->where('`status`='.Catalog::STATUS_NORMAL)
+            ->andWhere('`parent_id`=:paid',[
+                ':paid' => $catId
+            ])
+            ->orderBy('`sort_number` asc,`id` asc')
+            ->all();
+        /** @var Catalog $cat */
+        foreach ($cats as $cat) {
+            $items = $this->getCatPageList($projectId, $cat->id);
+            foreach ($items as $item) {
+                $list[] = $item;
+            }
+        }
+        unset($cats);
+
+        return $list;
+    }
+    
+    public function getPagePreNext($projectId, $pageId)
+    {
+        $pageList = $this->getPageList($projectId);
+        $pre = [];
+        $next = [];
+        foreach ($pageList as $k=>$page) {
+            if ($page['id'] == $pageId) {
+                if (isset($pageList[$k-1])) {
+                    $pre = $pageList[$k-1];
+                }
+                if (isset($pageList[$k+1])) {
+                    $next = $pageList[$k+1];
+                }
+                break;
+            }
+        }
+        
+        return ['pre'=>$pre,'next'=>$next];
+    }
 
 }

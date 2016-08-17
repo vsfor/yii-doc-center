@@ -11,19 +11,19 @@ use yii\widgets\DetailView;
 $this->title = Yii::t('app','Page').':'.$model->title;
 $this->params['breadcrumbs'][] = [
     'label' => Yii::t('app', 'Project'),
-    'url' => ['/project/view', 'id'=>$model->project_id]
+    'url' => ['/project/view', 'project_id'=>$model->project_id]
 ];
 
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->params['breadcrumbs'][] = [
     'label' => Yii::t('app', 'Update'),
-    'url' => ['update', 'id' => $model->id, 'project_id' => $model->project_id],
+    'url' => ['update', 'page_id' => $model->id, 'project_id' => $model->project_id],
 ];
 
 $this->params['breadcrumbs'][] = [
     'label' => Yii::t('app', 'Delete'),
-    'url' => ['delete', 'id' => $model->id, 'project_id' => $model->project_id],
+    'url' => ['delete', 'page_id' => $model->id, 'project_id' => $model->project_id],
     'data-method' => 'post',
     'data-confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
 ];
@@ -69,15 +69,37 @@ $this->params['left-menu'] = $leftMenu;
             <!-- /. tools -->
         </div>
         <!-- /.box-header -->
-        <div class="box-body no-padding">
+        <div class="box-body">
             <div class="col-md-12"><?php echo $model->description; ?></div>
+        </div>
+        <div class="box-footer text-center">
+            <?php if ($preNext['pre']) :
+                echo Html::a('<i class="fa fa-chevron-left"></i> '.$preNext['pre']['title'],[
+                    '/page/view',
+                    'page_id'=>$preNext['pre']['id'],
+                    'project_id'=>$preNext['pre']['project_id']
+                ],['class'=>'text-default']);
+            else:
+                ?>
+                <a href="javascript:;"><i class="fa fa-chevron-left"></i> 无</a>
+            <?php endif; ?>
+            <i class="fa fa-pause" style="color:#ddd;"></i>
+            <?php if ($preNext['next']) :
+                echo Html::a($preNext['next']['title'].' <i class="fa fa-chevron-right"></i>',[
+                    '/page/view',
+                    'page_id' => $preNext['next']['id'],
+                    'project_id' => $preNext['next']['project_id']
+                ]);
+            else: ?>
+                <a href="javascript:;">无 <i class="fa fa-chevron-right"></i></a>
+            <?php endif; ?>
         </div>
     </div>
 
 
     <div id="page-history-div" style="display: none;"></div>
     <?php
-    echo Html::beginTag('div', ['id' => 'page-content-div']);
+    echo Html::beginTag('div', ['id' => 'page-content-div', 'class'=>'box box-solid']);
     echo Html::textarea('page-content',$model->content,['style'=>'display:none;']);
     echo Html::endTag('div');
     $this->registerJs('
@@ -89,7 +111,38 @@ $this->params['left-menu'] = $leftMenu;
             flowChart       : true,  // 默认不解析
             sequenceDiagram : true,  // 默认不解析
         }); 
-        
+    ');
+    ?>
+
+    <div class="box text-center">
+        <div class="box-body">
+            <?php if ($preNext['pre']) :
+                echo Html::a('<i class="fa fa-chevron-left"></i> '.$preNext['pre']['title'],[
+                    '/page/view',
+                    'page_id'=>$preNext['pre']['id'],
+                    'project_id'=>$preNext['pre']['project_id']
+                ]);
+            else:
+            ?>
+            <a href="javascript:;"><i class="fa fa-chevron-left"></i> 无</a>
+            <?php endif; ?>
+            <i class="fa fa-pause" style="color:#ddd;"></i>
+            <?php if ($preNext['next']) :
+                echo Html::a($preNext['next']['title'].' <i class="fa fa-chevron-right"></i>',[
+                    '/page/view',
+                    'page_id' => $preNext['next']['id'],
+                    'project_id' => $preNext['next']['project_id']
+                ]);
+                else: ?>
+            <a href="javascript:;">无 <i class="fa fa-chevron-right"></i></a>
+            <?php endif; ?>
+        </div>
+    </div>
+
+</div>
+<?php
+$this->registerJs('
+
         $(".view-history").click(function(){ 
             var history_id = $(this).attr("data-id");
             $.ajax({
@@ -137,7 +190,5 @@ $this->params['left-menu'] = $leftMenu;
             $("#page-title-block").show();
         });
         
-    ');
-    ?>
-
-</div>
+');
+?>

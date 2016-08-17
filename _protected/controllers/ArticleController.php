@@ -10,10 +10,10 @@ use Yii;
 /**
  * ArticleController implements the CRUD actions for Article model.
  */
-class ArticleController extends AppController
+class ArticleController extends ControllerBase
 {
     /**
-     * Lists all Article models.
+     * 文章列表
      *
      * @return mixed
      */
@@ -41,7 +41,7 @@ class ArticleController extends AppController
     }
 
     /**
-     * Displays a single Article model.
+     * 浏览文章
      * 
      * @param  integer $id
      * @return mixed
@@ -54,8 +54,7 @@ class ArticleController extends AppController
     }
 
     /**
-     * Creates a new Article model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * 添加文章
      * 
      * @return mixed
      */
@@ -78,12 +77,11 @@ class ArticleController extends AppController
     }
 
     /**
-     * Updates an existing Article model.
-     * If update is successful, the browser will be redirected to the 'view' page.
+     * 编辑文章
      * 
-     * @param  integer $id
-     * @return mixed
-     *
+     * @param $id
+     * @return string|\yii\web\Response
+     * @throws MethodNotAllowedHttpException
      * @throws NotFoundHttpException
      */
     public function actionUpdate($id)
@@ -110,8 +108,7 @@ class ArticleController extends AppController
     }
 
     /**
-     * Deletes an existing Article model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * 删除文章
      * 
      * @param  integer $id
      * @return mixed
@@ -126,7 +123,7 @@ class ArticleController extends AppController
     }
 
     /**
-     * Manage Articles.
+     * 管理文章列表
      * 
      * @return mixed
      */
@@ -165,12 +162,9 @@ class ArticleController extends AppController
      */
     protected function findModel($id)
     {
-        if (($model = Article::findOne($id)) !== null) 
-        {
+        if (($model = Article::findOne($id)) !== null) {
             return $model;
-        } 
-        else 
-        {
+        } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }

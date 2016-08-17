@@ -13,7 +13,7 @@ use yii\filters\VerbFilter;
 /**
  * CatalogController implements the CRUD actions for Catalog model.
  */
-class CatalogController extends AppController
+class CatalogController extends ControllerBase
 {
     /**
      * 添加项目目录
@@ -23,13 +23,6 @@ class CatalogController extends AppController
     public function actionCreate($project_id)
     {
         $project_id = intval($project_id);
-        $userId = \Yii::$app->getUser()->getId();
-        $projectLib = ProjectLib::getInstance();
-        $pm = $projectLib->getMemberLevel($project_id, $userId);
-        if (!$pm || $pm['level'] < ProjectMember::LEVEL_EDITOR) {
-            Yii::$app->getSession()->addFlash('warning',Yii::t('app', 'Permission Denied').' to create catalog');
-            return $this->goBack();
-        }
         $model = new Catalog();
         $model->project_id = $project_id;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -37,11 +30,14 @@ class CatalogController extends AppController
             Yii::$app->getCache()->delete("Project:Menu:$project_id");
             Yii::$app->getCache()->delete("Project:Catalog:$project_id");
             Yii::$app->getCache()->delete("Project:DocList:$project_id");
+            Yii::$app->getCache()->delete("Project:PageList:$project_id");
 
             Yii::$app->getSession()->addFlash('success',Yii::t('app', 'Create Success'));
 
             return $this->goBack();
         }
+        
+        $projectLib = ProjectLib::getInstance();
         $leftMenu = $projectLib->getMenu($project_id);
         $parents = $projectLib->getCatOptions($project_id,0,2,1);
         return $this->render('create', [
@@ -53,34 +49,30 @@ class CatalogController extends AppController
 
     /**
      * 更新项目目录信息
-     * @param $id
+     * @param $catalog_id
      * @param $project_id
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException
      */
-    public function actionUpdate($id, $project_id)
+    public function actionUpdate($catalog_id, $project_id)
     {
         $project_id = intval($project_id);
-        $userId = \Yii::$app->getUser()->getId();
-        $projectLib = ProjectLib::getInstance();
-        $pm = $projectLib->getMemberLevel($project_id, $userId);
-        if (!$pm || $pm['level'] < ProjectMember::LEVEL_EDITOR) {
-            Yii::$app->getSession()->addFlash('warning',Yii::t('app', 'Permission Denied').' to update catalog');
-            return $this->redirect(['/site/index']);
-        }
-        $model = $this->findModel($id);
+        $catalog_id = intval($catalog_id);
+        $model = $this->findModel($catalog_id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             //cache reset logic
             Yii::$app->getCache()->delete("Project:Menu:$project_id");
             Yii::$app->getCache()->delete("Project:Catalog:$project_id");
             Yii::$app->getCache()->delete("Project:DocList:$project_id");
+            Yii::$app->getCache()->delete("Project:PageList:$project_id");
 
             Yii::$app->getSession()->addFlash('success',Yii::t('app', 'Update Success'));
 
             return $this->goBack();
         }
 
+        $projectLib = ProjectLib::getInstance();
         $leftMenu = $projectLib->getMenu($project_id);
         $parents = $projectLib->getSubCatOptions($project_id);
         return $this->render('update', [
@@ -92,23 +84,16 @@ class CatalogController extends AppController
 
     /**
      * 移除项目目录
-     * @param $id
+     * @param $catalog_id
      * @param $project_id
      * @return \yii\web\Response
      * @throws NotFoundHttpException
      */
-    public function actionDelete($id, $project_id)
+    public function actionDelete($catalog_id, $project_id)
     {
         $project_id = intval($project_id);
-        $userId = \Yii::$app->getUser()->getId();
-        $projectLib = ProjectLib::getInstance();
-        $pm = $projectLib->getMemberLevel($project_id, $userId);
-        if (!$pm || $pm['level'] < ProjectMember::LEVEL_ADMIN) {
-            Yii::$app->getSession()->addFlash('warning',Yii::t('app', 'Permission Denied').' to delete dialog');
-            return $this->goBack();
-        }
-
-        $model = $this->findModel($id);
+        $catalog_id = intval($catalog_id);
+        $model = $this->findModel($catalog_id);
         if ($model) {
             $model->status = Catalog::STATUS_DELETED;
             $model->save();
@@ -117,6 +102,7 @@ class CatalogController extends AppController
         Yii::$app->getCache()->delete("Project:Menu:$project_id");
         Yii::$app->getCache()->delete("Project:Catalog:$project_id");
         Yii::$app->getCache()->delete("Project:DocList:$project_id");
+        Yii::$app->getCache()->delete("Project:PageList:$project_id");
 
         return $this->goBack();
     }

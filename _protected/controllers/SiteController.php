@@ -80,9 +80,8 @@ class SiteController extends Controller
 //------------------------------------------------------------------------------------------------//
 
     /**
-     * Displays the index (home) page.
-     * Use it in case your home page contains static content.
-     *
+     * 网站首页
+     * 
      * @return string
      */
     public function actionIndex()
@@ -91,8 +90,8 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays the about static page.
-     *
+     * 关于
+     * 
      * @return string
      */
     public function actionAbout()
@@ -101,8 +100,8 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays the contact static page and sends the contact email.
-     *
+     * 联系我们
+     * 
      * @return string|\yii\web\Response
      */
     public function actionContact()
@@ -129,9 +128,8 @@ class SiteController extends Controller
 //------------------------------------------------------------------------------------------------//
 
     /**
-     * Logs in the user if his account is activated,
-     * if not, displays appropriate message.
-     *
+     * 登录页
+     * 
      * @return string|\yii\web\Response
      */
     public function actionLogin()
@@ -172,7 +170,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Logs out the user.
+     * 退出登录
      *
      * @return \yii\web\Response
      */
@@ -188,7 +186,7 @@ class SiteController extends Controller
  *----------------*/
 
     /**
-     * Sends email that contains link for password reset action.
+     * 申请密码重置
      *
      * @return string|\yii\web\Response
      */
@@ -212,7 +210,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Resets password.
+     * 重置密码
      *
      * @param  string $token Password reset token.
      * @return string|\yii\web\Response
@@ -241,7 +239,8 @@ class SiteController extends Controller
 //------------------------------------------------------------------------------------------------//
 
     /**
-     * Signs up the user.
+     * 注册新用户
+     *
      * If user need to activate his account via email, we will display him
      * message with instructions and send him account activation email with link containing account activation token. 
      * If activation is not necessary, we will log him in right after sign up process is complete.
@@ -318,7 +317,7 @@ class SiteController extends Controller
  *--------------------*/
 
     /**
-     * Activates the user account so he can log in into system.
+     * 激活账号
      *
      * @param  string $token
      * @return \yii\web\Response
@@ -343,6 +342,11 @@ class SiteController extends Controller
         return $this->redirect('login');
     }
 
+    /**
+     * 重发账号激活邮件
+     *
+     * @return string|\yii\web\Response
+     */
     public function actionRequestActivate()
     {
         $model = new ActivateRequestForm();
