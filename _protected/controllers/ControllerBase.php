@@ -1,10 +1,7 @@
 <?php
 namespace app\controllers;
 
-use app\components\Jeen;
 use app\models\User;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper; 
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -17,34 +14,6 @@ use Yii;
  */
 class ControllerBase extends Controller
 {
-    public $noJRBAC = false; //没使用JRBAC 模块进行权限控制时的逻辑开关
-
-/*
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => ['login', 'error'],
-                        'allow' => true,
-                    ],
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-*/
 
     public function beforeAction($action)
     {
@@ -76,7 +45,7 @@ class ControllerBase extends Controller
                 }
             } 
         }
-        echo 'Permission Denied~!';
+        echo 'Permission Denied ! Please Contact the System Administrator ~!';
         return false;
     }
 
