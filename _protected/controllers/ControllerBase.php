@@ -45,8 +45,8 @@ class ControllerBase extends Controller
                 }
             } 
         }
-        echo 'Permission Denied ! Please Contact the System Administrator ~!';
-        return false;
+        Yii::$app->getSession()->addFlash('error','Permission Denied ! Please Contact the System Administrator ~!');
+        return $this->goBack();
     }
 
     public function afterAction($action, $result)
