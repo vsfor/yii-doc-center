@@ -21,28 +21,17 @@ class RbacHelper
      */
     public static function assignRole($id)
     {
-        // we do not want to do any default role assignments on production, 
-        // since we do not want to waste resources on user count
-        if (YII_ENV_PROD) {
+        $auth = Yii::$app->getAuthManager();
+
+        $roles = $auth->getRolesByUser($id);
+        if (isset($roles['siteMember'])) {
             return true;
         }
 
-        // lets see how many users we got so far
-        $usersCount = User::find()->count();
-
-        // if this is not first user, we do not want to assign any custom roles to him,
-        // he has the authenticated role '@' by default, so there is no need to do anything
-        if ($usersCount != 1) {
-            return true;
-        }
-
-        // this is first user ( you ), lets give you the theCreator role
-        $auth = Yii::$app->authManager;
-        $role = $auth->getRole('theCreator');
+        $role = $auth->getRole('siteMember');
         $info = $auth->assign($role, $id);
 
-        // if assignment was successful return true, else return false to alarm the problem
-        return ($info->roleName == "theCreator") ? true : false ;
+        return ($info->roleName == "siteMember") ? true : false ;
     }
 }
 

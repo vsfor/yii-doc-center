@@ -72,10 +72,9 @@ class UserController extends ControllerBase
             return $this->render('create', ['user' => $user]);
         }
 
-        $auth = Yii::$app->authManager;
-        $role = $auth->getRole($user->item_name);
+        $auth = Yii::$app->getAuthManager();
+        $role = $auth->getRole('siteMember');
         $info = $auth->assign($role, $user->getId());
-
         if (!$info) {
             Yii::$app->session->setFlash('error', Yii::t('app', 'There was some error while saving user role.'));
         }
@@ -98,22 +97,8 @@ class UserController extends ControllerBase
         // load user data
         $user = $this->findModel($id);
 
-        $auth = Yii::$app->authManager;
-
-        // get user role if he has one  
-        if ($roles = $auth->getRolesByUser($id)) {
-            // it's enough for us the get first assigned role name
-            $role = array_keys($roles)[0]; 
-        }
-
-        // if user has role, set oldRole to that role name, else offer 'member' as sensitive default
-        $oldRole = (isset($role)) ? $auth->getRole($role) : $auth->getRole('member');
-
-        // set property item_name of User object to this role name, so we can use it in our form
-        $user->item_name = $oldRole->name;
-
         if (!$user->load(Yii::$app->request->post())) {
-            return $this->render('update', ['user' => $user, 'role' => $user->item_name]);
+            return $this->render('update', ['user' => $user]);
         }
 
         // only if user entered new password we want to hash and save it
@@ -127,27 +112,17 @@ class UserController extends ControllerBase
         }         
 
         if (!$user->save()) {
-            return $this->render('update', ['user' => $user, 'role' => $user->item_name]);
+            return $this->render('update', ['user' => $user]);
         }
 
-        // take new role from the form
-        $newRole = $auth->getRole($user->item_name);
-        // get user id too
-        $userId = $user->getId();
-        
-        // we have to revoke the old role first and then assign the new one
-        // this will happen if user actually had something to revoke
-        if ($auth->revoke($oldRole, $userId)) {
-            $info = $auth->assign($newRole, $userId);
-        }
-
-        // in case user didn't have role assigned to him, then just assign new one
-        if (!isset($role)) {
-            $info = $auth->assign($newRole, $userId);
-        }
-
-        if (!$info) {
-            Yii::$app->session->setFlash('error', Yii::t('app', 'There was some error while saving user role.'));
+        $roles = Yii::$app->getAuthManager()->getRolesByUser($user->id);
+        if (!$roles) {
+            $auth = Yii::$app->getAuthManager();
+            $role = $auth->getRole('siteMember');
+            $info = $auth->assign($role, $user->getId());
+            if (!$info) {
+                Yii::$app->session->setFlash('error', Yii::t('app', 'There was some error while saving user role.'));
+            }
         }
 
         return $this->redirect(['view', 'id' => $user->id]);

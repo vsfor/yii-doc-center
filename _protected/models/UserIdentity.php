@@ -22,6 +22,7 @@ use Yii;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $project_limit
  */
 class UserIdentity extends ActiveRecord implements IdentityInterface
 {

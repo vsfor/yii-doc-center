@@ -34,11 +34,8 @@ use yii\widgets\ActiveForm;
 
         <?= $form->field($user, 'status')->dropDownList($user->statusList) ?>
 
-        <?php foreach (AuthItem::getRoles() as $item_name): ?>
-            <?php $roles[$item_name->name] = $item_name->name ?>
-        <?php endforeach ?>
-        <?= $form->field($user, 'item_name')->dropDownList($roles) ?>
-
+        <?php echo $form->field($user, 'project_limit')->label('可建项目数量'); ?>
+ 
     </div>
     </div>
 
