@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app','Project').':'.$model-
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->params['left-menu'] = $leftMenu;
-
+$addMemberAllow = Yii::$app->getAuthManager()->allow('/project/add-member', ['project_id'=>$model->id]);
 ?>
 <div class="project-member">
     <div class="box box-primary">
@@ -24,7 +24,7 @@ $this->params['left-menu'] = $leftMenu;
         </div>
         <div class="box-body">
             <?php
-            $addMemberHtml = '
+            $addMemberHtml = $addMemberAllow ? '
                 <div class="col-lg-3 col-xs-6">
                     <div class="small-box bg-red">
                         <div class="inner">
@@ -34,13 +34,13 @@ $this->params['left-menu'] = $leftMenu;
                         <div class="icon">
                             <i class="fa fa-user-plus"></i>
                         </div>'.
-                        Html::a(Yii::t('app', 'Add Member').' <i class="fa fa-arrow-circle-right"></i>', 'javascript:;', ['class' => 'small-box-footer add-member'])
-                        .'</div>
+                    Html::a(Yii::t('app', 'Add Member').' <i class="fa fa-arrow-circle-right"></i>', 'javascript:;', ['class' => 'small-box-footer add-member'])
+                    .'</div>
                 </div>
-            ';
+            ' : '';
             echo $addMemberHtml;
             ?>
-            <?= \yii\widgets\ListView::widget([
+            <?php echo \yii\widgets\ListView::widget([
                 'summary' => false,
                 'dataProvider' => $dataProvider,
                 'emptyText' => "",//$addMemberHtml,
@@ -52,7 +52,7 @@ $this->params['left-menu'] = $leftMenu;
         </div>
     </div>
 
-
+<?php if ($addMemberAllow) : ?>
     <div id="add-member-modal" class="modal modal-success">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -98,7 +98,7 @@ $this->params['left-menu'] = $leftMenu;
             </div>
         </div>
     </div>
-
+<?php endif; ?>
 
     <div class="callout callout-warning">
         <h4>提示!</h4>
@@ -115,30 +115,32 @@ $this->registerCss('
     color: #fff; }
 .member-item .btn-xs:hover {   color: #eee; }
 ');
-$this->registerJs('
 
-    $(".add-member").click(function(){
-        $("#add-member-modal").show();
-    });
-    
-    $(".modal-close-btn").click(function(){
-        $(".modal").hide();
-    });
-    
-    $("#addMemberBtn").click(function(){
-        var projectId = "'.$model['id'].'";
-        var memberUserName = $("#memberUserName").val();
-        var memberLevel = $("#memberLevel").val();
-        $.ajax({
-            url: "'.\yii\helpers\Url::to(['/project/add-member']).'",
-            type: "POST",
-            data: {project_id: projectId, username: memberUserName, level: memberLevel},
-            success: function(res) {
-                console.log(res);
-            }
+if ($addMemberAllow) {
+    $this->registerJs('
+        $(".add-member").click(function(){
+            $("#add-member-modal").show();
         });
-        $(".modal").hide();
-    });
-    
-');
+        
+        $(".modal-close-btn").click(function(){
+            $(".modal").hide();
+        });
+        
+        $("#addMemberBtn").click(function(){
+            var projectId = "'.$model['id'].'";
+            var memberUserName = $("#memberUserName").val();
+            var memberLevel = $("#memberLevel").val();
+            $.ajax({
+                url: "'.\yii\helpers\Url::to(['/project/add-member']).'",
+                type: "POST",
+                data: {project_id: projectId, username: memberUserName, level: memberLevel},
+                success: function(res) {
+                    console.log(res);
+                }
+            });
+            $(".modal").hide();
+        });
+    ');
+}
+
 ?>

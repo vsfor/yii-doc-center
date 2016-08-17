@@ -17,7 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="box-body">
             <?php
-            $addProjectHtml = '
+            if (Yii::$app->getAuthManager()->allow('/project/create')) {
+                $addProjectHtml = '
                     <div class="col-lg-3 col-xs-6">
                         <div class="small-box bg-red">
                             <div class="inner">
@@ -27,14 +28,15 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="icon">
                                 <i class="fa fa-book"></i>
                             </div>'.
-                            Html::a(Yii::t('app', 'Create Project').' <i class="fa fa-arrow-circle-right"></i>', ['create'], ['class' => 'small-box-footer'])
-                            .'</div>
+                    Html::a(Yii::t('app', 'Create Project').' <i class="fa fa-arrow-circle-right"></i>', ['create'], ['class' => 'small-box-footer'])
+                    .'</div>
                     </div>
                 ';
-            echo $addProjectHtml;
+                echo $addProjectHtml;
+            }
             ?>
 
-            <?= \yii\widgets\ListView::widget([
+            <?php echo \yii\widgets\ListView::widget([
                 'summary' => false,
                 'dataProvider' => $dataProvider,
                 'emptyText' => "",//$addProjectHtml,
