@@ -99,7 +99,7 @@ class ProjectLib
                 'url' => ['/catalog/create','project_id'=>$projectId]
             ];
         }
-        if ($auth->allow('/project/manage', ['project_id'])) {
+        if ($auth->allow('/project/manage', ['project_id'=>$projectId])) {
             $menu[] = [
                 'label' => Yii::t('app', 'Manage Actions'),
                 'icon' => 'fa fa-gear',
