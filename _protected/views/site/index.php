@@ -25,7 +25,11 @@ $this->params['left-menu'] = [];
         <a class="btn btn-primary" target="_blank" href="https://github.com/JeanWolf/yii-doc-center">Fork on GitHub</a>
         </p>
     </div>
-
+    <?php if (Yii::$app->getUser()->getIsGuest()) : ?>
+    <div class="callout callout-success">
+        <p>测试账号信息: username: test /  password: 123123</p>
+    </div>
+    <?php endif; ?>
     <div class="body-content">
 
         <div class="row">

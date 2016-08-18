@@ -30,8 +30,7 @@ class HelloController extends Controller
     
     public function actionTc()
     {
-        $c = new \app\controllers\SiteController('','',[]);
-        $t = $c->actions();
+        $t = \Yii::$app->security->generateRandomString();
         Jeen::echoln($t);
     }
     
