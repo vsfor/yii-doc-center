@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </h4>
         </div>
         <div class="box-body">
-            <div class="callout callout-success">还没有噢, 这只猿还在孤军奋战...</div>
+            <div class="callout callout-success">还没有噢, ...</div>
         </div>
     </div>
 

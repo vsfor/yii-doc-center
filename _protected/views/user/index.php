@@ -27,7 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             'username',
             'email:email',
-            // status
             [
                 'attribute'=>'status',
                 'filter' => $searchModel->statusList,
@@ -38,7 +37,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     return ['class'=>CssHelper::userStatusCss($model->status)];
                 }
             ],
-            // role
             [
                 'attribute'=>'item_name',
                 'filter' => $searchModel->rolesList,

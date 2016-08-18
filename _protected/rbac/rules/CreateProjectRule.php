@@ -17,10 +17,6 @@ class CreateProjectRule extends Rule
      */
     public function execute($user, $item, $params)
     {
-        if (!isset($params['project_id'])) {
-            return false;
-        }
-
         $userModel = User::findOne($user);
         if ($userModel && $userModel->project_limit > 0) {
             return true;

@@ -1,5 +1,4 @@
 <?php
-use mihaildev\ckeditor\CKEditor;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 

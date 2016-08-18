@@ -32,7 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'username',
             'email:email',
-            //'password_hash',
             [
                 'attribute'=>'status',
                 'value' => '<span class="'.CssHelper::userStatusCss($model->status).'">
@@ -47,9 +46,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             </span>',
                 'format' => 'raw'
             ],
-            //'auth_key',
-            //'password_reset_token',
-            //'account_activation_token',
             'created_at:date',
             'updated_at:date',
         ],

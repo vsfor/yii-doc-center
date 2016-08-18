@@ -1,6 +1,5 @@
 <?php
 use app\helpers\CssHelper;
-use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -19,7 +18,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app','Update Profile'), 'ur
         'attributes' => [
             'username',
             'email:email',
-            //'password_hash',
             [
                 'attribute'=>'status',
                 'value' => '<span class="'.CssHelper::userStatusCss($model->status).'">
@@ -27,16 +25,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app','Update Profile'), 'ur
                             </span>',
                 'format' => 'raw'
             ],
-            [
-                'attribute'=>'item_name',
-                'value' => '<span class="'.CssHelper::roleCss($model->getRoleName()).'">
-                                '.$model->getRoleName().'
-                            </span>',
-                'format' => 'raw'
-            ],
-            //'auth_key',
-            //'password_reset_token',
-            //'account_activation_token',
             'created_at:date',
             'updated_at:date',
         ],

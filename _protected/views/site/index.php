@@ -15,13 +15,15 @@ $this->params['left-menu'] = [];
 <div class="site-index">
 
     <div class="jumbotron">
-        <h2>欢迎!</h2>
-
-        <p class="lead">本站是基于Yii2 Basic 加强版 + AdminLTE + MarkDown开发的一款基础项目文档管理工具</p>
-
+        <h2>欢迎使用!</h2>
+        <p class="lead">简易的项目文档管理工具</p>
+        <p class="lead">基于Yii2 Basic 加强版 + AdminLTE + MarkDown(Editor.MD)开发</p>
+        <p>
         <?php if(Yii::$app->getUser()->getIsGuest()) : ?>
-        <p><a class="btn btn-success" href="<?php echo \yii\helpers\Url::to(['/site/signup'])?>">注册并开始使用</a></p>
+        <a class="btn btn-success" href="<?php echo \yii\helpers\Url::to(['/site/signup'])?>">注册并开始使用</a>
         <?php endif; ?>
+        <a class="btn btn-primary" target="_blank" href="https://github.com/JeanWolf/yii-doc-center">Fork on GitHub</a>
+        </p>
     </div>
 
     <div class="body-content">

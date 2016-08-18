@@ -1,5 +1,4 @@
 <?php
-use app\rbac\models\AuthItem;
 use kartik\password\PasswordInput;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
