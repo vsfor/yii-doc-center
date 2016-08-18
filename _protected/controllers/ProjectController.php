@@ -74,6 +74,7 @@ class ProjectController extends ControllerBase
                 return $this->redirect(['/site/contact']);
             } else {
                 ProjectLib::getInstance()->setMemberLevelRole($pm->user_id, $pm->level);
+                User::updateAllCounters(['project_limit' => -1], '`id`=:id', [':id'=>$model->user_id]);
 
                 Yii::$app->getSession()->addFlash('success',Yii::t('app', 'Create Success'));
                 return $this->redirect(['view', 'project_id' => $model->id]);
@@ -118,7 +119,9 @@ class ProjectController extends ControllerBase
         $model = $this->findModel($project_id);
         if ($model) {
             $model->status = Project::STATUS_DELETED;
-            $model->save();
+            if ($model->save()) {
+                User::updateAllCounters(['project_limit' => 1], '`id`=:id', [':id'=>$model->user_id]);
+            }
         }
 
         return $this->redirect(['index']);

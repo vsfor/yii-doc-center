@@ -3,6 +3,7 @@ namespace app\controllers;
 
 use app\models\User;
 use app\models\UserSearch;
+use app\rbac\helpers\RbacHelper;
 use yii\helpers\FileHelper;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
@@ -71,12 +72,9 @@ class UserController extends ControllerBase
         if (!$user->save()) {
             return $this->render('create', ['user' => $user]);
         }
-
-        $auth = Yii::$app->getAuthManager();
-        $role = $auth->getRole('siteMember');
-        $info = $auth->assign($role, $user->getId());
-        if (!$info) {
-            Yii::$app->session->setFlash('error', Yii::t('app', 'There was some error while saving user role.'));
+ 
+        if (!RbacHelper::assignRole($user->id)) {
+            Yii::$app->getSession()->setFlash('error', Yii::t('app', 'There was some error while saving user role.'));
         }
 
         return $this->redirect('index');
@@ -116,13 +114,8 @@ class UserController extends ControllerBase
         }
 
         $roles = Yii::$app->getAuthManager()->getRolesByUser($user->id);
-        if (!$roles) {
-            $auth = Yii::$app->getAuthManager();
-            $role = $auth->getRole('siteMember');
-            $info = $auth->assign($role, $user->getId());
-            if (!$info) {
-                Yii::$app->session->setFlash('error', Yii::t('app', 'There was some error while saving user role.'));
-            }
+        if (!$roles && !RbacHelper::assignRole($user->id)) {
+            Yii::$app->getSession()->setFlash('error', Yii::t('app', 'There was some error while saving user role.'));
         }
 
         return $this->redirect(['view', 'id' => $user->id]);
