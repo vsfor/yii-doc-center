@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 
+use app\components\Jeen;
 use app\models\User;
 use app\models\UserSearch;
 use app\rbac\helpers\RbacHelper;
@@ -272,4 +273,24 @@ class UserController extends ControllerBase
         return json_encode($ret);
     }
 
+    //内测资格邮件
+    public function actionBe()
+    {
+        Yii::$app->urlManager->setScriptUrl("http://ydc.jeen.wang/");
+        /** @var $user User */
+        $user = User::find()->where('`id`=:id',[
+            ':id'=>123//1003
+        ])->one();
+        if (!$user) {
+            Jeen::echoln('User Not Found');
+            exit();
+        }
+        $ret = Yii::$app->mailer->compose('betaUserTip', ['user' => $user])
+            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
+            ->setTo($user->email)
+            ->setSubject('Beta Usage Tip For ' . Yii::$app->name)
+            ->send();
+        Jeen::echoln($ret);
+        exit();
+    }
 }

@@ -16,6 +16,8 @@ $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed201
 <head>
     <meta charset="<?= Yii::$app->charset ?>"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="API文档管理工具,免费开源,api,document,yii2,php,php7">
+    <meta name="description" content="免费开源易用的API接口文档管理工具,类似于微信开放平台,阿里开放平台的文档系统,样式清晰,简单实用.基于Yii2开发采用RBAC实现权限划分.">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -48,6 +50,11 @@ $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed201
     }
     ?>
     
+    <?php 
+    $this->registerJs('
+        console.log("欢迎沟通交流\n 通过联系我们发送邮件 \n 或访问我的博客进行留言 \n\n有任何意见或建议都可以反馈给我噢 :)");
+    ');
+    ?>
 </div>
 <?php $this->endBody() ?>
 </body>
