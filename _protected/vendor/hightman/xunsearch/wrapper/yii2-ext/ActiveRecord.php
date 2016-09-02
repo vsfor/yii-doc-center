@@ -20,12 +20,12 @@ use yii\helpers\StringHelper;
  * @property-write $internalDoc internal XSDocument object of search result
  * 
  * The following magic methods only for AR object returned by ActiveQuery
- * @method int docid() docid(void)
- * @method int rank() rank(void)
- * @method int percent() percent(void)
- * @method float weight() weight(void)
- * @method int ccount() ccount(void)
- * @method array matched() matched(void)
+ * @method int docid()
+ * @method int rank()
+ * @method int percent()
+ * @method float weight()
+ * @method int ccount()
+ * @method array matched()
  * 
  * @author xjflyttp <xjflyttp@gmail.com>
  * @author hightman <hightman@twomice.net>

@@ -245,6 +245,19 @@ class ComposerStaticInita5a16a9cfbd492c754f4c7fa40568e9b
 
     public static function getInitializer(ClassLoader $loader)
     {
+        /**
+         * @var ClassLoader $loader
+         *
+         * @var array $loader->prefixLengthsPsr4
+         * @var array $loader->prefixDirsPsr4
+         * @var array $loader->prefixesPsr0
+         * @var array $loader->classMap
+         *
+         * @property array $prefixLengthsPsr4
+         * @property array $prefixDirsPsr4
+         * @property array $prefixesPsr0
+         * @property array $classMap
+         */
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInita5a16a9cfbd492c754f4c7fa40568e9b::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInita5a16a9cfbd492c754f4c7fa40568e9b::$prefixDirsPsr4;

@@ -74,10 +74,10 @@ class HelloController extends Controller
         $t = $q->where('电影')->asArray()->all();
         Jeen::echoln($t);
         
-//        $db = \app\components\xunsearch\Test::getDb();
-//        $scws = $db->getScws();
-//        $t = $scws->getResult('今天看电影不吃饭');
-//        Jeen::echoln($t);
+        $db = \app\components\xunsearch\Test::getDb();
+        $scws = $db->getScws();
+        $t = $scws->getResult('吃饭看电影');
+        Jeen::echoln($t);
         
         $index = $db->getIndex();
         $t = $index->getProject();
