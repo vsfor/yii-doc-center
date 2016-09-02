@@ -6,7 +6,7 @@
  */
 
 namespace app\console\controllers;
-
+ 
 use Yii;
 use app\components\Jeen;
 use app\models\User;
@@ -35,26 +35,59 @@ class HelloController extends Controller
         $t = \Yii::$app->security->generateRandomString();
         Jeen::echoln($t);
     }
-    
-    //内测资格邮件
-    public function actionBe()
+
+    public function actionSphinx()
     {
-        Yii::$app->urlManager->setScriptUrl("http://ydc.jeen.wang/");
-        /** @var $user User */
-        $user = User::find()->where('`id`=:id',[
-            ':id'=>1002//1003
-        ])->one();
-        if (!$user) {
-            Jeen::echoln('User Not Found');
-            exit();
-        }
-        $ret = Yii::$app->mailer->compose('betaUserTip', ['user' => $user])
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
-            ->setTo($user->email)
-            ->setSubject('Beta Usage Tip For ' . Yii::$app->name)
-            ->send();
-        Jeen::echoln($ret);
-        exit();
+        /** @var \yii\sphinx\Connection $s */
+        $s = \Yii::$app->sphinx;
+        $q = new \yii\sphinx\Query();
+        $rows = $q->from('test1')
+            ->select(['id','group_id'])
+            ->match('电影吃饭')
+            ->where(['group_id' => [1,2]])
+            ->andWhere(['>','id',3])
+            ->all();
+        Jeen::echoln($rows);
     }
-    
+
+    public function actionXs()
+    {
+//        $model = new \app\components\xunsearch\Test();
+//        $model->id = 5;
+//        $model->title = '中文标题';
+//        $model->content = '今天只吃饭,不看电影';
+//        $model->status = 1;
+//        if ($model->save()) {
+//            Jeen::echoln($model->toArray());
+//        } else {
+//            Jeen::echoln($model->getErrors());
+//        }
+        
+//        $a = \app\components\xunsearch\Test::findOne(2);
+//        $a->content .= ' update';
+//        $a->addIndex('content', '电影');
+//        $a->save();
+//        Jeen::echoln($a->toArray());
+        
+        $q = \app\components\xunsearch\Test::find();
+//        $q->getDb()->getIndex()->flushIndex();
+        $t = $q->where('电影')->asArray()->all();
+        Jeen::echoln($t);
+        
+//        $db = \app\components\xunsearch\Test::getDb();
+//        $scws = $db->getScws();
+//        $t = $scws->getResult('今天看电影不吃饭');
+//        Jeen::echoln($t);
+        
+        $index = $db->getIndex();
+        $t = $index->getProject();
+        Jeen::echoln($t);
+        
+        $search = $db->getSearch();
+        $t = $search->getDbTotal();
+        Jeen::echoln($t);
+        
+        
+    }
+
 }

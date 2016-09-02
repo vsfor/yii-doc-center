@@ -17,7 +17,10 @@
         "kartik-v/yii2-password": "@dev",
         "mihaildev/yii2-ckeditor": "*",
         "dmstr/yii2-adminlte-asset": "*",
-        "jext/yii2-jrbac": "^0.1.1"
+        "jext/yii2-jrbac": "^0.1.1",
+        "kartik-v/yii2-mpdf": "dev-master",
+        "yiisoft/yii2-sphinx": "^2.0",
+        "hightman/xunsearch": "*@beta"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

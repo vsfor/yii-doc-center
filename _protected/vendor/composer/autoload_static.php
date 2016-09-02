@@ -16,6 +16,7 @@ class ComposerStaticInita5a16a9cfbd492c754f4c7fa40568e9b
         'y' => 
         array (
             'yii\\swiftmailer\\' => 16,
+            'yii\\sphinx\\' => 11,
             'yii\\httpclient\\' => 15,
             'yii\\gii\\' => 8,
             'yii\\faker\\' => 10,
@@ -36,12 +37,17 @@ class ComposerStaticInita5a16a9cfbd492c754f4c7fa40568e9b
         'k' => 
         array (
             'kartik\\password\\' => 16,
+            'kartik\\mpdf\\' => 12,
             'kartik\\base\\' => 12,
             'kartik\\' => 7,
         ),
         'j' => 
         array (
             'jext\\jrbac\\' => 11,
+        ),
+        'h' => 
+        array (
+            'hightman\\xunsearch\\' => 19,
         ),
         'd' => 
         array (
@@ -65,6 +71,10 @@ class ComposerStaticInita5a16a9cfbd492c754f4c7fa40568e9b
         'yii\\swiftmailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-swiftmailer',
+        ),
+        'yii\\sphinx\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-sphinx',
         ),
         'yii\\httpclient\\' => 
         array (
@@ -110,6 +120,10 @@ class ComposerStaticInita5a16a9cfbd492c754f4c7fa40568e9b
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-password',
         ),
+        'kartik\\mpdf\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-mpdf',
+        ),
         'kartik\\base\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base',
@@ -121,6 +135,10 @@ class ComposerStaticInita5a16a9cfbd492c754f4c7fa40568e9b
         'jext\\jrbac\\' => 
         array (
             0 => __DIR__ . '/..' . '/jext/yii2-jrbac',
+        ),
+        'hightman\\xunsearch\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hightman/xunsearch/wrapper/yii2-ext',
         ),
         'dmstr\\' => 
         array (
@@ -171,12 +189,67 @@ class ComposerStaticInita5a16a9cfbd492c754f4c7fa40568e9b
         ),
     );
 
+    public static $classMap = array (
+        'CGIF' => __DIR__ . '/..' . '/mpdf/mpdf/classes/gif.php',
+        'CGIFCOLORTABLE' => __DIR__ . '/..' . '/mpdf/mpdf/classes/gif.php',
+        'CGIFFILEHEADER' => __DIR__ . '/..' . '/mpdf/mpdf/classes/gif.php',
+        'CGIFIMAGE' => __DIR__ . '/..' . '/mpdf/mpdf/classes/gif.php',
+        'CGIFIMAGEHEADER' => __DIR__ . '/..' . '/mpdf/mpdf/classes/gif.php',
+        'CGIFLZW' => __DIR__ . '/..' . '/mpdf/mpdf/classes/gif.php',
+        'EXunSearch' => __DIR__ . '/..' . '/hightman/xunsearch/wrapper/yii-ext/EXunSearch.php',
+        'FPDF_TPL' => __DIR__ . '/..' . '/setasign/fpdi/fpdf_tpl.php',
+        'FPDI' => __DIR__ . '/..' . '/setasign/fpdi/fpdi.php',
+        'FilterASCII85' => __DIR__ . '/..' . '/setasign/fpdi/filters/FilterASCII85.php',
+        'FilterASCIIHexDecode' => __DIR__ . '/..' . '/setasign/fpdi/filters/FilterASCIIHexDecode.php',
+        'FilterLZW' => __DIR__ . '/..' . '/setasign/fpdi/filters/FilterLZW.php',
+        'INDIC' => __DIR__ . '/..' . '/mpdf/mpdf/classes/indic.php',
+        'MYANMAR' => __DIR__ . '/..' . '/mpdf/mpdf/classes/myanmar.php',
+        'OTLdump' => __DIR__ . '/..' . '/mpdf/mpdf/classes/otl_dump.php',
+        'PDFBarcode' => __DIR__ . '/..' . '/mpdf/mpdf/classes/barcode.php',
+        'SEA' => __DIR__ . '/..' . '/mpdf/mpdf/classes/sea.php',
+        'SVG' => __DIR__ . '/..' . '/mpdf/mpdf/classes/svg.php',
+        'TTFontFile' => __DIR__ . '/..' . '/mpdf/mpdf/classes/ttfontsuni.php',
+        'TTFontFile_Analysis' => __DIR__ . '/..' . '/mpdf/mpdf/classes/ttfontsuni_analysis.php',
+        'UCDN' => __DIR__ . '/..' . '/mpdf/mpdf/classes/ucdn.php',
+        'XS' => __DIR__ . '/..' . '/hightman/xunsearch/lib/XS.class.php',
+        'XSCommand' => __DIR__ . '/..' . '/hightman/xunsearch/lib/XSServer.class.php',
+        'XSComponent' => __DIR__ . '/..' . '/hightman/xunsearch/lib/XS.class.php',
+        'XSDocument' => __DIR__ . '/..' . '/hightman/xunsearch/lib/XSDocument.class.php',
+        'XSErrorException' => __DIR__ . '/..' . '/hightman/xunsearch/lib/XS.class.php',
+        'XSException' => __DIR__ . '/..' . '/hightman/xunsearch/lib/XS.class.php',
+        'XSFieldMeta' => __DIR__ . '/..' . '/hightman/xunsearch/lib/XSFieldScheme.class.php',
+        'XSFieldScheme' => __DIR__ . '/..' . '/hightman/xunsearch/lib/XSFieldScheme.class.php',
+        'XSIndex' => __DIR__ . '/..' . '/hightman/xunsearch/lib/XSIndex.class.php',
+        'XSSearch' => __DIR__ . '/..' . '/hightman/xunsearch/lib/XSSearch.class.php',
+        'XSServer' => __DIR__ . '/..' . '/hightman/xunsearch/lib/XSServer.class.php',
+        'XSTokenizer' => __DIR__ . '/..' . '/hightman/xunsearch/lib/XSTokenizer.class.php',
+        'XSTokenizerFull' => __DIR__ . '/..' . '/hightman/xunsearch/lib/XSTokenizer.class.php',
+        'XSTokenizerNone' => __DIR__ . '/..' . '/hightman/xunsearch/lib/XSTokenizer.class.php',
+        'XSTokenizerScws' => __DIR__ . '/..' . '/hightman/xunsearch/lib/XSTokenizer.class.php',
+        'XSTokenizerSplit' => __DIR__ . '/..' . '/hightman/xunsearch/lib/XSTokenizer.class.php',
+        'XSTokenizerXlen' => __DIR__ . '/..' . '/hightman/xunsearch/lib/XSTokenizer.class.php',
+        'XSTokenizerXstep' => __DIR__ . '/..' . '/hightman/xunsearch/lib/XSTokenizer.class.php',
+        'bmp' => __DIR__ . '/..' . '/mpdf/mpdf/classes/bmp.php',
+        'cssmgr' => __DIR__ . '/..' . '/mpdf/mpdf/classes/cssmgr.php',
+        'directw' => __DIR__ . '/..' . '/mpdf/mpdf/classes/directw.php',
+        'fpdi_pdf_parser' => __DIR__ . '/..' . '/setasign/fpdi/fpdi_pdf_parser.php',
+        'grad' => __DIR__ . '/..' . '/mpdf/mpdf/classes/grad.php',
+        'mPDF' => __DIR__ . '/..' . '/mpdf/mpdf/mpdf.php',
+        'meter' => __DIR__ . '/..' . '/mpdf/mpdf/classes/meter.php',
+        'mpdfform' => __DIR__ . '/..' . '/mpdf/mpdf/classes/mpdfform.php',
+        'otl' => __DIR__ . '/..' . '/mpdf/mpdf/classes/otl.php',
+        'pdf_context' => __DIR__ . '/..' . '/setasign/fpdi/pdf_context.php',
+        'tocontents' => __DIR__ . '/..' . '/mpdf/mpdf/classes/tocontents.php',
+        'wmf' => __DIR__ . '/..' . '/mpdf/mpdf/classes/wmf.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInita5a16a9cfbd492c754f4c7fa40568e9b::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInita5a16a9cfbd492c754f4c7fa40568e9b::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInita5a16a9cfbd492c754f4c7fa40568e9b::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInita5a16a9cfbd492c754f4c7fa40568e9b::$classMap;
 
         }, null, ClassLoader::class);
     }

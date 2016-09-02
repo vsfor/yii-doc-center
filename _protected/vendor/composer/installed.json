@@ -1548,5 +1548,275 @@
             "rbac",
             "yii2"
         ]
+    },
+    {
+        "name": "setasign/fpdi",
+        "version": "1.6.1",
+        "version_normalized": "1.6.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Setasign/FPDI.git",
+            "reference": "5b899b2b41463bf261aa69840fd30b50950a500c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Setasign/FPDI/zipball/5b899b2b41463bf261aa69840fd30b50950a500c",
+            "reference": "5b899b2b41463bf261aa69840fd30b50950a500c",
+            "shasum": ""
+        },
+        "suggest": {
+            "setasign/fpdf": "FPDI will extend this class but as it is also possible to use \"tecnickcom/tcpdf\" as an alternative there's no fixed dependency configured.",
+            "setasign/fpdi-fpdf": "Use this package to automatically evaluate dependencies to FPDF.",
+            "setasign/fpdi-tcpdf": "Use this package to automatically evaluate dependencies to TCPDF."
+        },
+        "time": "2015-11-30 10:53:14",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "filters/",
+                "fpdi.php",
+                "fpdf_tpl.php",
+                "fpdi_pdf_parser.php",
+                "pdf_context.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jan Slabon",
+                "email": "jan.slabon@setasign.com",
+                "homepage": "https://www.setasign.com"
+            }
+        ],
+        "description": "FPDI is a collection of PHP classes facilitating developers to read pages from existing PDF documents and use them as templates in FPDF. Because it is also possible to use FPDI with TCPDF, there are no fixed dependencies defined. Please see suggestions for packages which evaluates the dependencies automatically.",
+        "homepage": "https://www.setasign.com/fpdi",
+        "keywords": [
+            "fpdf",
+            "fpdi",
+            "pdf"
+        ]
+    },
+    {
+        "name": "mpdf/mpdf",
+        "version": "v6.1.2",
+        "version_normalized": "6.1.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/mpdf/mpdf.git",
+            "reference": "da078bc2669d3f98553ac41f920ead4c17c951ad"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/mpdf/mpdf/zipball/da078bc2669d3f98553ac41f920ead4c17c951ad",
+            "reference": "da078bc2669d3f98553ac41f920ead4c17c951ad",
+            "shasum": ""
+        },
+        "require": {
+            "ext-mbstring": "*",
+            "php": ">=5.4.0",
+            "setasign/fpdi": "1.6.*"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.7"
+        },
+        "suggest": {
+            "ext-zlib": "Needed for compression of embedded resources, such as fonts"
+        },
+        "time": "2016-07-20 12:31:58",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "mpdf.php",
+                "classes"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Ian Back",
+                "role": "Developer"
+            }
+        ],
+        "description": "A PHP class to generate PDF files from HTML with Unicode/UTF-8 and CJK support",
+        "homepage": "http://mpdf.github.io",
+        "keywords": [
+            "pdf",
+            "php",
+            "utf-8"
+        ]
+    },
+    {
+        "name": "kartik-v/yii2-mpdf",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/kartik-v/yii2-mpdf.git",
+            "reference": "d2513eb34e507097ceafc1125164c50aeb905547"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/kartik-v/yii2-mpdf/zipball/d2513eb34e507097ceafc1125164c50aeb905547",
+            "reference": "d2513eb34e507097ceafc1125164c50aeb905547",
+            "shasum": ""
+        },
+        "require": {
+            "mpdf/mpdf": "<7.0"
+        },
+        "time": "2016-04-09 18:17:46",
+        "type": "yii2-extension",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "kartik\\mpdf\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD 3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Kartik Visweswaran",
+                "email": "kartikv2@gmail.com",
+                "homepage": "http://www.krajee.com/"
+            }
+        ],
+        "description": "A Yii2 wrapper component for the mPDF library which generates PDF files from UTF-8 encoded HTML.",
+        "homepage": "https://github.com/kartik-v/yii2-mpdf",
+        "keywords": [
+            "component",
+            "extension",
+            "html",
+            "mpdf",
+            "pdf",
+            "utf8",
+            "yii2"
+        ]
+    },
+    {
+        "name": "yiisoft/yii2-sphinx",
+        "version": "2.0.5",
+        "version_normalized": "2.0.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/yiisoft/yii2-sphinx.git",
+            "reference": "5ab9be322138ec76ddfd06ad77df1a5590816ed9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/yiisoft/yii2-sphinx/zipball/5ab9be322138ec76ddfd06ad77df1a5590816ed9",
+            "reference": "5ab9be322138ec76ddfd06ad77df1a5590816ed9",
+            "shasum": ""
+        },
+        "require": {
+            "ext-pdo": "*",
+            "ext-pdo_mysql": "*",
+            "yiisoft/yii2": ">=2.0.4"
+        },
+        "time": "2015-09-23 17:31:03",
+        "type": "yii2-extension",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "yii\\sphinx\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Paul Klimov",
+                "email": "klimov.paul@gmail.com"
+            }
+        ],
+        "description": "Sphinx full text search engine extension for the Yii framework",
+        "keywords": [
+            "active-record",
+            "fulltext",
+            "search",
+            "sphinx",
+            "yii2"
+        ]
+    },
+    {
+        "name": "hightman/xunsearch",
+        "version": "1.4.10",
+        "version_normalized": "1.4.10.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/hightman/xs-sdk-php.git",
+            "reference": "20ecf25fd4281b8490594557d039ad1a5b3b16f6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/hightman/xs-sdk-php/zipball/20ecf25fd4281b8490594557d039ad1a5b3b16f6",
+            "reference": "20ecf25fd4281b8490594557d039ad1a5b3b16f6",
+            "shasum": ""
+        },
+        "require": {
+            "ext-mbstring": "*",
+            "lib-pcre": "*",
+            "php": ">=5.3.0"
+        },
+        "time": "2016-03-23 15:34:06",
+        "bin": [
+            "util/xs"
+        ],
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.4.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "lib/",
+                "wrapper/yii-ext/"
+            ],
+            "psr-4": {
+                "hightman\\xunsearch\\": "wrapper/yii2-ext/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "hightman",
+                "email": "hightman@twomice.net",
+                "role": "Founder and project leader"
+            }
+        ],
+        "description": "xunsearch php sdk, include yii, yii2 supports",
+        "homepage": "http://www.xunsearch.com/",
+        "keywords": [
+            "search engine",
+            "xunsearch",
+            "yii",
+            "yii2"
+        ]
     }
 ]
