@@ -211,7 +211,7 @@ class PageController extends ControllerBase
         ]);
 
         //设置权限
-        $pdf->getApi()->SetProtection(['copy', 'print'], 'ydc.jeen.wang');
+        $pdf->getApi()->SetProtection(['copy', 'print'], '', 'ydc.jeen.wang');
 
         //设置一些文档标头信息
         $pdf->getApi()->SetTitle($page->title);
