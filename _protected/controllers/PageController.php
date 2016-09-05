@@ -98,6 +98,7 @@ class PageController extends ControllerBase
                     $history->save();
                 }
                 //cache reset logic
+                Yii::$app->getCache()->delete("Page:Pdf:$page_id");
                 Yii::$app->getCache()->delete("Project:Menu:$project_id");
                 Yii::$app->getCache()->delete("Project:Catalog:$project_id");
                 Yii::$app->getCache()->delete("Project:DocList:$project_id");
@@ -134,6 +135,7 @@ class PageController extends ControllerBase
             $model->save();
         }
         //cache reset logic
+        Yii::$app->getCache()->delete("Page:Pdf:$page_id");
         Yii::$app->getCache()->delete("Project:Menu:$project_id");
         Yii::$app->getCache()->delete("Project:Catalog:$project_id");
         Yii::$app->getCache()->delete("Project:DocList:$project_id");
@@ -187,6 +189,11 @@ class PageController extends ControllerBase
     public function actionGetpdf($page_id)
     {
         $this->layout = false;
+        $cacheKey = "Page:Pdf:$page_id";
+        $cache = \Yii::$app->getCache()->get($cacheKey);
+        if ($cache) {
+            return $cache;
+        }
         $page = $this->findModel($page_id);
 
         $content =  $this->render('pdf', [
@@ -201,23 +208,89 @@ class PageController extends ControllerBase
             'filename' => 'YDCPage_'.$page->title.'_'.date("Ymd").'.pdf',
             'content' => $content,
             'cssFile' => '@webroot/static/css/pdf.css',
-            // set mPDF properties on the fly
-            'options' => [
-                'title' => $page->title,
-                'autoLangToFont' => true,    //这几个配置加上可以显示中文 y
-                'autoScriptToLang' => true,  //这几个配置加上可以显示中文 y
-                'autoVietnamese' => true,    //这几个配置加上可以显示中文 n
-                'autoArabic' => true,        //这几个配置加上可以显示中文 n
-            ],
-            // call mPDF methods on the fly
-            'methods' => [
-                'SetHeader'=>['Document Page From <a href="http://ydc.jeen.wang/">YDC</a>'],
-                'SetFooter'=>['{PAGENO}'],
-            ]
         ]);
 
+        //设置权限
+        $pdf->getApi()->SetProtection(['copy', 'print'], 'ydc.jeen.wang');
+
+        //设置一些文档标头信息
+        $pdf->getApi()->SetTitle($page->title);
+        $pdf->getApi()->SetAuthor('YDC.Jeen.Wang');
+        $pdf->getApi()->SetCreator('Jeen.Wang');
+        $pdf->getApi()->SetSubject('PHP mPdf Document');
+        $pdf->getApi()->SetKeywords('php,yii2,pdf,mpdf,html,css');
+        // For CJK render
+        $pdf->getApi()->autoScriptToLang = true;
+        $pdf->getApi()->autoVietnamese = true;
+        $pdf->getApi()->autoArabic = true;
+        $pdf->getApi()->autoLangToFont = true;
+        // Add watermark text
+        $pdf->getApi()->SetWatermarkText('ydc.jeen.wang',0.05);
+        $pdf->getApi()->showWatermarkText = true;
+        $pdf->getApi()->watermark_font = 'Sun-ExtA';//支持中文
+
+        $pageHeader = [
+            'L' => [
+                'content' => $page->title,
+                'font-size' => 10,
+                'font-style' => 'B',
+                'font-family' =>  'serif',
+                'color' => '#ff0000',
+            ],
+            'C' => [
+                'content' => '',
+                'font-size' => 10,
+                'font-style' => 'B',
+                'font-family' =>  'serif',
+                'color' => '#666666',
+            ],
+            'R' => [
+                'content' => 'Document Page From <a href="http://ydc.jeen.wang/">YDC</a>',
+                'font-size' => 10,
+                'font-style' => 'B',
+                'font-family' =>  'serif',
+                'color' => '#888888',
+            ],
+            'line' => 1,
+        ];
+        $pdf->getApi()->DefHeaderByName('diyHeader', $pageHeader);
+        $pdf->getApi()->mirrorMargins = 1; //Odd基数  Even偶数
+        $pdf->getApi()->SetHeaderByName('diyHeader', 'O');
+        $pdf->getApi()->SetHeaderByName('diyHeader', 'E');
+
+        $pageFooter = [
+            'L' => [
+                'content' => '{DATE Y-m-d}({nb})',
+                'font-size' => 10,
+                'font-style' => 'B',
+                'font-family' =>  'serif',
+                'color' => '#888888',
+            ],
+            'C' => [
+                'content' => '',
+                'font-size' => 10,
+                'font-style' => 'B',
+                'font-family' =>  'serif',
+                'color' => '#ff0000',
+            ],
+            'R' => [
+                'content' => '{PAGENO}/{nbpg}',
+                'font-size' => 10,
+                'font-style' => 'B',
+                'font-family' =>  'serif',
+                'color' => '#222222',
+            ],
+            'line' => 1,
+        ];
+        $pdf->getApi()->DefFooterByName('diyFooter', $pageFooter);
+        $pdf->getApi()->mirrorMargins = 1;
+        $pdf->getApi()->SetHTMLFooterByName('diyFooter', 'O');
+        $pdf->getApi()->SetHTMLFooterByName('diyFooter', 'E');
+
         // return the pdf output as per the destination setting
-        return $pdf->render();
+        $cache = $pdf->render();
+        \Yii::$app->getCache()->set($cacheKey, $cache);
+        return $cache;
     }
 
 }
