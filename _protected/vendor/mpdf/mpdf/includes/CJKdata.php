@@ -97,3 +97,5 @@ foreach($_cr as $_r) {
 	}
 }
 $this->UHC_widths=$cw;
+
+?>

@@ -28,6 +28,10 @@ class HelloController extends Controller
     public function actionIndex($message = 'hello world')
     {
         echo $message . "\n";
+        $rows = User::find()->where([
+            'id'=>[1,2]
+        ])->asArray()->all();
+        Jeen::echoln($rows);
     }
     
     public function actionTc()

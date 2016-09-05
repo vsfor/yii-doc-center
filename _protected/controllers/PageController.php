@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\components\ProjectLib;
 use app\models\PageHistory;
 use app\models\ProjectMember;
+use kartik\mpdf\Pdf;
 use Yii;
 use app\models\Page;
 use yii\web\NotFoundHttpException;
@@ -180,6 +181,43 @@ class PageController extends ControllerBase
             $ret['content'] = $history->content;
         }
         return json_encode($ret);
+    }
+
+    /**  */
+    public function actionGetpdf($page_id)
+    {
+        $this->layout = false;
+        $page = $this->findModel($page_id);
+
+        $content =  $this->render('pdf', [
+            'model' => $page,
+        ]);
+
+        $pdf = new Pdf([
+            'mode' => Pdf::MODE_UTF8,
+            'format' => Pdf::FORMAT_A4,
+            'orientation' => Pdf::ORIENT_PORTRAIT,
+            'destination' => Pdf::DEST_BROWSER,
+            'filename' => 'YDCPage_'.$page->title.'_'.date("Ymd").'.pdf',
+            'content' => $content,
+            'cssFile' => '@webroot/static/css/pdf.css',
+            // set mPDF properties on the fly
+            'options' => [
+                'title' => $page->title,
+                'autoLangToFont' => true,    //这几个配置加上可以显示中文 y
+                'autoScriptToLang' => true,  //这几个配置加上可以显示中文 y
+                'autoVietnamese' => true,    //这几个配置加上可以显示中文 n
+                'autoArabic' => true,        //这几个配置加上可以显示中文 n
+            ],
+            // call mPDF methods on the fly
+            'methods' => [
+                'SetHeader'=>['Document Page From <a href="http://ydc.jeen.wang/">YDC</a>'],
+                'SetFooter'=>['{PAGENO}'],
+            ]
+        ]);
+
+        // return the pdf output as per the destination setting
+        return $pdf->render();
     }
 
 }
