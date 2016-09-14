@@ -52,11 +52,12 @@ class ControllerBase extends Controller
             } 
         }
         Yii::$app->getSession()->setFlash('error','Permission Denied ! Please Contact the System Administrator ~!');
-        if(Yii::$app->getUser()->getReturnUrl() == Yii::$app->getRequest()->getUrl()) {
-            return $this->goHome();
-        } else {
-            return $this->goBack();
-        }
+//        if(Yii::$app->getUser()->getReturnUrl() == Yii::$app->getRequest()->getUrl()) {
+//            return $this->goHome();
+//        } else {
+//            return $this->goBack();
+//        }
+        return $this->goHome();
     }
 
     public function afterAction($action, $result)
