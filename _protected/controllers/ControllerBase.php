@@ -34,7 +34,9 @@ class ControllerBase extends Controller
                 if ($auth->hasChild($auth->getRole('guest'), $permission)) {
                     if ($permission->ruleName) {
                         $rule = $auth->getRule($permission->ruleName);
-                        return $rule ? $rule->execute(0, $permission, $params) : false;
+                        if ($rule && $rule->execute(0, $permission, $params)) {
+                            return true;
+                        }
                     } else {
                         return true;
                     }
