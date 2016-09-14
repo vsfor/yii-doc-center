@@ -19,6 +19,14 @@ $auth = Yii::$app->getAuthManager();
     <div class="box box-primary">
         <div class="box-header with-border">
             <h3 class="box-title"><i class="fa fa-book"></i><?php echo Yii::t('app','Project') . ": " . $model->name;?></h3>
+
+            <?php if ($auth->allow('/project/getpdf', ['project_id'=>$model->id])) : ?>
+            <div class="pull-right box-tools">
+                <a target="_blank" href="<?php
+                echo \yii\helpers\Url::to(['getpdf', 'project_id'=>$model->id]);
+                ?>" class="btn btn-success btn-sm" title="输出为pdf"><i class="fa fa-print"></i></a>
+            </div>
+            <?php endif; ?>
         </div>
         <div class="box-body">
 

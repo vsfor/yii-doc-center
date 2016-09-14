@@ -1,10 +1,11 @@
 <aside class="main-sidebar">
     <section class="sidebar">
         <?php if(Yii::$app->getUser()->getIsGuest()): ?>
+            <??>
             <?= dmstr\widgets\Menu::widget(
                 [
                     'options' => ['class' => 'sidebar-menu'],
-                    'items' => [
+                    'items' =>  isset($this->params['left-menu']) && $this->params['left-menu'] ? $this->params['left-menu'] : [
                         ['label' => Yii::t('app','Menu'), 'options' => ['class' => 'header']],
                         ['label' => Yii::t('app','Home'), 'icon' => 'fa fa-home', 'url' => ['/site/index']],
                         ['label' => Yii::t('app','News'), 'icon' => 'fa fa-newspaper-o', 'url' => ['/article/index']],
@@ -13,7 +14,7 @@
                         ['label' => Yii::t('app','Login'), 'icon' => 'fa fa-user', 'url' => ['/site/login']],
                     ],
                 ]
-            ) ?>
+            ); ?>
         <?php else: ?>
         <!-- Sidebar user panel -->
         <div class="user-panel">
@@ -58,7 +59,7 @@
                     $extMenu,
                 ],
             ]
-        ) ?>
+        ); ?>
         <?php endif; ?>
     </section>
 </aside>

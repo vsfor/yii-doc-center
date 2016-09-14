@@ -20,6 +20,16 @@ class ProjectReaderRule extends Rule
         if (!isset($params['project_id'])) {
             return false;
         }
+        
+        /** @var \app\models\Project $p */
+        $p = ProjectLib::getInstance()->findModel(intval($params['project_id']));
+        if ($p) {
+            if($p->open_type == $p::OPEN_TO_ALL) {
+                return true;
+            } elseif ($p->open_type == $p::OPEN_TO_USER && $user) {
+                return true;
+            }
+        }
 
         $pm = ProjectLib::getInstance()->getMemberLevel(intval($params['project_id']), $user);
 

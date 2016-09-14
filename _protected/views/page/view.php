@@ -40,9 +40,11 @@ $this->params['left-menu'] = $leftMenu;
             <h3 class="box-title"><?php echo $model->title; ?></h3>
             <!-- tools box -->
             <div class="pull-right box-tools">
+                <?php if(!\Yii::$app->getUser()->getIsGuest()): ?>
                 <a target="_blank" href="<?php
                 echo \yii\helpers\Url::to(['getpdf','page_id'=>$model->id, 'project_id'=>$model->project_id]);
                 ?>" class="btn btn-success btn-sm" title="输出为pdf"><i class="fa fa-print"></i></a>
+                <?php endif; ?>
                 <!-- button with a dropdown -->
                 <?php if($historyList): ?>
                 <div class="btn-group">

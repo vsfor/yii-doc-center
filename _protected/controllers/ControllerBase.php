@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 
+use app\components\Jeen;
 use app\models\User;
 use yii\helpers\ArrayHelper; 
 use yii\web\BadRequestHttpException;
@@ -23,10 +24,20 @@ class ControllerBase extends Controller
             $auth = Yii::$app->getAuthManager();
             $user = Yii::$app->getUser();
             $permissionName = $auth->getPermissionName($action);
+            $params = ArrayHelper::merge(
+                Yii::$app->getRequest()->get(),
+                Yii::$app->getRequest()->post()
+            ); //注意 此处只支持 form 参数提交方式
 
             if ($user->getIsGuest()) {
-                if ($auth->hasChild($auth->getRole('guest'), $auth->getPermission($permissionName))) {
-                    return true;
+                $permission = $auth->getPermission($permissionName);
+                if ($auth->hasChild($auth->getRole('guest'), $permission)) {
+                    if ($permission->ruleName) {
+                        $rule = $auth->getRule($permission->ruleName);
+                        return $rule ? $rule->execute(0, $permission, $params) : false;
+                    } else {
+                        return true;
+                    }
                 } else {
                     throw new BadRequestHttpException('无权访问该页面,请先登录',400);
                 }
@@ -35,18 +46,17 @@ class ControllerBase extends Controller
                     throw new BadRequestHttpException('账号已停用,请联系系统管理员',400);
                 }
 
-                $params = ArrayHelper::merge(
-                    Yii::$app->getRequest()->get(),
-                    Yii::$app->getRequest()->post()
-                ); //注意 此处只支持 form 参数提交方式
-
                 if ($auth->allow($permissionName, $params)) {
                     return true;
                 }
             } 
         }
         Yii::$app->getSession()->setFlash('error','Permission Denied ! Please Contact the System Administrator ~!');
-        return $this->goBack();
+        if(Yii::$app->getUser()->getReturnUrl() == Yii::$app->getRequest()->getUrl()) {
+            return $this->goHome();
+        } else {
+            return $this->goBack();
+        }
     }
 
     public function afterAction($action, $result)

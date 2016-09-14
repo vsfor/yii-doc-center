@@ -15,20 +15,24 @@ use Yii;
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $status
+ * @property integer $open_type
  */
 class Project extends \yii\db\ActiveRecord
 {
-    // the list of status values that can be stored in this table
     const STATUS_NORMAL   = 1;
     const STATUS_DELETED  = 9;
-
-    /**
-     * List of names for each status.
-     * @var array
-     */
     public $statusList = [
         self::STATUS_NORMAL   => 'Normal',
         self::STATUS_DELETED  => 'Deleted'
+    ];
+
+    const OPEN_TO_NONE = 0;
+    const OPEN_TO_USER = 1;
+    const OPEN_TO_ALL = 2;
+    public $openList = [
+        self::OPEN_TO_NONE => '不开放',
+        self::OPEN_TO_USER => '开放给本站用户',
+        self::OPEN_TO_ALL => '开放给所有人'
     ];
 
 
@@ -46,7 +50,7 @@ class Project extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'created_at', 'updated_at', 'status'], 'integer'],
+            [['user_id', 'created_at', 'updated_at', 'status', 'open_type'], 'integer'],
             [['name'], 'string', 'max' => 32],
             [['description'], 'string', 'max' => 255],
             [['name', 'description'], 'required'],
@@ -79,6 +83,7 @@ class Project extends \yii\db\ActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'status' => Yii::t('app', 'Status'),
+            'open_type' => '开放类型',
         ];
     }
 }

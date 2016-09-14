@@ -28,6 +28,22 @@ class ProjectLib
     public function __clone() { throw new \Exception('Clone is not allowed !'); }
 
     /**
+     * 通过ID获取项目
+     * @param int $id
+     * @return array|bool|null|\yii\db\ActiveRecord
+     */
+    public function findModel($id)
+    {
+        if (($model = Project::find()->where('`id`=:id and `status`=:status', [
+                ':id' => $id,
+                ':status' => Project::STATUS_NORMAL,
+            ])->one()) !== null) {
+            return $model;
+        }
+        return false;
+    }
+
+    /**
      * 获取项目左侧导航菜单列表
      * @param $projectId
      * @return array|mixed
