@@ -58,6 +58,7 @@ class PageController extends ControllerBase
             Yii::$app->getCache()->delete("Project:Catalog:$project_id");
             Yii::$app->getCache()->delete("Project:DocList:$project_id");
             Yii::$app->getCache()->delete("Project:PageList:$project_id");
+            Yii::$app->getCache()->delete("Project:Pdf:$project_id");
 
             Yii::$app->getSession()->addFlash('success',Yii::t('app', 'Create Success'));
             return $this->redirect(['view', 'page_id' => $model->id, 'project_id' => $project_id]);
@@ -103,6 +104,7 @@ class PageController extends ControllerBase
                 Yii::$app->getCache()->delete("Project:Catalog:$project_id");
                 Yii::$app->getCache()->delete("Project:DocList:$project_id");
                 Yii::$app->getCache()->delete("Project:PageList:$project_id");
+                Yii::$app->getCache()->delete("Project:Pdf:$project_id");
 
                 Yii::$app->getSession()->addFlash('success',Yii::t('app', 'Update Success'));
                 return $this->redirect(['view', 'page_id' => $model->id, 'project_id' => $project_id]);
@@ -140,6 +142,7 @@ class PageController extends ControllerBase
         Yii::$app->getCache()->delete("Project:Catalog:$project_id");
         Yii::$app->getCache()->delete("Project:DocList:$project_id");
         Yii::$app->getCache()->delete("Project:PageList:$project_id");
+        Yii::$app->getCache()->delete("Project:Pdf:$project_id");
 
         return $this->redirect(['/project/view', 'project_id' => $project_id]);
     }
@@ -185,7 +188,12 @@ class PageController extends ControllerBase
         return json_encode($ret);
     }
 
-    /**  */
+    /**
+     * 获取文档PDF可下载格式
+     * @param $page_id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
     public function actionGetpdf($page_id)
     {
         $this->layout = false;

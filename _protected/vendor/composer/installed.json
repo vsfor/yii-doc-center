@@ -1818,5 +1818,55 @@
             "yii",
             "yii2"
         ]
+    },
+    {
+        "name": "hightman/httpclient",
+        "version": "v1.3",
+        "version_normalized": "1.3.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/hightman/httpclient.git",
+            "reference": "b4098d97b779bbe37d16bebf42736408a5c944c4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/hightman/httpclient/zipball/b4098d97b779bbe37d16bebf42736408a5c944c4",
+            "reference": "b4098d97b779bbe37d16bebf42736408a5c944c4",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0"
+        },
+        "time": "2015-09-16 06:05:58",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.2-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "hightman\\http\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "hightman",
+                "email": "hightman@twomice.net"
+            }
+        ],
+        "description": "A parallel HTTP client written in pure PHP",
+        "homepage": "http://hightman.cn/",
+        "keywords": [
+            "curl",
+            "http client",
+            "php",
+            "rest"
+        ]
     }
 ]

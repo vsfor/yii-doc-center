@@ -31,12 +31,12 @@ class TeController extends Controller
             'orientation' => Pdf::ORIENT_PORTRAIT,
             'destination' => Pdf::DEST_BROWSER,
             'filename' => 'YDCPage_'.$page->title.'_'.date("Ymd").'.pdf',
-            'content' => $content,
+//            'content' => $content,
             'cssFile' => '@webroot/static/css/pdf.css',
         ]);
 
         //设置权限
-        $pdf->getApi()->SetProtection(['copy', 'print'],'ydc.jeen.wang','blog.jeen.wang');
+//        $pdf->getApi()->SetProtection(['copy', 'print'],'ydc.jeen.wang','blog.jeen.wang');
 
         //设置一些文档标头信息
         $pdf->getApi()->SetTitle($page->title);
@@ -112,6 +112,9 @@ class TeController extends Controller
         $pdf->getApi()->SetHTMLFooterByName('diyFooter', 'O');
         $pdf->getApi()->SetHTMLFooterByName('diyFooter', 'E');
 
+        $pdf->getApi()->AddPage();
+        $pdf->getApi()->AddPage();
+        $pdf->getApi()->WriteHTML($content);
 
         // return the pdf output as per the destination setting
         return $pdf->render();

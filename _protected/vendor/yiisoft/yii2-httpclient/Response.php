@@ -24,6 +24,19 @@ class Response extends Message
     /**
      * @inheritdoc
      */
+    public function getContent()
+    {
+        $content = parent::getContent();
+        $headers = $this->getHeaders();
+        if ($content && $headers->get('content-encoding','unknown') == 'gzip') {
+            $content = gzinflate(substr($content, 10, -8));
+        }
+        return $content;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getData()
     {
         $data = parent::getData();

@@ -20,7 +20,8 @@
         "jext/yii2-jrbac": "^0.1.1",
         "kartik-v/yii2-mpdf": "dev-master",
         "yiisoft/yii2-sphinx": "^2.0",
-        "hightman/xunsearch": "*@beta"
+        "hightman/xunsearch": "*@beta",
+        "hightman/httpclient": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

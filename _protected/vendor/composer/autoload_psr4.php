@@ -24,6 +24,7 @@ return array(
     'kartik\\' => array($vendorDir . '/kartik-v/strength-meter'),
     'jext\\jrbac\\' => array($vendorDir . '/jext/yii2-jrbac'),
     'hightman\\xunsearch\\' => array($vendorDir . '/hightman/xunsearch/wrapper/yii2-ext'),
+    'hightman\\http\\' => array($vendorDir . '/hightman/httpclient/src'),
     'dmstr\\' => array($vendorDir . '/dmstr/yii2-adminlte-asset'),
     'cebe\\markdown\\' => array($vendorDir . '/cebe/markdown'),
     'Faker\\' => array($vendorDir . '/fzaninotto/faker/src/Faker'),

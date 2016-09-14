@@ -6,6 +6,7 @@ use app\components\Jeen;
 use app\components\ProjectLib;
 use app\models\ProjectMember;
 use app\models\User;
+use kartik\mpdf\Pdf;
 use Yii;
 use app\models\Project;
 use app\models\ProjectSearch;
@@ -297,5 +298,156 @@ class ProjectController extends ControllerBase
         return $this->goHome();
     }
 
-    
+    /**
+     * 导出项目为PDF文件
+     * @param $project_id
+     * @return string
+     * @throws NotFoundHttpException
+     */
+    public function actionGetpdf($project_id)
+    {
+        $this->layout = false;
+        $cacheKey = "Project:Pdf:$project_id";
+        $cache = \Yii::$app->getCache()->get($cacheKey);
+        if ($cache) {
+            return $cache;
+        }
+        $project = $this->findModel($project_id);
+        if (!$project) {
+            return $this->goHome();
+        }
+        $lib = ProjectLib::getInstance();
+        $itemList = $lib->getPdfList($project_id);
+
+//        Jeen::echoln($itemList);exit();
+
+        $pdf = new Pdf([
+            'mode' => Pdf::MODE_UTF8,
+            'format' => Pdf::FORMAT_A4,
+            'orientation' => Pdf::ORIENT_PORTRAIT,
+            'destination' => Pdf::DEST_BROWSER,
+            'filename' => 'YDCProject_'.$project->name.'_'.date("Ymd").'.pdf',
+//            'content' => $content,
+            'cssFile' => '@webroot/static/css/pdf.css',
+        ]);
+
+        //设置权限
+        $pdf->getApi()->SetProtection(['copy', 'print'], '', 'ydc.jeen.wang');
+
+        //设置一些文档标头信息
+        $pdf->getApi()->SetTitle($project->name);
+        $pdf->getApi()->SetAuthor('YDC.Jeen.Wang');
+        $pdf->getApi()->SetCreator('Jeen.Wang');
+        $pdf->getApi()->SetSubject('PHP mPdf Document');
+        $pdf->getApi()->SetKeywords('php,yii2,pdf,mpdf,html,css');
+        // For CJK render
+        $pdf->getApi()->autoScriptToLang = true;
+        $pdf->getApi()->autoVietnamese = true;
+        $pdf->getApi()->autoArabic = true;
+        $pdf->getApi()->autoLangToFont = true;
+        // Add watermark text
+        $pdf->getApi()->SetWatermarkText('ydc.jeen.wang',0.05);
+        $pdf->getApi()->showWatermarkText = true;
+        $pdf->getApi()->watermark_font = 'Sun-ExtA';//支持中文
+
+        $pdf->getApi()->WriteHTML($pdf->getCss(), 1);
+
+        $pageHeader = [
+            'L' => [
+                'content' => $project->name,
+                'font-size' => 10,
+                'font-style' => 'B',
+                'font-family' =>  'serif',
+                'color' => '#435b67',
+            ],
+            'C' => [
+                'content' => '',
+                'font-size' => 10,
+                'font-style' => 'B',
+                'font-family' =>  'serif',
+                'color' => '#666666',
+            ],
+            'R' => [
+                'content' => '',
+                'font-size' => 10,
+                'font-style' => 'B',
+                'font-family' =>  'serif',
+                'color' => '#333333',
+            ],
+            'line' => 1,
+        ];
+        $pdf->getApi()->DefHeaderByName('diyHeader', $pageHeader);
+        $pdf->getApi()->mirrorMargins = 1; //Odd基数  Even偶数
+        $pdf->getApi()->SetHeaderByName('diyHeader', 'O');
+        $pdf->getApi()->SetHeaderByName('diyHeader', 'E');
+
+        $pageFooter = [
+            'L' => [
+                'content' => '{DATE Y-m-d}/{nb}/'.$project_id,
+                'font-size' => 10,
+                'font-style' => 'B',
+                'font-family' =>  'serif',
+                'color' => '#888888',
+            ],
+            'C' => [
+                'content' => '{PAGENO}/{nbpg}',
+                'font-size' => 10,
+                'font-style' => 'B',
+                'font-family' =>  'serif',
+                'color' => '#111111',
+            ],
+            'R' => [
+                'content' => 'Document Project From <a href="http://ydc.jeen.wang/">YDC</a>',
+                'font-size' => 10,
+                'font-style' => 'B',
+                'font-family' =>  'serif',
+                'color' => '#93aebb',
+            ],
+            'line' => 1,
+        ];
+        $pdf->getApi()->DefFooterByName('diyFooter', $pageFooter);
+        $pdf->getApi()->mirrorMargins = 1;
+        $pdf->getApi()->SetHTMLFooterByName('diyFooter', 'O');
+        $pdf->getApi()->SetHTMLFooterByName('diyFooter', 'E');
+
+        $tempBookmarks = [];
+        foreach ($itemList as $item) {
+            if ($item['type'] == 'page') {
+                $pageHeader['R']['content'] = $item['data']['title'];
+                $pdf->getApi()->DefHeaderByName('diyHeader', $pageHeader);
+                $pdf->getApi()->mirrorMargins = 1; //Odd基数  Even偶数
+                $pdf->getApi()->SetHeaderByName('diyHeader', 'O');
+                $pdf->getApi()->SetHeaderByName('diyHeader', 'E');
+
+                $pdf->getApi()->AddPage();
+
+                while ($tempBookmarks) {
+                    $tempBookmark = array_shift($tempBookmarks);
+                    $pdf->getApi()->Bookmark($tempBookmark['txt'], $tempBookmark['level']);
+                }
+                $pdf->getApi()->Bookmark($item['data']['title'], $item['level']);
+
+                $pageHtml = $this->render('/page/pdf', ['model' => $item['data']]);
+                $pdf->getApi()->WriteHTML($pageHtml);
+
+            } elseif ($item['type'] == 'catalog') {
+                $pageHeader['C']['content'] = $item['data']['name'];
+                array_push($tempBookmarks, [
+                    'txt' => $item['data']['name'],
+                    'level' => $item['level']
+                ]);
+            }
+        }
+
+        while ($tempBookmarks) {
+            $tempBookmark = array_shift($tempBookmarks);
+            $pdf->getApi()->Bookmark($tempBookmark['txt'], $tempBookmark['level']);
+        }
+
+        $cache = $pdf->getApi()->Output($pdf->filename, $pdf::DEST_BROWSER);
+
+        \Yii::$app->getCache()->set($cacheKey, $cache);
+        return $cache;
+    }
+
 }

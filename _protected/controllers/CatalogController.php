@@ -31,6 +31,7 @@ class CatalogController extends ControllerBase
             Yii::$app->getCache()->delete("Project:Catalog:$project_id");
             Yii::$app->getCache()->delete("Project:DocList:$project_id");
             Yii::$app->getCache()->delete("Project:PageList:$project_id");
+            Yii::$app->getCache()->delete("Project:Pdf:$project_id");
 
             Yii::$app->getSession()->addFlash('success',Yii::t('app', 'Create Success'));
 
@@ -66,6 +67,7 @@ class CatalogController extends ControllerBase
             Yii::$app->getCache()->delete("Project:Catalog:$project_id");
             Yii::$app->getCache()->delete("Project:DocList:$project_id");
             Yii::$app->getCache()->delete("Project:PageList:$project_id");
+            Yii::$app->getCache()->delete("Project:Pdf:$project_id");
 
             Yii::$app->getSession()->addFlash('success',Yii::t('app', 'Update Success'));
 
@@ -103,6 +105,7 @@ class CatalogController extends ControllerBase
         Yii::$app->getCache()->delete("Project:Catalog:$project_id");
         Yii::$app->getCache()->delete("Project:DocList:$project_id");
         Yii::$app->getCache()->delete("Project:PageList:$project_id");
+        Yii::$app->getCache()->delete("Project:Pdf:$project_id");
 
         return $this->goBack();
     }

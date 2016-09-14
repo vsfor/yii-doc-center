@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "48df7a6cb44f337867f3411b5f63cad4",
-    "content-hash": "6a95da055f3e1b906ba1f3eda3b80abc",
+    "hash": "056dc9edc23528ccb9aab88ebe4ac3ba",
+    "content-hash": "d4039f77dd43f4a1da3d08bbaeb9af11",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -441,6 +441,54 @@
                 "html"
             ],
             "time": "2016-07-16 12:58:58"
+        },
+        {
+            "name": "hightman/httpclient",
+            "version": "v1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hightman/httpclient.git",
+                "reference": "b4098d97b779bbe37d16bebf42736408a5c944c4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hightman/httpclient/zipball/b4098d97b779bbe37d16bebf42736408a5c944c4",
+                "reference": "b4098d97b779bbe37d16bebf42736408a5c944c4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "hightman\\http\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "hightman",
+                    "email": "hightman@twomice.net"
+                }
+            ],
+            "description": "A parallel HTTP client written in pure PHP",
+            "homepage": "http://hightman.cn/",
+            "keywords": [
+                "curl",
+                "http client",
+                "php",
+                "rest"
+            ],
+            "time": "2015-09-16 06:05:58"
         },
         {
             "name": "hightman/xunsearch",

@@ -26,7 +26,12 @@ class ProjectLib
     }
     private function __construct() { }
     public function __clone() { throw new \Exception('Clone is not allowed !'); }
-    
+
+    /**
+     * 获取项目左侧导航菜单列表
+     * @param $projectId
+     * @return array|mixed
+     */
     public function getMenu($projectId)
     {
         $projectId = intval($projectId);
@@ -122,6 +127,12 @@ class ProjectLib
         return $menu;
     }
 
+    /**
+     * 获取项目某个目录子菜单
+     * @param $projectId
+     * @param $catId
+     * @return array
+     */
     public function getCatSubMenu($projectId, $catId)
     {
         $projectId = intval($projectId);
@@ -166,7 +177,14 @@ class ProjectLib
         return $menu;
     }
 
-
+    /**
+     * 获取项目目录层级结构 - 用于下拉选择
+     * @param $projectId
+     * @param int $parentId
+     * @param int $depth
+     * @param int $level
+     * @return array|mixed
+     */
     public function getCatOptions($projectId,$parentId=0,$depth = 3,$level=1)
     {
         if ($level > $depth) {
@@ -207,6 +225,12 @@ class ProjectLib
         return $list;
     }
 
+    /**
+     * 获取项目目录子层级
+     * @param $projectId
+     * @param int $parentId
+     * @return array
+     */
     public function getSubCatOptions($projectId, $parentId=0)
     {
         $rows = Catalog::find()
@@ -228,7 +252,11 @@ class ProjectLib
         return $list;
     }
 
-
+    /**
+     * 获取文档页面历史修改记录
+     * @param $pageId
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public function getPageHistoryList($pageId)
     {
         return PageHistory::find()
@@ -240,7 +268,11 @@ class ProjectLib
             ->all();
     }
 
-
+    /**
+     * 获取项目文档结构
+     * @param $projectId
+     * @return array|mixed
+     */
     public function getDocList($projectId)
     {
         $projectId = intval($projectId);
@@ -250,23 +282,6 @@ class ProjectLib
             return $cache;
         }
         $list = [];
-        $cats = Catalog::find()
-            ->where('`status`='.Catalog::STATUS_NORMAL)
-            ->andWhere('`project_id`=:project_id and `parent_id`=:parent_id',[
-                ':project_id' => $projectId,
-                ':parent_id' => 0
-            ])
-            ->orderBy('`sort_number` asc,`id` asc')
-            ->all();
-        /** @var Catalog $cat */
-        foreach ($cats as $cat) {
-            $list[] = [
-                'type' => 'catalog',
-                'data' => $cat->toArray(),
-                'items' => $this->getCatDocList($projectId, $cat->id),
-            ];
-        }
-        unset($cats);
 
         //项目根目录页面
         $pages = Page::find()
@@ -285,12 +300,36 @@ class ProjectLib
             ];
         }
         unset($pages);
- 
+
+        $cats = Catalog::find()
+            ->where('`status`='.Catalog::STATUS_NORMAL)
+            ->andWhere('`project_id`=:project_id and `parent_id`=:parent_id',[
+                ':project_id' => $projectId,
+                ':parent_id' => 0
+            ])
+            ->orderBy('`sort_number` asc,`id` asc')
+            ->all();
+        /** @var Catalog $cat */
+        foreach ($cats as $cat) {
+            $list[] = [
+                'type' => 'catalog',
+                'data' => $cat->toArray(),
+                'items' => $this->getCatDocList($projectId, $cat->id),
+            ];
+        }
+        unset($cats);
+
         \Yii::$app->getCache()->set($cacheKey, $list);
         return $list;
 
     }
 
+    /**
+     * 获取目录文档结构
+     * @param $projectId
+     * @param $catId
+     * @return array
+     */
     public function getCatDocList($projectId, $catId)
     {
         $projectId = intval($projectId);
@@ -333,7 +372,11 @@ class ProjectLib
         return $list;
     }
 
-
+    /**
+     * 获取项目成员ID列表
+     * @param $projectId
+     * @return array|mixed
+     */
     public function getMemberIds($projectId)
     {
         $cacheKey = "Project:MemberIds:$projectId";
@@ -355,6 +398,11 @@ class ProjectLib
         return $userIds;
     }
 
+    /**
+     * 获取项目成员信息列表
+     * @param $projectId
+     * @return array|mixed
+     */
     public function getMemberList($projectId)
     {
         $cacheKey = "Project:MemberList:$projectId";
@@ -385,7 +433,13 @@ class ProjectLib
         Yii::$app->getCache()->set($cacheKey,$list);
         return $list;
     }
-    
+
+    /**
+     * 获取项目成员等级信息
+     * @param $projectId
+     * @param $userId
+     * @return array|mixed|null|\yii\db\ActiveRecord
+     */
     public function getMemberLevel($projectId, $userId)
     {
         $cacheKey = "Project:MemberLevel:$projectId:$userId";
@@ -402,6 +456,11 @@ class ProjectLib
         return $pm;
     }
 
+    /**
+     * 获取项目成员级别设置页面元素
+     * @param $model
+     * @return string
+     */
     public function getMemberLevelSetHtml($model)
     {
         if (Yii::$app->getUser()->getId() == $model['user_id']) {
@@ -438,6 +497,12 @@ class ProjectLib
         return $html;
     }
 
+    /**
+     * 设置用户级别 - 用于项目权限分级
+     * @param int $userId 用户ID
+     * @param int $level 级别
+     * @return bool
+     */
     public function setMemberLevelRole($userId, $level)
     {
         try {
@@ -471,6 +536,11 @@ class ProjectLib
         }
     }
 
+    /**
+     * 获取项目所有文档页面
+     * @param int $projectId 项目ID
+     * @return array|mixed
+     */
     public function getPageList($projectId) 
     {
 
@@ -518,7 +588,13 @@ class ProjectLib
         \Yii::$app->getCache()->set($cacheKey, $list);
         return $list;
     }
-    
+
+    /**
+     * 获取目录文档页面
+     * @param int $projectId 项目ID
+     * @param int $catId 目录ID
+     * @return array
+     */
     public function getCatPageList($projectId, $catId)
     {
 
@@ -559,7 +635,13 @@ class ProjectLib
 
         return $list;
     }
-    
+
+    /**
+     * 获取文档上一页下一页信息
+     * @param int $projectId
+     * @param int $pageId
+     * @return array
+     */
     public function getPagePreNext($projectId, $pageId)
     {
         $pageList = $this->getPageList($projectId);
@@ -578,6 +660,108 @@ class ProjectLib
         }
         
         return ['pre'=>$pre,'next'=>$next];
+    }
+
+    /**
+     * 获取某个项目用于PDF导出的文档列表
+     * @param int $projectId 项目ID
+     * @return array
+     */
+    public function getPdfList($projectId)
+    {
+        $projectId = intval($projectId);
+        $list = [];
+
+        //项目根目录页面
+        $pages = Page::find()
+            ->where('`status`='.Page::STATUS_NORMAL)
+            ->andWhere('`project_id`=:project_id and `catalog_id`=:catalog_id', [
+                ':project_id' => $projectId,
+                ':catalog_id' => 0
+            ])
+            ->orderBy('`sort_number` asc,`id` asc')
+            ->all();
+        /** @var Page $page */
+        foreach ($pages as $page) {
+            $list[] = [
+                'type' => 'page',
+                'data' => $page->toArray(),
+                'level' => 1,
+            ];
+        }
+        unset($pages);
+
+        $cats = Catalog::find()
+            ->where('`status`='.Catalog::STATUS_NORMAL)
+            ->andWhere('`project_id`=:project_id and `parent_id`=:parent_id',[
+                ':project_id' => $projectId,
+                ':parent_id' => 0
+            ])
+            ->orderBy('`sort_number` asc,`id` asc')
+            ->all();
+        /** @var Catalog $cat */
+        foreach ($cats as $cat) {
+            $list[] = [
+                'type' => 'catalog',
+                'data' => $cat->toArray(),
+                'level' => 1,
+            ];
+            $this->getCatPdfList($projectId, $cat->id, $list, 2);
+        }
+        unset($cats);
+
+        return $list;
+    }
+
+    /**
+     * 获取项目某个目录用于PDF导出的文档列表
+     * @param int $projectId  项目ID
+     * @param int $catId 目录ID
+     * @param array $list 列表数组
+     * @param int $level pdf书签层级(目录)
+     * @return array
+     */
+    public function getCatPdfList($projectId, $catId, &$list, $level=1)
+    {
+        $projectId = intval($projectId);
+        $catId = intval($catId);
+        $pages = Page::find()
+            ->where('`status`='.Page::STATUS_NORMAL)
+            ->andWhere('`project_id`=:project_id and `catalog_id`=:catalog_id', [
+                ':project_id' => $projectId,
+                ':catalog_id' => $catId
+            ])
+            ->orderBy('`sort_number` asc,`id` asc')
+            ->all();
+        /** @var Page $page */
+        foreach ($pages as $page) {
+            $list[] = [
+                'type' => 'page',
+                'data' => $page->toArray(),
+                'level' => $level
+            ];
+        }
+        unset($pages);
+
+        $cats = Catalog::find()
+            ->where('`status`='.Catalog::STATUS_NORMAL)
+            ->andWhere('`parent_id`=:paid',[
+                ':paid' => $catId
+            ])
+            ->orderBy('`sort_number` asc,`id` asc')
+            ->all();
+        /** @var Catalog $cat */
+        foreach ($cats as $cat) {
+            $list[] = [
+                'type' => 'catalog',
+                'data' => $cat->toArray(),
+                'level' => $level
+            ];
+            $this->getCatPdfList($projectId, $cat->id, $list, ($level+1));
+        }
+        unset($cats);
+
+        return $list;
     }
 
 }
