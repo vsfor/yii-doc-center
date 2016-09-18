@@ -200,13 +200,13 @@ class PageController extends ControllerBase
         $cacheKey = "Page:Pdf:$page_id";
         $cache = \Yii::$app->getCache()->get($cacheKey);
         if ($cache) {
-            return $cache;
+//            return $cache;
         }
         $page = $this->findModel($page_id);
 
         $content =  $this->render('pdf', [
             'model' => $page,
-        ]);
+        ]); 
 
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,
@@ -216,6 +216,12 @@ class PageController extends ControllerBase
             'filename' => 'YDCPage_'.$page->title.'_'.date("Ymd").'.pdf',
             'content' => $content,
             'cssFile' => '@webroot/static/css/pdf.css',
+//            'cssFile' => [
+//                '@webroot/static/css/font-awesome.min.css',
+//                '@webroot/static/css/bootstrap.min.css',
+//                '@webroot/static/editor.md/css/editormd.preview.min.css',
+//                '@webroot/static/css/newpdf.css',
+//            ],
         ]);
 
         //设置权限

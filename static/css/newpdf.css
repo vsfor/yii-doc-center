@@ -1,0 +1,34 @@
+.editormd-preview-container table thead tr, .editormd-html-preview table thead tr {
+    background-color: #3c8dbc;
+    color: #ffffff;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+.btn-default:hover, .btn-default:active, .btn-default.hover {
+    background-color: rgba(28,28,28,0.93);
+    color: #ffffff;
+}
+
+.jeenemoji,
+.editormd-html-preview .jeenemoji,
+.markdown-body .jeenemoji {
+    width: 20px;
+    height:20px;
+    display: block;
+}
+
+strong ,
+b {
+    font-weight: bold;
+}
+.editormd-preview-container code,
+.editormd-html-preview code,
+.markdown-body code,
+.editormd-preview-container pre code,
+.editormd-html-preview pre code,
+.markdown-body pre code,
+p code,
+pre code
+{
+    padding: 10px 20px;
+}
