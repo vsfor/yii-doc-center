@@ -206,7 +206,9 @@ class PageController extends ControllerBase
 
         $content =  $this->render('pdf', [
             'model' => $page,
-        ]); 
+        ]);
+
+//        echo $content;exit();
 
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,
@@ -239,7 +241,7 @@ class PageController extends ControllerBase
         $pdf->getApi()->autoArabic = true;
         $pdf->getApi()->autoLangToFont = true;
         // Add watermark text
-        $pdf->getApi()->SetWatermarkText('ydc.jeen.wang',0.05);
+        $pdf->getApi()->SetWatermarkText('ydc.jeen.wang',0.02);
         $pdf->getApi()->showWatermarkText = true;
         $pdf->getApi()->watermark_font = 'Sun-ExtA';//支持中文
 

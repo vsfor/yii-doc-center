@@ -19,7 +19,7 @@ $this->fontdata = array(
 /* CJK fonts */
 	"sun-exta" => [
 		'R' => "SimSun.ttf",
-		'B' => "SimHei.ttf",
+		'B' => "MicrosoftYahei.ttf",
 		'sip-ext' => 'sun-extb',		/* SIP=Plane2 Unicode (extension B) */
 	],
 	"sun-extb" => [

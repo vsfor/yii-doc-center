@@ -9068,13 +9068,15 @@ button.close {
         display: block;
     }
 
-    .editormd-preview-container table thead tr, .editormd-html-preview table thead tr {
+    .editormd-preview-container table thead tr,
+    .editormd-html-preview table thead tr,
+    .editormd-preview-container table thead tr th,
+    .editormd-html-preview table thead tr th {
         background-color: #3c8dbc;
-        color: #ffffff;
+        color: #fff777;
         letter-spacing: 2px;
         font-weight: bold;
     }
-
 
     strong ,
     b {
@@ -9085,10 +9087,7 @@ button.close {
     .markdown-body code,
     .editormd-preview-container pre code,
     .editormd-html-preview pre code,
-    .markdown-body pre code,
-    p code,
-    pre code
-    {
+    .markdown-body pre code {
         padding: 10px 20px;
     }
 }

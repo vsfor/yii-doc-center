@@ -252,7 +252,7 @@ class MDParser
             "/(^|[^\\\])(`+)(.+?)\\2/",
             function ($matches) use ($self) {
                 return  $matches[1] . $self->makeHolder(
-                    '<code>' . htmlspecialchars($matches[3]) . '</code>'
+                    '<code style="padding: 3px 5px;">' . htmlspecialchars($matches[3]) . '</code>'
                 );
             },
             $text
@@ -313,9 +313,11 @@ class MDParser
             function ($matches) use ($self) {
                 $escaped = $self->escapeBracket($matches[1]);
                 $url = $self->escapeBracket($matches[2]);
+                $temp = explode("\"$escaped\"", $url, 2);
+                $extend = isset($temp[1]) ? $temp[1] : '';
                 $url = $self->cleanUrl($url);
                 return $self->makeHolder(
-                    "<img src=\"{$url}\" alt=\"{$escaped}\" title=\"{$escaped}\">"
+                    "<img src=\"{$url}\" alt=\"{$escaped}\" title=\"{$escaped}\" {$extend} />"
                 );
             },
             $text
