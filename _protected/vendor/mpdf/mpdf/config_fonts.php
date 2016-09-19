@@ -18,11 +18,12 @@ $this->fonttrans = array(
 $this->fontdata = array(
 /* CJK fonts */
 	"sun-exta" => [
-		'R' => "Sun-ExtA.ttf",
+		'R' => "SimSun.ttf",
+		'B' => "SimHei.ttf",
 		'sip-ext' => 'sun-extb',		/* SIP=Plane2 Unicode (extension B) */
 	],
 	"sun-extb" => [
-		'R' => "Sun-ExtB.ttf",
+		'R' => "SimSun-ExtB.ttf",
 	],
 );
 
