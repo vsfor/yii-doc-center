@@ -8,46 +8,75 @@ use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
 
 $this->title = Yii::t('app', 'Contact');
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="site-contact">
+    <div class="section" id="section0">
+        <div class="content">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+            <h3><?= Html::encode($this->title) ?></h3>
 
-    <div class="col-md-10 well bs-component">
+            <p>
+                <?= Yii::t('app', 'If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.'); ?>
+            </p>
 
-        <p>
-            <?= Yii::t('app', 'If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.'); ?>
-        </p>
-
-        <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
+            <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
 
             <?= $form->field($model, 'name')->textInput(
-                ['placeholder' => Yii::t('app', 'Enter your name'), 'autofocus' => true]) ?>
+                ['placeholder' => '您的姓名或称呼', 'autofocus' => true]) ?>
 
-            <?= $form->field($model, 'email')->input('email', ['placeholder' => Yii::t('app', 'Enter your e-mail')]) ?>
+            <?= $form->field($model, 'email')->input('email', ['placeholder' => '您的邮箱,方便我们与您联系']) ?>
 
-            <?= $form->field($model, 'subject')->textInput(['placeholder' => Yii::t('app', 'Enter the subject')]) ?>
+            <?= $form->field($model, 'subject')->textInput(['placeholder' => '邮件主题']) ?>
 
             <?= $form->field($model, 'body')->textArea(['rows' => 6]) ?>
 
             <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
-                'template' => 
+                'template' =>
                     '<div class="row">
-                        <div class="col-md-6 pull-left">{input}</div>
-                        <div class="col-md-4 pull-left">{image}</div>
-                    </div>',
-                'options' => ['placeholder' => Yii::t('app', 'Enter verification code'),'class' => 'form-control'],
-                ]) 
+                    <div class="col-md-6 pull-left">{input}</div>
+                    <div class="col-md-4 pull-left">{image}</div>
+                </div>',
+                'options' => ['placeholder' => '输入验证码','class' => 'form-control'],
+            ])
             ?>
 
             <div class="form-group">
-                <?= Html::submitButton(Yii::t('app', 'Submit'), 
+                <?= Html::submitButton(Yii::t('app', 'Submit'),
                     ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
             </div>
 
-        <?php ActiveForm::end(); ?>
+            <?php ActiveForm::end(); ?>
 
+
+            <div style="width:100%;height:20px;display: block;clear: both;"></div>
+        </div>
     </div>
 
 </div>
+<div style="width:100%;height:1px;display: block;clear: both;"></div>
+<?php
+$this->registerCss('
+.section { text-align:left; }
+.section .content { text-align: left; }
+');
+
+
+$this->registerJs('
+	$("#fullpage").fullpage({
+            autoScrolling: false,
+            animateAnchor:false, //need
+            scrollOverflow: true,
+            scrollingSpeed: 1000, 
+            
+            paddingTop: "50px", 
+            paddingBottom: "0",
+            
+            verticalCentered: true,
+            resize: false, 
+            responsive: 900
+        });
+');
+
+
+?>

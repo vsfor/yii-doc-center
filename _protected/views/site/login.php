@@ -7,52 +7,79 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 $this->title = Yii::t('app', 'Login');
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="site-login">
+    <div class="section" id="section0">
+        <div class="content">
+            <h2><?= Html::encode($this->title) ?></h2>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+            <p><?= Yii::t('app', 'Please fill out the following fields to login:') ?></p>
 
-    <div class="col-md-5 well bs-component">
+            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
-        <p><?= Yii::t('app', 'Please fill out the following fields to login:') ?></p>
+            <?php //-- use email or username field depending on model scenario --// ?>
+            <?php if ($model->scenario === 'lwe'): ?>
 
-        <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+                <?= $form->field($model, 'email')->input('email',
+                    ['placeholder' => Yii::t('app', 'Enter your e-mail'), 'autofocus' => true]) ?>
 
-        <?php //-- use email or username field depending on model scenario --// ?>
-        <?php if ($model->scenario === 'lwe'): ?>
+            <?php else: ?>
 
-            <?= $form->field($model, 'email')->input('email', 
-                ['placeholder' => Yii::t('app', 'Enter your e-mail'), 'autofocus' => true]) ?>
+                <?= $form->field($model, 'username')->textInput(
+                    ['placeholder' => Yii::t('app', 'Enter your username'), 'autofocus' => true]) ?>
 
-        <?php else: ?>
+            <?php endif ?>
 
-            <?= $form->field($model, 'username')->textInput(
-                ['placeholder' => Yii::t('app', 'Enter your username'), 'autofocus' => true]) ?>
+            <?= $form->field($model, 'password')->passwordInput(['placeholder' => Yii::t('app', 'Enter your password')]) ?>
 
-        <?php endif ?>
+            <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
-        <?= $form->field($model, 'password')->passwordInput(['placeholder' => Yii::t('app', 'Enter your password')]) ?>
+            <div style="color:#999;margin:1em 0">
+                <?= Yii::t('app', 'If you forgot your password you can') ?>
+                <?= Html::a(Yii::t('app', 'reset it'), ['site/request-password-reset']) ?>.
+                <?php if (isset($needActivate) && $needActivate) : ?>
+                    <p>
+                        <?= Yii::t('app', 'If your did not got activate email.') ?>
+                        <?= Html::a(Yii::t('app', 'resend activate email'), ['site/request-activate']) ?>.
+                    </p>
+                <?php endif; ?>
+            </div>
 
-        <?= $form->field($model, 'rememberMe')->checkbox() ?>
+            <div class="form-group">
+                <?= Html::submitButton(Yii::t('app', 'Login'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+            </div>
 
-        <div style="color:#999;margin:1em 0">
-            <?= Yii::t('app', 'If you forgot your password you can') ?>
-            <?= Html::a(Yii::t('app', 'reset it'), ['site/request-password-reset']) ?>.
-            <?php if (isset($needActivate) && $needActivate) : ?>
-                <p>
-                    <?= Yii::t('app', 'If your did not got activate email.') ?>
-                    <?= Html::a(Yii::t('app', 'resend activate email'), ['site/request-activate']) ?>.
-                </p>
-            <?php endif; ?>
+            <?php ActiveForm::end(); ?>
+
+            <div style="width:100%;height:20px;display: block;clear: both;"></div>
         </div>
-
-        <div class="form-group">
-            <?= Html::submitButton(Yii::t('app', 'Login'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-        </div>
-
-        <?php ActiveForm::end(); ?>
-
     </div>
-  
+
 </div>
+    <div style="width:100%;height:1px;display: block;clear: both;"></div>
+<?php
+$this->registerCss('
+.section { text-align:left; }
+.section .content { text-align: left; }
+');
+
+
+$this->registerJs('
+	$("#fullpage").fullpage({
+            autoScrolling: false,
+            animateAnchor:false, //need
+            scrollOverflow: true,
+            scrollingSpeed: 1000, 
+            
+            paddingTop: "50px", 
+            paddingBottom: "0",
+            
+            verticalCentered: true,
+            resize: false, 
+            responsive: 900
+        });
+');
+
+
+?>

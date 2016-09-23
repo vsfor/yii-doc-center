@@ -19,6 +19,7 @@ class ArticleController extends ControllerBase
      */
     public function actionIndex()
     {
+        $this->layout = 'fullPage.php';
         /**
          * How many articles we want to display per page.
          * @var integer
@@ -48,6 +49,7 @@ class ArticleController extends ControllerBase
      */
     public function actionView($id)
     {
+        $this->layout = 'fullPage.php';
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);

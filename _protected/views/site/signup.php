@@ -8,17 +8,14 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 $this->title = Yii::t('app', 'Signup');
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="site-signup">
+    <div class="section" id="section0">
+        <div class="content">
+            <p><?= '请填写注册信息:' ?></p>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <div class="col-md-10 well bs-component">
-
-        <p><?= Yii::t('app', 'Please fill out the following fields to signup:') ?></p>
-
-        <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
+            <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
             <?= $form->field($model, 'username')->textInput(
                 ['placeholder' => Yii::t('app', 'Create your username'), 'autofocus' => true]) ?>
@@ -31,10 +28,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'verifyCode')->widget(\yii\captcha\Captcha::className(), [
                 'template' =>
                     '<div class="row">
-                            <div class="col-md-6 pull-left">{input}</div>
-                            <div class="col-md-4 pull-left">{image}</div>
-                        </div>',
-                'options' => ['placeholder' => Yii::t('app', 'Enter verification code'),'class' => 'form-control'],
+                        <div class="col-md-6 pull-left">{input}</div>
+                        <div class="col-md-4 pull-left">{image}</div>
+                    </div>',
+                'options' => ['placeholder' => '请输入验证码','class' => 'form-control'],
             ])
             ?>
 
@@ -43,13 +40,43 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
             </div>
 
-        <?php ActiveForm::end(); ?>
+            <?php ActiveForm::end(); ?>
 
-        <?php if ($model->scenario === 'rna'): ?>
-            <div style="color:#666;margin:1em 0">
-                <i>*<?= Yii::t('app', 'We will send you an email with account activation link.') ?></i>
-            </div>
-        <?php endif ?>
+            <?php if ($model->scenario === 'rna'): ?>
+                <div style="color:#666;margin:1em 0">
+                    <i>*<?= Yii::t('app', 'We will send you an email with account activation link.') ?></i>
+                </div>
+            <?php endif ?>
 
+
+            <div style="width:100%;height:20px;display: block;clear: both;"></div>
+        </div>
     </div>
+
 </div>
+    <div style="width:100%;height:1px;display: block;clear: both;"></div>
+<?php
+$this->registerCss('
+.section { text-align:left; }
+.section .content { text-align: left; }
+');
+
+
+$this->registerJs('
+	$("#fullpage").fullpage({
+            autoScrolling: false,
+            animateAnchor:false, //need
+            scrollOverflow: true,
+            scrollingSpeed: 1000, 
+            
+            paddingTop: "50px", 
+            paddingBottom: "0",
+            
+            verticalCentered: true,
+            resize: false, 
+            responsive: 900
+        });
+');
+
+
+?>
