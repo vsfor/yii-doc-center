@@ -24,6 +24,8 @@ class ProjectController extends ControllerBase
      */
     public function actionIndex()
     {
+        $this->layout = 'fullPage.php';
+
         $searchModel = new ProjectSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -63,6 +65,8 @@ class ProjectController extends ControllerBase
      */
     public function actionCreate()
     {
+        $this->layout = 'fullPage.php';
+
         $model = new Project();
         $model->user_id = \Yii::$app->getUser()->getId();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

@@ -67,8 +67,6 @@ $this->registerCss('
 .section { text-align:left; }
 .section .content { text-align: left; }
 ');
-
-
 $this->registerJs('
 	$("#fullpage").fullpage({
             autoScrolling: false,
@@ -84,6 +82,4 @@ $this->registerJs('
             responsive: 900
         });
 ');
-
-
 ?>

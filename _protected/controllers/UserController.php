@@ -197,6 +197,7 @@ class UserController extends ControllerBase
      */
     public function actionProfile()
     {
+        $this->layout = 'fullPage.php';
         $id = \Yii::$app->getUser()->getId();
         return $this->render('profile', ['model' => $this->findModel($id)]);
     }
@@ -209,6 +210,7 @@ class UserController extends ControllerBase
      */
     public function actionUpdateProfile()
     {
+        $this->layout = 'fullPage.php';
         $id = \Yii::$app->getUser()->getId();
         // load user data
         $user = $this->findModel($id);

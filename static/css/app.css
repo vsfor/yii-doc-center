@@ -76,7 +76,7 @@
 }
 
 .section .content {
-    background-color: rgba(255,255,255,0.5);
+    background-color: rgba(255,255,255,0.6);
     padding: 20px;
 }
 #fp-nav { bottom: 5%; top: auto; background-color: rgba(255,255,255,0.4); border-radius: 6px; }
