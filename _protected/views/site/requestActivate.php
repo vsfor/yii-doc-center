@@ -11,7 +11,7 @@ $this->title = Yii::t('app', 'Request Activate');
 ?>
 <div class="site-request-activate">
     <div class="section" id="section0">
-        <div class="content">
+        <div class="content" style="max-width: 500px;">
             <h2><?= Html::encode($this->title) ?></h2>
 
             <p><?= Yii::t('app', 'A link to activate will be sent to your email.') ?></p>

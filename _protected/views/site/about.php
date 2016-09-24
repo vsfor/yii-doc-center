@@ -8,7 +8,7 @@ $this->title = Yii::t('app', 'About');
 ?>
 <div class="site-about">
     <div class="section" id="section0">
-        <div class="content">
+        <div class="content" style="margin-top:30px;">
             <h3><?php echo Html::encode($this->title) ?></h3>
 
             <p>基于 Yii2 Basic 加强版开发的一款简易项目文档管理工具</p>

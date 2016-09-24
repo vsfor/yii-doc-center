@@ -12,10 +12,7 @@ $this->title = Yii::t('app', 'Contact');
 ?>
 <div class="site-contact">
     <div class="section" id="section0">
-        <div class="content">
-
-            <h3><?= Html::encode($this->title) ?></h3>
-
+        <div class="content" style="max-width: 600px;margin-top: 20px;">
             <p>
                 <?= Yii::t('app', 'If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.'); ?>
             </p>

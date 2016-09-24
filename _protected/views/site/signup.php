@@ -12,7 +12,7 @@ $this->title = Yii::t('app', 'Signup');
 ?>
 <div class="site-signup">
     <div class="section" id="section0">
-        <div class="content">
+        <div class="content" style="max-width: 560px;">
             <p><?= '请填写注册信息:' ?></p>
 
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>

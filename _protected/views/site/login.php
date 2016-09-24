@@ -11,8 +11,7 @@ $this->title = Yii::t('app', 'Login');
 ?>
 <div class="site-login">
     <div class="section" id="section0">
-        <div class="content">
-            <h2><?= Html::encode($this->title) ?></h2>
+        <div class="content" style="max-width: 360px;">
 
             <p><?= Yii::t('app', 'Please fill out the following fields to login:') ?></p>
 

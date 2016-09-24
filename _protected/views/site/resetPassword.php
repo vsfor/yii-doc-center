@@ -11,7 +11,7 @@ $this->title = Yii::t('app', 'Reset password');
 ?>
 <div class="site-reset-password">
     <div class="section" id="section0">
-        <div class="content">
+        <div class="content" style="max-width: 500px;">
             <h2><?= Html::encode($this->title) ?></h2>
 
             <p><?= Yii::t('app', 'Please choose your new password:') ?></p>
