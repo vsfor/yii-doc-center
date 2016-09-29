@@ -13,7 +13,10 @@ $this->title = Yii::t('app', 'Signup');
 <div class="site-signup">
     <div class="section" id="section0">
         <div class="content" style="max-width: 560px;">
-            <p><?= '请填写注册信息:' ?></p>
+            <p>
+                <?= '请填写注册信息: '; ?>
+                <?= ' (<span style="color:#777;">已经有账号了?</span> '.Html::a('去登录&gt;', ['login'],['class' => 'text text-success']).')'; ?>
+            </p>
 
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 

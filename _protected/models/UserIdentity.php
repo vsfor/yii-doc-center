@@ -46,8 +46,11 @@ class UserIdentity extends ActiveRecord implements IdentityInterface
      * @param  int|string $id The user id.
      * @return IdentityInterface|static
      */
-    public static function findIdentity($id)
+    public static function findIdentity($id, $all=false)
     {
+        if ($all) {
+            return static::findOne(['id' => $id]);
+        }
         return static::findOne(['id' => $id, 'status' => User::STATUS_ACTIVE]);
     }
 

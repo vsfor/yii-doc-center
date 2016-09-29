@@ -44,6 +44,8 @@ class HelloController extends Controller
     public function actionTc()
     {
         $t = \Yii::$app->security->generateRandomString();
+        $password = 'admin';
+        $t = Yii::$app->security->generatePasswordHash($password);
         Jeen::echoln($t);
     }
 

@@ -13,7 +13,8 @@ $this->title = Yii::t('app', 'Login');
     <div class="section" id="section0">
         <div class="content" style="max-width: 360px;">
 
-            <p><?= Yii::t('app', 'Please fill out the following fields to login:') ?></p>
+            <p><?php echo Yii::t('app', 'Please fill out the following fields to login:'); ?></p>
+            <p><?php echo Html::a('<i class="fa fa-weixin">&nbsp;使用微信登录</i>', (new \app\components\OauthLib())->wxCodeUrl()); ?></p>
 
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
@@ -43,11 +44,12 @@ $this->title = Yii::t('app', 'Login');
                         <?= Html::a(Yii::t('app', 'resend activate email'), ['site/request-activate']) ?>.
                     </p>
                 <?php endif; ?>
+                <p><?= '还没有账号? '.Html::a('去注册&gt;', ['signup'],['class' => 'text text-success']) ?></p>
             </div>
 
             <div class="form-group">
                 <?= Html::submitButton(Yii::t('app', 'Login'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-            </div>
+                 </div>
 
             <?php ActiveForm::end(); ?>
 
