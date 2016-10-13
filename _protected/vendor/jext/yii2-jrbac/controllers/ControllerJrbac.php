@@ -11,5 +11,6 @@ use yii\web\Controller;
  */
 class ControllerJrbac extends ControllerBase
 {
-
+    public $layout = 'jrbac';
+    
 }

@@ -25,9 +25,40 @@
         ],
         //...
 
-- make sure init file write permission allowed
+- to use jrbac menu component
 
-        chmod 0777 /path/to/your/project/vendor/jext/yii2-jrbac/controllers/init.lock   
+```
+//example code
+$menuItems = [
+    //... your own menu items set
+];
+$jrbacMenu = \jext\jrbac\vendor\JMenu::getInstance()->getMenu();
+
+//in adminLte theme template
+echo dmstr\widgets\Menu::widget(
+[
+    'options' => ['class' => 'sidebar-menu'],
+    'items' => array_merge($menuItems, $jrbacMenu),
+]
+
+//other default views
+
+    NavBar::begin([
+        'brandLabel' => Yii::t('app', Yii::$app->name),
+        'brandUrl' => Yii::$app->homeUrl,
+        'options' => [
+            'class' => 'navbar-default',// navbar-fixed-top
+        ],
+    ]);
+
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav navbar-right'],
+        'items' => array_merge($menuItems, $jrbacMenu),
+    ]);
+
+    NavBar::end();
+   
+```   
 
 
 #

@@ -12,10 +12,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?php echo \yii\helpers\Html::a('添加资源', ['create'], ['class' => 'btn btn-success']) ?>
         <?php echo \yii\helpers\Html::a('批量删除', ['delete'], ['class' => 'btn btn-success','id'=>'batchDelete']) ?>
-        <?php echo \yii\helpers\Html::a('初始化', ['delete'], ['class' => 'btn btn-danger','id'=>'initBtn']) ?>
+        <?php echo \yii\helpers\Html::a('初始化', ['init'], ['class' => 'btn btn-danger','id'=>'initBtn']) ?>
         <span id="lastInitTime">
             <?php
-            if($lastTime) {
+            if(isset($lastTime) && $lastTime) {
                 echo '上次初始化时间:'.date("Y-m-d H:i", $lastTime);
             }
             ?>

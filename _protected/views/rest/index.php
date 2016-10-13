@@ -200,7 +200,10 @@ $this->registerJs('
         var reqData = {};
         reqData.requestType = $("#requestType").val();
         reqData.paramsType = $("#paramsType").val();
-        reqData.requestUrl = $("#requestUrl").val();
+        reqData.requestUrl = $.trim($("#requestUrl").val());
+        if (reqData.requestUrl == "") {
+            return false;
+        }
         if ($("#addHeaderCheck").attr("checked") == "checked") {
             reqData.diyHeader = "yes";   
             reqData.headers = [];
@@ -229,6 +232,17 @@ $this->registerJs('
             reqData.diyParam = "no";
         }
         console.log(reqData);
+        console.log("start");
+        $.ajax({
+            url: "'.\yii\helpers\Url::to(['sendrest']).'",
+            type: "POST",
+            data: reqData,
+            dataType: "json",
+            success: function(r) {
+                console.log(r);
+            }
+        });
+        console.log("done");
     });
 ');
 ?>

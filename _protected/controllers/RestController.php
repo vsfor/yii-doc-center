@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 
+use yii\helpers\Json;
 use yii\web\Controller;
 use Yii;
 
@@ -33,9 +34,13 @@ class RestController extends Controller
             'msg' => '请求失败'
         ];
         if (Yii::$app->getRequest()->getIsAjax() && Yii::$app->getRequest()->getIsPost()) {
-            
+            if (Yii::$app->getRequest()->validateCsrfToken()) {
+                $ret = $_POST;
+            } else {
+                $ret['code'] = 500;
+            }
         }
-        return json_encode($ret);
+        return Json::encode($ret);
     }
  
 

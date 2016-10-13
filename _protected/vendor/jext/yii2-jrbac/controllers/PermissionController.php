@@ -4,7 +4,6 @@ namespace jext\jrbac\controllers;
 
 use jext\jrbac\vendor\JAction;
 use jext\jrbac\vendor\PermissionForm;
-use common\core\Jeen;
 use yii\base\Module;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
@@ -23,9 +22,12 @@ class PermissionController extends ControllerJrbac
         $items = $auth->getPermissions();
         $dataProvider = new ArrayDataProvider();
         $dataProvider->setModels($items);
-        if (file_exists(__DIR__.'/init.lock')) {
-            $lastTime = file_get_contents(__DIR__.'/init.lock');
+        $lockFile = \Yii::getAlias('@runtime/jrbac-permission-init.lock');
+        if (file_exists($lockFile)) {
+            chmod($lockFile, 0777);
+            $lastTime = file_get_contents($lockFile);
         } else {
+            touch($lockFile);
             $lastTime = 0;
         }
         return $this->render('index',[
@@ -126,7 +128,6 @@ class PermissionController extends ControllerJrbac
                     $parentArray = explode('|', $parentNames);
                     //首先将现有多余的从属关系解除
                     $existArray = $auth->getChildren($item->name);
-                    Jeen::echoln($existArray);
                     foreach ($existArray as $existItem) {
                         if (!in_array($existItem->name, $parentArray)) {
                             $auth->removeChild($item, $existItem);
@@ -248,7 +249,7 @@ class PermissionController extends ControllerJrbac
                 }
             }
 
-            file_put_contents(__DIR__.'/init.lock', time());
+            file_put_contents(\Yii::getAlias('@runtime/jrbac-permission-init.lock'), time());
             exit('上次初始化时间:'.date("Y-m-d H:i"));
         }
         exit("error");

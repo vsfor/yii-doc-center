@@ -7,6 +7,7 @@ use app\models\SignupForm;
 use app\components\OauthLib;
 use app\models\User;
 use app\models\UserIdentity;
+use app\rbac\helpers\RbacHelper;
 use yii\helpers\Json;
 use yii\web\Controller;
 use Yii;
@@ -82,23 +83,53 @@ class OauthController extends Controller
             } else { //尝试登录
                 $rows = $lib->wxGetRows($wxInfo['openid'], $wxInfo['unionid']);
                 if (!$rows) {
-                    if (!$lib->wxGetEmptyRow($wxInfo['openid'], $wxInfo['unionid'])) {
+                    $wxUserInfo = $lib->wxUserInfo($wxInfo['access_token'], $wxInfo['openid']);
+                    if (!$wxUserInfo) {
+                        Yii::$app->getSession()->setFlash('error','关联详情获取失败,请重试或手动注册登录后完成关联.');
+                        return $this->redirect(['/site/signup']);
+                    }
+                    $user = $lib->autoUser($wxInfo['unionid']);
+                    if (!$user) {
+                        $user = new User(['scenario' => 'create']);
+                        $user->auth_key = md5('wx'.$wxInfo['unionid']);
+                        $user->username = $wxUserInfo['nickname'].'_wx'.md5($wxInfo['unionid']);
+                        $user->email = 'wx_'.$wxInfo['unionid'].'@jeen.wang';
+                        $user->setPassword($user->email);
+                        $user->project_limit = User::DEFAULT_PROJECT_LIMIT;
+                        $user->status = User::STATUS_ACTIVE;
+                        if (!$user->save()) {
+                            Yii::warning('wx oauth user create save error:'.Json::encode($user->getErrors()),'oauthWx');
+                            Yii::$app->getSession()->setFlash('error','关联注册失败,请手动注册或登录后完成关联.');
+                            return $this->redirect(['/site/signup']);
+                        }
+                        if (!RbacHelper::assignRole($user->id)) {
+                            Yii::warning('wx oauth user assignRole error:'.Json::encode($user->getErrors()),'oauthWx');
+                            Yii::$app->getSession()->setFlash('error','角色关联异常,请联系管理员反馈相关问题.');
+                            return $this->redirect(['/site/contact']);
+                        }
+                    } 
+                    $emptyRow = $lib->wxGetEmptyRow($wxInfo['openid'], $wxInfo['unionid']);
+                    if (!$emptyRow) {
                         $row = new OauthWx();
-                        $row->user_id = 0;
+                        $row->user_id = $user->id;
                         $row->access_token = $wxInfo['access_token'];
                         $row->expire_time = time() + $wxInfo['expires_in'];
                         $row->refresh_token = $wxInfo['refresh_token'];
                         $row->openid = $wxInfo['openid'];
                         $row->unionid = $wxInfo['unionid'];
                         $row->info_time = time();
-                        $row->info_data = Json::encode($lib->wxUserInfo($wxInfo['access_token'], $wxInfo['openid']));
+                        $row->info_data = Json::encode($wxUserInfo);
                         $row->status = 1;
                         if (!$row->save()) {
                             Yii::warning('wx oauth save error'.Json::encode($row->getErrors()),'oauthWx');
+                            Yii::$app->getSession()->setFlash('error','账号关联异常,请联系管理员反馈相关问题.');
+                            return $this->redirect(['/site/contact']);
                         }
+                    } else {
+                        $emptyRow->user_id = $user->id;
+                        $emptyRow->save();
                     }
-                    Yii::$app->getSession()->setFlash('error','尚未检测到关联账号,请登录或注册后完成关联.');
-                    return $this->redirect(['/site/login']);
+                    Yii::$app->getUser()->login($user, 604800);
                 } elseif (count($rows) == 1) {
                     $userIdentity = UserIdentity::findIdentity($rows[0]['user_id']);
                     if ($userIdentity) {

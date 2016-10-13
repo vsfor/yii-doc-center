@@ -126,3 +126,7 @@
 .navbar-default .navbar-nav > .open > a:focus {
     color: #a90070;
 }
+
+
+.sidebar-menu .fa-angle-left:before { content: "\f105"; }
+.sidebar-menu .active .fa-angle-left:before { content: "\f107"; }

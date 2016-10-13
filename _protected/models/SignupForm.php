@@ -109,7 +109,7 @@ class SignupForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->status = $this->status;
-        $user->project_limit = 3; //todo to change this default value if needed
+        $user->project_limit = User::DEFAULT_PROJECT_LIMIT;
 
         // if scenario is "rna" ( Registration Needs Activation ) we will generate account activation token
         if ($this->scenario === 'rna') {

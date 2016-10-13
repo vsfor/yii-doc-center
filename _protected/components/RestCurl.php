@@ -87,4 +87,9 @@ class RestCurl
         $this->paramType = strtolower($type);
     }
 
+    public function handleRest($info)
+    {
+        
+    }
+    
 }

@@ -20,6 +20,8 @@ class User extends UserIdentity
     const STATUS_INACTIVE = 5;
     const STATUS_DELETED  = 9;
 
+    const DEFAULT_PROJECT_LIMIT = 3;  //todo to change this default value if needed
+    
     /**
      * List of names for each status.
      * @var array

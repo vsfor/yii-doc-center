@@ -2,6 +2,7 @@
 namespace app\components;
 
 use app\models\OauthWx;
+use app\models\User;
 use Yii;
 use yii\base\Component;
 
@@ -93,6 +94,11 @@ class OauthLib extends Component
         return [];
     }
 
+    /**
+     * @param string $openId
+     * @param string $unionId
+     * @return OauthWx
+     */
     public function wxGetEmptyRow($openId='',$unionId='')
     {
         if ($openId || $unionId) {
@@ -119,6 +125,19 @@ class OauthLib extends Component
     {
         return OauthWx::find()->where('`user_id`=:user_id and `status`='.OauthWx::STATUS_NORMAL, [':user_id'=>$userId])->asArray()->all();
     }
-    
+
+    /**
+     * @param $uniqueId
+     * @param string $type
+     * @return User
+     */
+    public function autoUser($uniqueId, $type='wx')
+    {
+        return User::find()->where('`auth_key`=:auth_key or `username` like :username or `email`=:email',[
+            ':auth_key' => md5($type.$uniqueId),
+            ':username' => "%_$type".md5($uniqueId),
+            ':email' => $type.'_'.$uniqueId.'@jeen.wang'
+        ])->one();
+    }
     
 }

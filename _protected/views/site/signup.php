@@ -17,6 +17,7 @@ $this->title = Yii::t('app', 'Signup');
                 <?= '请填写注册信息: '; ?>
                 <?= ' (<span style="color:#777;">已经有账号了?</span> '.Html::a('去登录&gt;', ['login'],['class' => 'text text-success']).')'; ?>
             </p>
+            <p><?php echo Html::a('<i class="fa fa-weixin">&nbsp;使用微信便捷注册(免激活,方便后续登录)</i>', (new \app\components\OauthLib())->wxCodeUrl()); ?></p>
 
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
