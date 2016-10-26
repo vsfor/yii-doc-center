@@ -7,7 +7,7 @@ $this->title = Yii::t('app', Yii::$app->name);
 <div class="site-index">
     <div class="section" id="section0">
         <div class="content">
-            <h3 class="lead text-bold">API项目文档在线管理工具</h3>
+            <h3 class="lead text-bold">API项目文档在线管理及模拟测试工具</h3>
             <p class="lead">简单实用! 欢迎体验!</p>
             <p class="lead">Based on Yii2 Framework & Markdown </p>
             <p>
@@ -15,6 +15,7 @@ $this->title = Yii::t('app', Yii::$app->name);
                     <a class="btn btn-success" href="<?php echo \yii\helpers\Url::to(['/site/signup'])?>">注册并开始使用</a>
                 <?php endif; ?>
                 <a class="btn btn-primary" target="_blank" href="https://github.com/JeanWolf/yii-doc-center">View Source</a>
+                <a class="btn btn-warning" href="<?php echo \yii\helpers\Url::to(['/rest/index'])?>">API在线测试</a>
             </p>
         </div>
     </div>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>礼品兑换</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+    <link rel="stylesheet" href="./weui.min.css" />
+    <link rel="stylesheet" href="./example.css" />
+</head>
+<body>
+<div class="container" id="container">
+    <div class="panel">
+        <div class="hd">
+            <img src="./gift.jpg" alt="your gift" style="width:100%;height:auto;" />
+        </div>
+        <div class="bd">
+            <div class="weui_cells_title">
+                <p>兑换成功</p>
+                <p>请填写收货地址信息</p>
+            </div>
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label">姓名</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input" type="text" placeholder=""/>
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label">电话</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input" type="text" placeholder=""/>
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label">地址</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input" type="text" placeholder=""/>
+                    </div>
+                </div>
+                <div class="weui_cell weui_vcode">
+                    <div class="weui_cell_hd"><label class="weui_label">验证码</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input" type="number" placeholder=""/>
+                    </div>
+                    <div class="weui_cell_ft" style="font-size: inherit;">
+                        <i class="weui_icon_info_circle" id="ckCode"> 4321</i>
+                    </div>
+                </div>
+            </div>
+            <div class="weui_btn_area">
+                <a class="weui_btn weui_btn_primary" href="./success.html" id="showTooltips">提交</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

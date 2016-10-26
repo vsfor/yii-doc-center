@@ -8,8 +8,11 @@ use yii\helpers\StringHelper;
 
 class RestCurl
 {
+    /** @var Client $client */
     public $client;
+    /** @var Request $request */
     public $request;
+    /** @var Response $response */
     public $response;
 
     public $requestUrl;
@@ -26,7 +29,7 @@ class RestCurl
     public function __construct($url='')
     {
         $this->client = new Client();
-        $this->request = new Request();
+        $this->request = $this->client->createRequest();
         $this->requestUrl = $url;
     }
     
@@ -89,7 +92,23 @@ class RestCurl
 
     public function handleRest($info)
     {
-        
+        if (!isset($info['requestType'],$info['requestUrl'])) {
+            return false;
+        }
+
+        $this->setRequestUrl($info['requestUrl']);
+
+        $this->handleMethodType($info['requestType'], $info['paramsType']);
+
+        if (isset($info['diyParam']) && $info['diyParam'] == 'yes') {
+            $this->handleParams($info['params']);
+        }
+
+        if (isset($info['diyHeader']) && $info['diyHeader'] == 'yes') {
+            $this->handleHeaders($info['headers']);
+        }
+
+        return $this->call();
     }
     
 }

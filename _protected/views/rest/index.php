@@ -7,7 +7,7 @@ $this->title = Yii::t('app', Yii::$app->name);
 ?>
 <div class="rest-index" style="margin-top:50px;">
     <div class="content">
-
+        <h1 style="display: none;">REST API 在线模拟测试,GET POST在线模拟请求,Header设置,参数设置.接口在线测试工具</h1>
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title">
@@ -141,6 +141,8 @@ $this->title = Yii::t('app', Yii::$app->name);
                         ]); ?>
                     </div>
                 </div>
+                <div class="col-xs-12 itemsBlock" id="requestResult">
+                </div>
             </div>
             <div class="box-footer">
                 <h4 class="explainer">接口测试简介 | Introduction</h4>
@@ -240,6 +242,10 @@ $this->registerJs('
             dataType: "json",
             success: function(r) {
                 console.log(r);
+                var trHtml = "<div class=\"callout callout-warning\"><h4>请求结果:</h4><p>";
+                trHtml += r.data;
+                trHtml += "</p></div>";
+                $("#requestResult").html(trHtml);
             }
         });
         console.log("done");

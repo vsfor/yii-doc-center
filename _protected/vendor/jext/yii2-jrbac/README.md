@@ -28,6 +28,10 @@
 - to use jrbac menu component
 
 ```
+//setup the database table
+php yii migrate/up --migrationPath=@vendor/jext/yii2-jrbac/migrations
+
+
 //example code
 $menuItems = [
     //... your own menu items set

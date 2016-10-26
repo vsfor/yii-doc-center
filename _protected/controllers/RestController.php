@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 
+use app\components\RestCurl;
 use yii\helpers\Json;
 use yii\web\Controller;
 use Yii;
@@ -31,16 +32,21 @@ class RestController extends Controller
             'code' => 400,
             'header' => '',
             'data' => '',
-            'msg' => '请求失败'
+            'msg' => '处理失败'
         ];
         if (Yii::$app->getRequest()->getIsAjax() && Yii::$app->getRequest()->getIsPost()) {
             if (Yii::$app->getRequest()->validateCsrfToken()) {
-                $ret = $_POST;
+                $rest = (new RestCurl())->handleRest($_POST);
+                $ret['code'] = $rest->response->statusCode;
+                $ret['header'] = $rest->request->headers->toArray();
+                $ret['data'] = $rest->response->content;
+                $ret['msg'] = $rest->response->isOk ? '成功' : '失败';
             } else {
                 $ret['code'] = 500;
+                $ret['msg'] = '处理异常';
             }
         }
-        return Json::encode($ret);
+        return Json::encode($ret,JSON_PRETTY_PRINT);
     }
  
 

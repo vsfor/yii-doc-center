@@ -57,7 +57,7 @@ JrbacAsset::register($this);
         <?php echo Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
-        <?php echo \app\widgets\Alert::widget() ?>
+        <?php echo \yii\bootstrap\Alert::widget() ?>
         <?php echo $content ?>
     </div>
 </div>
