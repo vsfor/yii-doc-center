@@ -24,7 +24,9 @@ $this->title = Yii::t('app', 'Signup');
             <?= $form->field($model, 'username')->textInput(
                 ['placeholder' => Yii::t('app', 'Create your username'), 'autofocus' => true]) ?>
 
-            <?= $form->field($model, 'email')->input('email', ['placeholder' => Yii::t('app', 'Enter your e-mail')]) ?>
+            <?= $form->field($model, 'email')
+                ->input('email', ['placeholder' => Yii::t('app', 'Enter your e-mail')])
+                ->hint('注册后需要通过邮件激活方可正常使用,请填写有效邮箱.'); ?>
 
             <?= $form->field($model, 'password')->widget(PasswordInput::classname(),
                 ['options' => ['placeholder' => Yii::t('app', 'Create your password')]]) ?>
