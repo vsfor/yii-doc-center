@@ -111,10 +111,18 @@ class LoginForm extends Model
     private function findUser()
     {
         if (!($this->scenario === 'lwe')) {
-            return User::findByUsername($this->username);
+            $_user = User::findByUsername($this->username);
+            if (!$_user) {
+                $_user = User::findByEmail($this->username);
+            }
+        } else {
+            $_user = User::findByEmail($this->email);
+            if (!$_user) {
+                $_user = User::findByUsername($this->email);
+            }
         }
 
-        return $this->_user = User::findByEmail($this->email);   
+        return $_user;
     }
 
     /**
