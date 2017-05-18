@@ -29,7 +29,22 @@
                 <a href="javascript:;"><i class="fa fa-circle text-success"></i> <?php echo Yii::t('app','Online');?></a>
             </div>
         </div>
+            <?php if (isset($_GET['project_id']) && $_GET['project_id']): ?>
 
+        <!-- search form -->
+        <form action="<?php echo \yii\helpers\Url::to(['/page/search']); ?>" method="get" class="sidebar-form">
+            <div class="input-group">
+                <input type="hidden" name="project_id" value="<?= $_GET['project_id'];?>">
+                <input type="text" name="doc_text" <?= isset($_GET['doc_text']) ? "value=\"{$_GET['doc_text']}\"":'';?> class="form-control" placeholder="Search..."/>
+                <span class="input-group-btn">
+                    <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+        </form>
+        <!-- /.search form -->
+
+            <?php endif; ?>
         <?php
             if (Yii::$app->getAuthManager()->isRoot()) {
                 $extMenu = [

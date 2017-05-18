@@ -7,35 +7,47 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\PageSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Pages');
+$this->title = '文档搜索';
+$this->params['breadcrumbs'][] = [
+    'label' => Yii::t('app', 'Project'),
+    'url' => ['/project/view', 'project_id'=>$_GET['project_id']]
+];
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->params['left-menu'] = $leftMenu;
+
+$dataProvider->setSort(false);
 ?>
 <div class="page-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Page'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+ 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'author_id',
-            'project_id',
-            'catalog_id',
-            'title',
-            // 'description',
-            // 'content:ntext',
-            // 'sort_number',
-            // 'created_at',
-            // 'updated_at',
+            [
+                'header' => '位置',
+                'value' => function($model) {
+                    return \app\components\ProjectLib::getInstance()->getCatPath($model->project_id, $model->catalog_id);
+                }
+            ],
+//            'title',
+            [
+                'header' => '描述',
+                'format' => 'raw',
+                'value' => function($model) {
+                    return Html::a($model->description,['view','project_id'=>$model->project_id,'page_id'=>$model->id]);
+                }
+            ],
+            [
+                'header' => '操作',
+                'format' => 'raw',
+                'value' => function($model) {
+                    return Html::a('查看',['view','project_id'=>$model->project_id,'page_id'=>$model->id]);
+                }
+            ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+//            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>

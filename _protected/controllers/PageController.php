@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\components\ProjectLib;
 use app\models\PageHistory;
+use app\models\PageSearch;
 use app\models\ProjectMember;
 use kartik\mpdf\Pdf;
 use Yii;
@@ -15,6 +16,29 @@ use yii\web\NotFoundHttpException;
  */
 class PageController extends ControllerBase
 {
+    /**
+     * 搜索文档
+     * @param $doc_text
+     * @param $project_id
+     * @return string
+     */
+    public function actionSearch($doc_text, $project_id)
+    {
+        $projectLib = ProjectLib::getInstance();
+        $leftMenu = $projectLib->getMenu($project_id);
+        
+        $searchModel = new PageSearch();
+        $searchModel->content = trim($doc_text);
+        $searchModel->project_id = intval($project_id);
+        $dataProvider = $searchModel->search([]);
+        
+        return $this->render('index',[
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'leftMenu' => $leftMenu,
+        ]);
+    }
+    
     /**
      * 查看项目文档
      * @param int $page_id

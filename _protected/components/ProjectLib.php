@@ -780,4 +780,23 @@ class ProjectLib
         return $list;
     }
 
+
+    public function getCatPath($projectId, $catId)
+    {
+        $path = [];
+        $cats = Catalog::find()->where([
+            'project_id' => $projectId,
+            'status' => Catalog::STATUS_NORMAL
+        ])->select(['id','name','parent_id'])->asArray()->all();
+        $catParent = ArrayHelper::map($cats, 'id', 'parent_id');
+        $catName = ArrayHelper::map($cats, 'id', 'name');
+        while ($catId) {
+            if(isset($catName[$catId])) {
+                array_unshift($path, $catName[$catId]);
+            }
+            $catId = isset($catParent[$catId]) ? intval($catParent[$catId]) : 0;
+        }
+        return implode('-',$path);
+    }
+
 }
