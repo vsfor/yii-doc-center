@@ -1,8 +1,6 @@
 ## help info
-
-** 由于原体验地址，被域名注册局停止解析，临时启用新地址：  http://doc.vsfor.com **
-
-** 在线使用: http://ydc.jeen.wang  - 2017-05-10 暂停使用  **
+ 
+** 在线使用: http://ydc.jeen.wang   **
 
 
 - 现有功能
