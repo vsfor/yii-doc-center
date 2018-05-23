@@ -67,7 +67,7 @@ $this->title = Yii::t('app', Yii::$app->name);
     </div>
     <div class="section" id="section3">
         <div class="content">
-            <h3>满足您的实际需求</h3>
+            <h3>满足你的实际需求</h3>
             <p><br/></p>
             <p>
                 没错, 这就是一款简单实用的项目文档管理工具! 添加项目|管理文档|设置成员权限 ... <br/>
@@ -77,7 +77,7 @@ $this->title = Yii::t('app', Yii::$app->name);
     </div>
     <div class="section" id="section4">
         <div class="content">
-            <h3>期待您的参与</h3>
+            <h3>期待你的参与</h3>
             <p><br/></p>
             <p>
                 是的, 它并不是一个私有的个人工具! <br/>

@@ -32,6 +32,10 @@ AppAssetFullPage::register($this);
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-default',// navbar-fixed-top
+            'data' => [
+                'spy' => 'affix',
+                'offset-top' => 60,
+            ],
         ],
     ]);
 

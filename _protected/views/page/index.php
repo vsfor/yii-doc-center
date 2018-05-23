@@ -31,7 +31,7 @@ $dataProvider->setSort(false);
                     return \app\components\ProjectLib::getInstance()->getCatPath($model->project_id, $model->catalog_id);
                 }
             ],
-//            'title',
+            'title',
             [
                 'header' => '描述',
                 'format' => 'raw',

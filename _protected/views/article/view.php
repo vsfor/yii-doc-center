@@ -72,11 +72,11 @@ $this->title = $model->title;
 <div style="width:100%;height:1px;display: block;clear: both;"></div>
 <?php
 $this->registerCss('
-.section { text-align:left; }
+.section { text-align:left; padding-top:80px; }
 .section .content { text-align: left; }
 ');
 
-
+/*
 $this->registerJs('
 	$("#fullpage").fullpage({
             autoScrolling: false,
@@ -92,6 +92,6 @@ $this->registerJs('
             responsive: 900
         });
 ');
-
+*/
 
 ?>

@@ -212,6 +212,13 @@ class UserController extends ControllerBase
     {
         $this->layout = 'fullPage.php';
         $id = \Yii::$app->getUser()->getId();
+
+        if ($id == 1001) {//demo userId
+            Yii::$app->session->setFlash('error', Yii::t('app', 'Test User Update Not Allow'));
+
+            return $this->redirect(['profile', 'id' => $id]);
+        }
+
         // load user data
         $user = $this->findModel($id);
 

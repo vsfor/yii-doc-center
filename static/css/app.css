@@ -130,3 +130,8 @@
 
 .sidebar-menu .fa-angle-left:before { content: "\f105"; }
 .sidebar-menu .active .fa-angle-left:before { content: "\f107"; }
+
+#header .affix {
+    width: 100%;
+    background-color: #fff;
+}
