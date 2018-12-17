@@ -427,7 +427,7 @@ class ProjectController extends ControllerBase
 
                 while ($tempBookmarks) {
                     $tempBookmark = array_shift($tempBookmarks);
-                    $pdf->getApi()->Bookmark($tempBookmark['txt'], $tempBookmark['level']);
+                    $pdf->getApi()->Bookmark($tempBookmark['txt'], $tempBookmark['level'], 1);
                 }
                 $pdf->getApi()->Bookmark($item['data']['title'], $item['level']);
 
@@ -445,7 +445,7 @@ class ProjectController extends ControllerBase
 
         while ($tempBookmarks) {
             $tempBookmark = array_shift($tempBookmarks);
-            $pdf->getApi()->Bookmark($tempBookmark['txt'], $tempBookmark['level']);
+            $pdf->getApi()->Bookmark($tempBookmark['txt'], $tempBookmark['level'], 1);
         }
 
         $cache = $pdf->getApi()->Output($pdf->filename, $pdf::DEST_BROWSER);
