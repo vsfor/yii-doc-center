@@ -76,20 +76,20 @@ class CaptchaAction extends Action
     /**
      * @var integer the minimum length for randomly generated word. Defaults to 6.
      */
-    public $minLength = 6;
+    public $minLength = 3;
     /**
      * @var integer the maximum length for randomly generated word. Defaults to 7.
      */
-    public $maxLength = 7;
+    public $maxLength = 4;
     /**
      * @var integer the offset between characters. Defaults to -2. You can adjust this property
      * in order to decrease or increase the readability of the captcha.
      */
-    public $offset = -2;
+    public $offset = 4;
     /**
      * @var string the TrueType font file. This can be either a file path or path alias.
      */
-    public $fontFile = '@yii/captcha/SpicyRice.ttf';
+    public $fontFile = '@yii/captcha/ccxkt.ttf';
     /**
      * @var string the fixed verification code. When this property is set,
      * [[getVerifyCode()]] will always return the value of this property.
@@ -215,8 +215,8 @@ class CaptchaAction extends Action
         }
         $length = mt_rand($this->minLength, $this->maxLength);
 
-        $letters = 'bcdfghjklmnpqrstvwxyz';
-        $vowels = 'aeiou';
+        $letters = 'bcdfghjkLmnpqrstvwxyzABCDEFGHJKLMNPQRSTWXY';
+        $vowels = 'aeiuU';
         $code = '';
         for ($i = 0; $i < $length; ++$i) {
             if ($i % 2 && mt_rand(0, 10) > 2 || !($i % 2) && mt_rand(0, 10) > 9) {
