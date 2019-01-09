@@ -37,6 +37,10 @@ $this->title = Yii::t('app', 'Contact');
                 'options' => ['placeholder' => '输入验证码','class' => 'form-control'],
             ])
             ?>
+            <?= $form->field($model, 'diyCheck')
+                ->textInput(['placeholder' => $model->getDiy()])
+                ->label('请输入【'.$model->getDiy().'】 (PS: 过滤垃圾邮件用，普通验证码拦不住 :( ...)');
+            ?>
 
             <div class="form-group">
                 <?= Html::submitButton(Yii::t('app', 'Submit'),

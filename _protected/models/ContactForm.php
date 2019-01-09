@@ -14,6 +14,7 @@ class ContactForm extends Model
     public $subject;
     public $body;
     public $verifyCode;
+    public $diyCheck;
 
     /**
      * Returns the validation rules for attributes.
@@ -26,7 +27,22 @@ class ContactForm extends Model
             [['name', 'email', 'subject', 'body', 'verifyCode'], 'required'],
             ['email', 'email'],
             ['verifyCode', 'captcha'],
+            ['diyCheck', 'checkDiy'],
         ];
+    }
+
+    public function checkDiy()
+    {
+        if (trim($this->diyCheck) == $this->getDiy()) {
+            return true;
+        }
+        $this->addError('diyCheck', '请输入正确的校验信息');
+        return false;
+    }
+
+    public function getDiy()
+    {
+        return '你好';
     }
 
     /**

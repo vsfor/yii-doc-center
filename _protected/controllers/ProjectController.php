@@ -24,7 +24,7 @@ class ProjectController extends ControllerBase
      */
     public function actionIndex()
     {
-        $this->layout = 'fullPage.php';
+        $this->layout = 'oneColumn.php';
 
         $searchModel = new ProjectSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);

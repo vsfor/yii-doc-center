@@ -24,7 +24,7 @@ use Yii;
  */
 class SiteController extends Controller
 {
-    public $layout = 'fullPage.php';
+    public $layout = 'oneColumn.php';
     /**
      * Returns a list of behaviors that this component should behave as.
      *
@@ -87,6 +87,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout = 'fullPage.php';
         return $this->render('index');
     }
 
