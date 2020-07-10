@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 
+use app\controllers\actions\CaptchaAction;
 use app\models\ActivateRequestForm;
 use app\models\User;
 use app\models\LoginForm;
@@ -70,7 +71,7 @@ class SiteController extends Controller
                 'class' => 'yii\web\ErrorAction',
             ],
             'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
+                'class' => CaptchaAction::class,
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];

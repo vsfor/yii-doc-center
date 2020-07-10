@@ -17,18 +17,26 @@ $this->title = Yii::t('app', 'Contact');
                 <?= Yii::t('app', 'If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.'); ?>
             </p>
 
+<?php
+if (isset(\Yii::$app->params['open_contact'])
+    && (\Yii::$app->params['open_contact'] == false)
+) : ?>
+    <?php echo str_repeat('<br>',10);?>
+    <p>临时关闭联系功能，如有需求请加Q: 692343993</p>
+    <?php echo str_repeat('<br>',20);?>
+<?php else: ?>
             <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
 
-            <?= $form->field($model, 'name')->textInput(
+            <?php echo $form->field($model, 'name')->textInput(
                 ['placeholder' => '您的姓名或称呼', 'autofocus' => true]) ?>
 
-            <?= $form->field($model, 'email')->input('email', ['placeholder' => '您的邮箱,方便我们与您联系']) ?>
+            <?php echo $form->field($model, 'email')->input('email', ['placeholder' => '您的邮箱,方便我们与您联系']) ?>
 
-            <?= $form->field($model, 'subject')->textInput(['placeholder' => '邮件主题']) ?>
+            <?php echo $form->field($model, 'subject')->textInput(['placeholder' => '邮件主题']) ?>
 
-            <?= $form->field($model, 'body')->textArea(['rows' => 6]) ?>
+            <?php echo $form->field($model, 'body')->textArea(['rows' => 6]) ?>
 
-            <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
+            <?php echo $form->field($model, 'verifyCode')->widget(Captcha::className(), [
                 'template' =>
                     '<div class="row">
                     <div class="col-md-6 pull-left">{input}</div>
@@ -37,19 +45,15 @@ $this->title = Yii::t('app', 'Contact');
                 'options' => ['placeholder' => '输入验证码','class' => 'form-control'],
             ])
             ?>
-            <?= $form->field($model, 'diyCheck')
-                ->textInput(['placeholder' => $model->getDiy()])
-                ->label('请输入【'.$model->getDiy().'】 (PS: 过滤垃圾邮件用，普通验证码拦不住 :( ...)');
-            ?>
 
             <div class="form-group">
-                <?= Html::submitButton(Yii::t('app', 'Submit'),
+                <?php echo Html::submitButton(Yii::t('app', 'Submit'),
                     ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
             </div>
 
             <?php ActiveForm::end(); ?>
 
-
+<?php endif; ?>
             <div style="width:100%;height:20px;display: block;clear: both;"></div>
         </div>
     </div>

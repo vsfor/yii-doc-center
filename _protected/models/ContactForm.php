@@ -14,7 +14,6 @@ class ContactForm extends Model
     public $subject;
     public $body;
     public $verifyCode;
-    public $diyCheck;
 
     /**
      * Returns the validation rules for attributes.
@@ -27,22 +26,7 @@ class ContactForm extends Model
             [['name', 'email', 'subject', 'body', 'verifyCode'], 'required'],
             ['email', 'email'],
             ['verifyCode', 'captcha'],
-            ['diyCheck', 'checkDiy'],
         ];
-    }
-
-    public function checkDiy()
-    {
-        if (trim($this->diyCheck) == $this->getDiy()) {
-            return true;
-        }
-        $this->addError('diyCheck', '请输入正确的校验信息');
-        return false;
-    }
-
-    public function getDiy()
-    {
-        return '你好';
     }
 
     /**
@@ -69,13 +53,6 @@ class ContactForm extends Model
      */
     public function sendEmail($email)
     {
-//        return Yii::$app->mailer->compose()
-//                                ->setTo($email)
-//                                ->setFrom([$this->email => $this->name])
-//                                ->setSubject($this->subject)
-//                                ->setTextBody($this->body)
-//                                ->send();
-
         return Yii::$app->mailer->compose('contact', ['model' => $this])
             ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
             ->setTo($email)

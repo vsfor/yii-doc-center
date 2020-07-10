@@ -266,7 +266,7 @@ class PageController extends ControllerBase
         $pdf->getApi()->autoLangToFont = true;
         // Add watermark text
         $pdf->getApi()->SetWatermarkText('ydc.jeen.wang',0.02);
-        $pdf->getApi()->showWatermarkText = true;
+        $pdf->getApi()->showWatermarkText = false;
         $pdf->getApi()->watermark_font = 'Sun-ExtA';//支持中文
 
         $pageHeader = [
@@ -329,7 +329,7 @@ class PageController extends ControllerBase
 
         // return the pdf output as per the destination setting
         $cache = $pdf->render();
-        \Yii::$app->getCache()->set($cacheKey, $cache);
+//        \Yii::$app->getCache()->set($cacheKey, $cache);
         return $cache;
     }
 
