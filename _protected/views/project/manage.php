@@ -93,6 +93,17 @@ function getDocListRenderHtml($docList, $level=0, $pU=true, $pD=true, $cU=true, 
             $html .=    '<div class="box-header with-border">';
             $html .=        '<h4 class="box-title">'.$prefix.'<i class="fa fa-folder-open-o"></i> '.$doc['data']['name'].'</h4>';
             $html .=        '<div class="box-tools pull-right">';
+            $html .=    $cU ?   Html::a('<i class="fa fa-file-pdf-o"></i>', [
+                                        '/catalog/getpdf',
+                                        'catalog_id' => $doc['data']['id'],
+                                        'project_id' => $doc['data']['project_id'],
+                                    ], [
+                                        'class' => 'btn btn-box-tool',
+                                        'data' => [
+                                            'toggle' => 'tooltip',
+                                            'original-title' => Yii::t('app', 'DownloadPdf'),
+                                        ],
+                                    ]) : '';
             $html .=    $cU ?   Html::a('<i class="fa fa-edit"></i>', [
                                         '/catalog/update',
                                         'catalog_id' => $doc['data']['id'],

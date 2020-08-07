@@ -351,7 +351,7 @@ class ProjectController extends ControllerBase
         $pdf->getApi()->autoLangToFont = true;
         // Add watermark text
         $pdf->getApi()->SetWatermarkText('ydc.jeen.wang',0.05);
-        $pdf->getApi()->showWatermarkText = true;
+        $pdf->getApi()->showWatermarkText = false;
         $pdf->getApi()->watermark_font = 'Sun-ExtA';//支持中文
 
         $pdf->getApi()->WriteHTML($pdf->getCss(), 1);
