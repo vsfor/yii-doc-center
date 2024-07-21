@@ -2,11 +2,11 @@
     "require": {
         "yidas/yii2-bower-asset": "^2.0",
         "yiisoft/yii2": "2.0.51",
-        "jext/yii2-jrbac": "^1.0",
-        "yiisoft/yii2-swiftmailer": "^2.1",
-        "dmstr/yii2-adminlte-asset": "^2.6",
-        "kartik-v/yii2-password": "^1.5",
-        "kartik-v/yii2-mpdf": "^1.0"
+        "jext/yii2-jrbac": "1.0.1",
+        "yiisoft/yii2-swiftmailer": "2.1.3",
+        "dmstr/yii2-adminlte-asset": "2.6.2",
+        "kartik-v/yii2-password": "1.5.7",
+        "kartik-v/yii2-mpdf": "1.0.6"
     },
     "config": {
         "allow-plugins": {

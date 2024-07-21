@@ -70,7 +70,7 @@ class ProjectLib
             foreach ($pages as $page) {
                 $menu[] = [
                     'label' => $page->title,
-                    'icon' => 'fa fa-file-text-o',
+                    'icon' => 'file-text-o',
                     'url' => ['/page/view', 'page_id'=>$page->id, 'project_id'=>$projectId],
                 ];
             }
@@ -88,7 +88,7 @@ class ProjectLib
             foreach ($cats as $cat) {
                 $menu[] = [
                     'label' => $cat->name,
-                    'icon' => 'fa fa-folder-o',
+                    'icon' => 'folder-o',
                     'url' => 'javascript:;',
                     'items' => $this->getCatSubMenu($projectId, $cat->id),
                 ];
@@ -109,31 +109,31 @@ class ProjectLib
         if ($auth->allow('/page/create', ['project_id' => $projectId])) {
             $menu[] = [
                 'label' => Yii::t('app', 'Create Page'),
-                'icon' => 'fa fa-file-o',
+                'icon' => 'file-o',
                 'url' => ['/page/create','project_id'=>$projectId]
             ];
         }
         if ($auth->allow('/catalog/create', ['project_id' => $projectId])) {
             $menu[] = [
                 'label' => Yii::t('app', 'Create Catalog'),
-                'icon' => 'fa fa-plus-square-o',
+                'icon' => 'plus-square-o',
                 'url' => ['/catalog/create','project_id'=>$projectId]
             ];
         }
         if ($auth->allow('/project/manage', ['project_id'=>$projectId])) {
             $menu[] = [
                 'label' => Yii::t('app', 'Manage Actions'),
-                'icon' => 'fa fa-gear',
+                'icon' => 'gear',
                 'url' => 'javascript:;',
                 'items' => [
                     [
                         'label' => Yii::t('app', 'Manage Project Document'),
-                        'icon' => 'fa fa-folder-open-o',
+                        'icon' => 'folder-open-o',
                         'url' => ['/project/manage','project_id'=>$projectId]
                     ],
                     [
                         'label' => Yii::t('app', 'Manage Project Member'),
-                        'icon' => 'fa fa-users',
+                        'icon' => 'users',
                         'url' => ['/project/member','project_id'=>$projectId]
                     ],
                 ],
@@ -166,7 +166,7 @@ class ProjectLib
         foreach ($pages as $page) {
             $menu[] = [
                 'label' => $page->title,
-                'icon' => 'fa fa-file-text-o',
+                'icon' => 'file-text-o',
                 'url' => ['/page/view', 'page_id'=>$page->id, 'project_id'=>$projectId],
             ];
         }
@@ -183,7 +183,7 @@ class ProjectLib
         foreach ($cats as $cat) {
             $menu[] = [
                 'label' => $cat->name,
-                'icon' => 'fa fa-folder-o',
+                'icon' => 'folder-o',
                 'url' => 'javascript:;',
                 'items' => $this->getCatSubMenu($projectId, $cat->id),
             ];

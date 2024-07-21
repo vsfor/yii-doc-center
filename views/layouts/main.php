@@ -42,17 +42,10 @@ $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed201
         ]);
     ?>
 
-
     <?php
     if (!function_exists('j_view_show_mask')) {
         echo $this->render('mask.php');
     }
-    ?>
-    
-    <?php 
-    $this->registerJs('
-        console.log("欢迎沟通交流\n 通过联系我们发送邮件 \n 或访问我的博客进行留言 \n\n有任何意见或建议都可以反馈给我噢 :)");
-    ');
     ?>
 </div>
 <?php $this->endBody() ?>

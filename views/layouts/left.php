@@ -1,17 +1,15 @@
 <aside class="main-sidebar">
     <section class="sidebar">
         <?php if(Yii::$app->getUser()->getIsGuest()): ?>
-            <??>
             <?= dmstr\widgets\Menu::widget(
                 [
-                    'options' => ['class' => 'sidebar-menu'],
                     'items' =>  isset($this->params['left-menu']) && $this->params['left-menu'] ? $this->params['left-menu'] : [
                         ['label' => Yii::t('app','Menu'), 'options' => ['class' => 'header']],
-                        ['label' => Yii::t('app','Home'), 'icon' => 'fa fa-home', 'url' => ['/site/index']],
-                        ['label' => Yii::t('app','News'), 'icon' => 'fa fa-newspaper-o', 'url' => ['/article/index']],
-                        ['label' => Yii::t('app','About'), 'icon' => 'fa fa-info', 'url' => ['/site/about']],
-                        ['label' => Yii::t('app','Contact'), 'icon' => 'fa fa-bug', 'url' => ['/site/contact']],
-                        ['label' => Yii::t('app','Login'), 'icon' => 'fa fa-user', 'url' => ['/site/login']],
+                        ['label' => Yii::t('app','Home'), 'icon' => 'home', 'url' => ['/site/index']],
+                        ['label' => Yii::t('app','News'), 'icon' => 'newspaper-o', 'url' => ['/article/index']],
+                        ['label' => Yii::t('app','About'), 'icon' => 'info', 'url' => ['/site/about']],
+                        ['label' => Yii::t('app','Contact'), 'icon' => 'bug', 'url' => ['/site/contact']],
+                        ['label' => Yii::t('app','Login'), 'icon' => 'user', 'url' => ['/site/login']],
                     ],
                 ]
             ); ?>
@@ -50,11 +48,11 @@
                 $extMenu = [
                     'label' => 'RBAC',
                     'url' => ['/jrbac/user/index'],
-                    'icon' => 'fa fa-share',
+                    'icon' => 'share',
                     'items' => [
-                        ['label' => 'Permission', 'icon'=>'fa fa-circle-o', 'url' => ['/jrbac/permission/index']],
-                        ['label' => 'Role', 'icon'=>'fa fa-circle-o', 'url' => ['/jrbac/role/index']],
-                        ['label' => 'Rule', 'icon'=>'fa fa-circle-o', 'url' => ['/jrbac/rule/index']],
+                        ['label' => 'Permission', 'icon'=>'circle-o', 'url' => ['/jrbac/permission/index']],
+                        ['label' => 'Role', 'icon'=>'circle-o', 'url' => ['/jrbac/role/index']],
+                        ['label' => 'Rule', 'icon'=>'circle-o', 'url' => ['/jrbac/rule/index']],
                     ]
                 ];
             } else {
@@ -63,14 +61,13 @@
 
             echo dmstr\widgets\Menu::widget(
             [
-//                'options' => ['class' => 'sidebar-menu'],
-                'items' => isset($this->params['left-menu']) && $this->params['left-menu'] ? $this->params['left-menu'] : [
+                'items' => !empty($this->params['left-menu']) ? $this->params['left-menu'] : [
                     ['label' => Yii::t('app','Menu'), 'options' => ['class' => 'header']],
-                    ['label' => Yii::t('app','Home'), 'icon' => 'fa fa-home', 'url' => ['/site/index']],
-                    ['label' => Yii::t('app','Project'), 'icon' => 'fa fa-book', 'url' => ['/project/index']],
-                    ['label' => Yii::t('app','News'), 'icon' => 'fa fa-newspaper-o', 'url' => ['/article/index']],
-                    ['label' => Yii::t('app','About'), 'icon' => 'fa fa-info', 'url' => ['/site/about']],
-                    ['label' => Yii::t('app','Contact'), 'icon' => 'fa fa-bug', 'url' => ['/site/contact']],
+                    ['label' => Yii::t('app','Home'), 'icon' => 'home', 'url' => ['/site/index']],
+                    ['label' => Yii::t('app','Project'), 'icon' => 'book', 'url' => ['/project/index']],
+                    ['label' => Yii::t('app','News'), 'icon' => 'newspaper-o', 'url' => ['/article/index']],
+                    ['label' => Yii::t('app','About'), 'icon' => 'info', 'url' => ['/site/about']],
+                    ['label' => Yii::t('app','Contact'), 'icon' => 'bug', 'url' => ['/site/contact']],
                     $extMenu,
                 ],
             ]
