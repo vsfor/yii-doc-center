@@ -179,13 +179,13 @@ function getDocListRenderHtml($docList, $level=0, $pU=true, $pD=true, $cU=true, 
 </div>
 
 <?php
-$this->registerCss('
+$_css = <<<CSSSTR
 .project-manage .box .box { margin-bottom:3px; }
 .project-manage .box .box-info { border-left: 1px solid #00c0ef; border-bottom: 1px solid #00c0ef; }
 .project-manage .box .box-success { border-left: 1px solid #00a65a; border-bottom: 1px solid #00a65a; }
 .project-manage .box .box .box-body { padding:2px 0 0 4px; }
 .project-manage .box .box .box-header { padding:4px 6px; }
 .project-manage .box .box .box-header>.box-tools { top:0px; }
-');
+CSSSTR;
 
-?>
+$this->registerCss($_css);

@@ -106,14 +106,18 @@ $addMemberAllow = Yii::$app->getAuthManager()->allow('/project/add-member', ['pr
     </div>
 </div>
 <?php
-$this->registerCss('
+$_css = <<<CSSSTR
 .member-item .act-btn { 
     padding: 1px 10px; 
     margin:0 5px; border:0; 
     background: none;
-    color: #fff; }
-.member-item .btn-xs:hover {   color: #eee; }
-');
+    color: #fff; 
+}
+.member-item .btn-xs:hover {
+    color: #eee; 
+}
+CSSSTR;
+$this->registerCss($_css);
 
 if ($addMemberAllow) {
     $this->registerJs('
@@ -141,5 +145,3 @@ if ($addMemberAllow) {
         });
     ');
 }
-
-?>

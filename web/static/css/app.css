@@ -8,14 +8,9 @@
     color: #ffffff !important;
 }
 
-/*
-@media (min-width: 768px) {
-    .fp-enabled body, html.fp-enabled {
-        width:96%;
-        margin: 0 auto;
-    }
+body {
+    background-color: #fafafa;
 }
-*/
 
 #header {
     position:fixed;
@@ -28,6 +23,14 @@
     top:0;
 }
 
+#fullpage {
+    margin-top: 60px;
+}
+
+#footer {
+    margin-top: 200px;
+}
+
 .section{
     text-align:center;
     background-size: cover;
@@ -35,30 +38,6 @@
 }
 .slide{
     background-size: cover;
-}
-
-/* Defining each section background and styles
-* --------------------------------------- */
-#section0 {
-    background-color: #1bbc9b ;
-    background-image: url(../images/bg1.jpg);
-}
-#section1 {
-    background-color: #fc3c4b;
-    background-image: url(../images/bg2.jpg);
-}
-#section2 {
-    background-color: #3ebe42;
-    background-image: url(../images/bg3.jpg);
-    padding: 60px;
-}
-#section3 {
-    background-color: #9aaba4;
-    background-image: url(../images/bg4.jpg);
-}
-#section4 {
-    background-color: #fab111;
-    background-image: url(../images/bg5.jpg);
 }
 
 #fp-nav ul li .fp-tooltip {
@@ -93,11 +72,6 @@
 .navbar-default .navbar-brand {
     font: italic bold 24px/36px arial,sans-serif;
     color: #236100;
-    /*
-    text-indent: -9999em;
-    background-size: cover;
-    background-image: url(../images/logo.png);
-    */
 }
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {

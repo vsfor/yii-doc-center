@@ -31,10 +31,11 @@ $this->params['breadcrumbs'][] = [
 
     <div style="width:100%;height:1px;display: block;clear: both;"></div>
 <?php
-$this->registerCss('
+$_css = <<<CSSSTR
 .section { text-align:left; }
 .section .content { text-align: left; }
 .section .content .box { background: none; }
 .section .content .box .with-border { border-bottom: 1px solid #a90070; }
-');
-?>
+CSSSTR;
+
+$this->registerCss($_css);

@@ -63,7 +63,7 @@
 
             echo dmstr\widgets\Menu::widget(
             [
-                'options' => ['class' => 'sidebar-menu'],
+//                'options' => ['class' => 'sidebar-menu'],
                 'items' => isset($this->params['left-menu']) && $this->params['left-menu'] ? $this->params['left-menu'] : [
                     ['label' => Yii::t('app','Menu'), 'options' => ['class' => 'header']],
                     ['label' => Yii::t('app','Home'), 'icon' => 'fa fa-home', 'url' => ['/site/index']],

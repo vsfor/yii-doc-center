@@ -58,7 +58,6 @@ AppAssetFullPage::register($this);
                 ['label' => Yii::t('app', 'Articles'), 'url' => ['/article/index']],
                 ['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
                 ['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],
-                ['label' => 'API在线测试', 'url' => ['/rest/index']],
             ],
         ];
 
@@ -122,7 +121,7 @@ AppAssetFullPage::register($this);
                 <?= Yii::t('app', Yii::$app->name) ?>
                 <?= date('Y') ?>
                 .&nbsp; Jeen All Rights Reserved.
-                <a href="http://www.miitbeian.gov.cn/" rel="nofollow" target="_blank">京ICP备15058100号-2</a>
+                <a href="https://beian.miit.gov.cn//" rel="nofollow" target="_blank">京ICP备15058100号-2</a>
             </p>
             <p class="pull-right"><?= Yii::powered() ?></p>
         </div>

@@ -1,8 +1,6 @@
 <?php
-
 namespace app\controllers;
 
-use app\components\Jeen;
 use app\components\ProjectLib;
 use app\models\ProjectMember;
 use app\models\User;
@@ -322,8 +320,6 @@ class ProjectController extends ControllerBase
         }
         $lib = ProjectLib::getInstance();
         $itemList = $lib->getPdfList($project_id);
-
-//        Jeen::echoln($itemList);exit();
 
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,
