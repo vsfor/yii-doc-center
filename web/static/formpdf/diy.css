@@ -1,0 +1,48 @@
+.markdown-body p {
+  margin: 10px 0;
+}
+
+.editormd-preview-container table thead tr,
+.editormd-html-preview table thead tr,
+.editormd-preview-container table thead tr th,
+.editormd-html-preview table thead tr th {
+  background-color: #3c8dbc;
+  color: #f9f9f9;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.markdown-body table,
+.markdown-body table th,
+.markdown-body table td {
+  vertical-align: center;
+  padding: 6px 13px;
+  border: 1px solid #b6b6b6;
+  border-collapse: collapse;
+}
+
+.markdown-body table tr:nth-child(even) {background-color: #f2f2f2;}
+
+.jeenemoji,
+.editormd-html-preview .jeenemoji,
+.markdown-body .jeenemoji {
+  width: 20px;
+  height:20px;
+  display: block;
+}
+
+strong ,
+b {
+  font-weight: bold;
+}
+.editormd-preview-container code,
+.editormd-html-preview code,
+.markdown-body code,
+.editormd-preview-container pre code,
+.editormd-html-preview pre code,
+.markdown-body pre code,
+p code,
+pre code
+{
+  padding: 10px 20px;
+}
