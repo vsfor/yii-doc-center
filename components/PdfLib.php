@@ -37,10 +37,13 @@ class PdfLib
     protected function __construct()
     {
         $prefix = \Yii::$app->getRuntimePath() . '/mpdf/';
-        FileHelper::createDirectory("{$prefix}tmp");
-        defined('_MPDF_TEMP_PATH') or define('_MPDF_TEMP_PATH', "{$prefix}tmp");
-        FileHelper::createDirectory("{$prefix}ttfontdata");
-        defined('_MPDF_TEMP_PATH') or define('_MPDF_TTFONTDATAPATH', "{$prefix}ttfontdata");
+        $this->pdfConfig['tempDir'] = $prefix;
+
+        //for old version
+//        FileHelper::createDirectory("{$prefix}tmp");
+//        defined('_MPDF_TEMP_PATH') or define('_MPDF_TEMP_PATH', "{$prefix}tmp");
+//        FileHelper::createDirectory("{$prefix}ttfontdata");
+//        defined('_MPDF_TTFONTDATAPATH') or define('_MPDF_TTFONTDATAPATH', "{$prefix}ttfontdata");
     }
 
     public static function getInstance()

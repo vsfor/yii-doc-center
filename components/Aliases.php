@@ -20,5 +20,6 @@ class Aliases extends Component
     {
         Yii::setAlias('@themes', Yii::$app->view->theme->baseUrl);
         Yii::setAlias('@uploads', Yii::getAlias('@webroot').'/uploads/');
+        Yii::setAlias('@bower', Yii::getAlias('@vendor/yidas/yii2-bower-asset/bower'));
     }
 }

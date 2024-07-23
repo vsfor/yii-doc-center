@@ -171,6 +171,7 @@ HTMLSTR;
             'margin_header' => 9,
             'margin_footer' => 9,
             'orientation' => 'P',
+            'tempDir' => \Yii::$app->getRuntimePath().'/mpdf/',//for version 8.2.x
         ];
         $this->pdf = new Mpdf($pdfConfig);
         //基础设置
@@ -294,6 +295,8 @@ HTMLSTR;
     protected function initMPdfEnv()
     {
         $prefix = \Yii::$app->getRuntimePath() . '/mpdf/';
+
+        //for old version
         $this->definePath('_MPDF_TEMP_PATH', "{$prefix}tmp");
         $this->definePath('_MPDF_TTFONTDATAPATH', "{$prefix}ttfontdata");
     }
