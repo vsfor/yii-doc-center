@@ -159,7 +159,10 @@ class OauthController extends Controller
         return $this->goHome();
     }
 
-
+    /**
+     * 微信取消绑定
+     * @return false|string
+     */
     public function actionUnbind()
     {
         $ret = [
@@ -192,7 +195,11 @@ class OauthController extends Controller
         return json_encode($ret);
     }
 
-
+    /**
+     * 微信授权登录
+     * @param $id
+     * @return \yii\web\Response
+     */
     public function actionLogin($id=0)
     {
         if (Yii::$app->getRequest()->getIsPost()) {

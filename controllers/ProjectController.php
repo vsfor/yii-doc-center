@@ -17,15 +17,22 @@ use yii\web\NotFoundHttpException;
  */
 class ProjectController extends ControllerBase
 {
+    /**
+     * 项目操作
+     * @return []
+     */
     public function actions()
     {
         return [
-            'getpdf' => ProjectExportAction::class,
+            'getpdf' => [
+                'class' => ProjectExportAction::class,
+            ],
         ];
     }
 
     /**
      * 我的项目列表
+     *
      * @return string
      */
     public function actionIndex()

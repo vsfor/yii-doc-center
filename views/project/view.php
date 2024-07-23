@@ -24,7 +24,7 @@ $auth = Yii::$app->getAuthManager();
             <div class="pull-right box-tools">
                 <a target="_blank" href="<?php
                 echo \yii\helpers\Url::to(['getpdf', 'project_id'=>$model->id]);
-                ?>" class="btn btn-success btn-sm" title="输出为pdf"><i class="fa fa-print"></i></a>
+                ?>" class="btn btn-success btn-sm" title="导出为pdf"><i class="fa fa-print"></i></a>
             </div>
             <?php endif; ?>
         </div>

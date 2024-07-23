@@ -43,6 +43,11 @@ class TemplateSearch extends Template
     {
         $query = Template::find();
 
+        $userId = \Yii::$app->getUser()->getId();
+        $query->filterWhere([
+            'author_id' => $userId,
+        ]);
+
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -60,7 +65,6 @@ class TemplateSearch extends Template
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'author_id' => $this->author_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);

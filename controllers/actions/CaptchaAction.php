@@ -1,6 +1,9 @@
 <?php
 namespace app\controllers\actions;
 
+/**
+ * 获取验证码图片
+ */
 class CaptchaAction extends \yii\captcha\CaptchaAction
 {
     public $width = 120;

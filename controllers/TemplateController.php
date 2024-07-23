@@ -7,6 +7,7 @@ use Yii;
 use app\models\Template;
 use app\models\TemplateSearch;
 use yii\web\Controller;
+use yii\web\MethodNotAllowedHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -15,6 +16,83 @@ use yii\filters\VerbFilter;
  */
 class TemplateController extends ControllerBase
 {
+
+    /**
+     * 我的模板列表
+     * @return string
+     */
+    public function actionIndex()
+    {
+        $searchModel = new TemplateSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->setSort(false);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * 查看模板
+     *
+     * @param  integer $id
+     * @return mixed
+     */
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
+    /**
+     * 编辑模板
+     *
+     * @param $id
+     * @return string|\yii\web\Response
+     * @throws MethodNotAllowedHttpException
+     * @throws NotFoundHttpException
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+        if (Yii::$app->user->can('updateTemplate', ['model' => $model]))
+        {
+            if ($model->load(Yii::$app->request->post()) && $model->save())
+            {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+            else
+            {
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
+        }
+        else
+        {
+            throw new MethodNotAllowedHttpException(Yii::t('app', 'You are not allowed to access this page.'));
+        }
+    }
+
+    /**
+     * 删除模板
+     *
+     * @param  integer $id
+     * @return mixed
+     *
+     * @throws NotFoundHttpException
+     */
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
+
+        return $this->redirect('index');
+    }
+
+
     /**
      * 获取模板内容
      * @param $id
@@ -43,8 +121,15 @@ class TemplateController extends ControllerBase
         $title = Yii::$app->getRequest()->post('title', '');
         $content = Yii::$app->getRequest()->post('content', '');
         if ($title && $content) {
+            $userId = Yii::$app->getUser()->getId();
+            $existCnt = (int) Template::find()->where([
+                'author_id' => $userId,
+            ])->count();
+            if ($existCnt >= 5) {
+                return 'error';
+            }
             $template = new Template();
-            $template->author_id = Yii::$app->getUser()->getId();
+            $template->author_id = $userId;
             $template->title = strval($title);
             $template->content = strval($content);
             if ($template->save()) {
@@ -63,7 +148,14 @@ class TemplateController extends ControllerBase
      */
     protected function findModel($id)
     {
-        if (($model = Template::findOne($id)) !== null) {
+        $userId = \Yii::$app->getUser()->getId();
+        /** @var Template $model */
+        $model = Template::find()
+            ->where([
+                'id' => $id,
+                'author_id' => $userId,
+            ])->one();
+        if (!empty($model)) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

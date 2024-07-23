@@ -6,8 +6,6 @@ use app\components\PdfLib;
 use app\components\ProjectLib;
 use app\models\PageHistory;
 use app\models\PageSearch;
-use app\models\ProjectMember;
-use kartik\mpdf\Pdf;
 use Yii;
 use app\models\Page;
 use yii\web\NotFoundHttpException;

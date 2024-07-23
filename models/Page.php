@@ -54,7 +54,7 @@ class Page extends \yii\db\ActiveRecord
             [['title'], 'string', 'max' => 64],
             [['title'], 'filter', 'filter' => 'trim'],
             [['description'], 'string', 'max' => 255],
-            [['title', 'content', 'description'], 'required'],
+            [['title', 'content',], 'required'],
         ];
     }
 
@@ -95,6 +95,12 @@ class Page extends \yii\db\ActiveRecord
     {
         if (!$this->catalog_id) $this->catalog_id = 0;
         if (!$this->sort_number) $this->sort_number = 99;
+        if (empty($this->description)) {
+            $this->description = '创建于: '.date('Y-m-d H:i');
+        } else {
+            $this->description = '创建于: '.date('Y-m-d H:i', $this->created_at)
+                .' 更新于: '.date('Y-m-d H:i');
+        }
         return parent::beforeSave($insert);
     }
 }

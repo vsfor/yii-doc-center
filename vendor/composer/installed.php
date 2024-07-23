@@ -3,7 +3,7 @@
         'name' => '__root__',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '560fff263879c6d5fd82edcc15b5e3ec5dd95c08',
+        'reference' => '4d980b18d4d7e937f106a8e96bc1564493802bae',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         '__root__' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '560fff263879c6d5fd82edcc15b5e3ec5dd95c08',
+            'reference' => '4d980b18d4d7e937f106a8e96bc1564493802bae',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -137,12 +137,14 @@
             'dev_requirement' => false,
         ),
         'jext/yii2-jrbac' => array(
-            'pretty_version' => '1.0.1',
-            'version' => '1.0.1.0',
-            'reference' => '3aee6208f841c648f8a7e2df7a9953961b451f88',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '0dfac4ab2eb896488359e4ff3d217b27dd333eef',
             'type' => 'yii2-extension',
             'install_path' => __DIR__ . '/../jext/yii2-jrbac',
-            'aliases' => array(),
+            'aliases' => array(
+                0 => '9999999-dev',
+            ),
             'dev_requirement' => false,
         ),
         'kartik-v/strength-meter' => array(

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "279ef18c877bd4bb7511085cd398172f",
+    "content-hash": "6f33d931d6ae476d51c1a1ecfefffcd1",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -536,22 +536,23 @@
         },
         {
             "name": "jext/yii2-jrbac",
-            "version": "1.0.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vsfor/yii2-jrbac.git",
-                "reference": "3aee6208f841c648f8a7e2df7a9953961b451f88"
+                "reference": "0dfac4ab2eb896488359e4ff3d217b27dd333eef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vsfor/yii2-jrbac/zipball/3aee6208f841c648f8a7e2df7a9953961b451f88",
-                "reference": "3aee6208f841c648f8a7e2df7a9953961b451f88",
+                "url": "https://api.github.com/repos/vsfor/yii2-jrbac/zipball/0dfac4ab2eb896488359e4ff3d217b27dd333eef",
+                "reference": "0dfac4ab2eb896488359e4ff3d217b27dd333eef",
                 "shasum": ""
             },
             "require": {
                 "yiisoft/yii2": "2.*",
                 "yiisoft/yii2-bootstrap": "2.*"
             },
+            "default-branch": true,
             "type": "yii2-extension",
             "autoload": {
                 "psr-4": {
@@ -579,9 +580,9 @@
             "support": {
                 "email": "jeen@vsfor.com",
                 "issues": "https://github.com/JeanWolf/yii2-jrbac/issues",
-                "source": "https://github.com/vsfor/yii2-jrbac/tree/1.0.1"
+                "source": "https://github.com/vsfor/yii2-jrbac/tree/master"
             },
-            "time": "2024-07-20T14:16:40+00:00"
+            "time": "2024-07-23T10:40:54+00:00"
         },
         {
             "name": "kartik-v/strength-meter",
@@ -2227,7 +2228,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "jext/yii2-jrbac": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

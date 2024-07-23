@@ -12,15 +12,6 @@ return array (
       '@yii/bootstrap' => $vendorDir . '/yiisoft/yii2-bootstrap/src',
     ),
   ),
-  'jext/yii2-jrbac' => 
-  array (
-    'name' => 'jext/yii2-jrbac',
-    'version' => '1.0.1.0',
-    'alias' => 
-    array (
-      '@jext/jrbac' => $vendorDir . '/jext/yii2-jrbac',
-    ),
-  ),
   'yiisoft/yii2-swiftmailer' => 
   array (
     'name' => 'yiisoft/yii2-swiftmailer',
@@ -82,6 +73,15 @@ return array (
     'alias' => 
     array (
       '@dmstr' => $vendorDir . '/dmstr/yii2-adminlte-asset',
+    ),
+  ),
+  'jext/yii2-jrbac' => 
+  array (
+    'name' => 'jext/yii2-jrbac',
+    'version' => 'dev-master',
+    'alias' => 
+    array (
+      '@jext/jrbac' => $vendorDir . '/jext/yii2-jrbac',
     ),
   ),
 );

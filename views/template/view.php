@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Templates'), 'url' =
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="template-view">
-
+<div class="content">
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
@@ -32,9 +32,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'author_id',
             'title',
             'content:ntext',
-            'created_at',
-            'updated_at',
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ]) ?>
 
+</div>
 </div>

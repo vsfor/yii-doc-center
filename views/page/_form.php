@@ -33,7 +33,7 @@ use yii\widgets\ActiveForm;
         <div class="col-md-2">
             <div class="btn-group">
                 <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                    <i class="fa fa-bars"><?php echo Yii::t('app','Other Actions');?></i></button>
+                    <i class="fa fa-bars"><?php echo Yii::t('app','Template Actions');?></i></button>
                 <ul class="dropdown-menu pull-right" role="menu">
                     <li><a href="javascript:;"><?php echo Yii::t('app', 'Insert Template');?></a></li>
                     <li><a class="template-add" data-id="api" href="javascript:;"><i class="fa fa-paste">&nbsp;<?php echo Yii::t('app', 'Api Document'); ?></i></a></li>
@@ -60,7 +60,9 @@ use yii\widgets\ActiveForm;
                         </a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="javascript:;"><?php echo Yii::t('app', 'Manage Templates'); ?></a></li>
+                    <li><a target="_blank" href="<?= \yii\helpers\Url::to(['template/index'])?>">
+                            <?php echo Yii::t('app', 'Manage my Templates'); ?>
+                        </a></li>
                 </ul>
             </div>
         </div>
@@ -76,7 +78,7 @@ use yii\widgets\ActiveForm;
         echo Html::endTag('div');
         ?>
     </div>
-    <div class="col-md-12">
+    <div class="col-md-12 hide">
         <?php echo $form->field($model, 'description')
             ->textInput(['maxlength' => true])
             ->hint('注: 标题,内容及描述均不可为空,(描述可用于文档版本更新说明)');
@@ -127,7 +129,7 @@ $this->registerJsFile('@web/static/editor.md/editormd.js',[
 $this->registerJs('
     var MDEditor = editormd("page-content-div", {
         width: "100%",
-        height: 740,
+        height: 630,
         path : "'.\yii\helpers\Url::to('@web/static/editor.md/lib/').'",
 //        theme : "dark",
 //        previewTheme : "dark",

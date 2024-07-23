@@ -8,30 +8,31 @@ use yii\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Templates');
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = Yii::t('app', 'Templates');
 ?>
 <div class="template-index">
+        <div class="content">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <h2><?= Html::encode($this->title) ?></h2>
+    <p>每个用户至多创建5个模板</p>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Template'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        'filterModel' => null,
+        'layout' => "{items}",
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'author_id',
+//            'id',
+//            'author_id',
             'title',
-            'content:ntext',
-            'created_at',
+//            'content:ntext',
+            'created_at:datetime',
             // 'updated_at',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+
+</div>
 </div>

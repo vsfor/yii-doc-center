@@ -184,6 +184,17 @@ return [
     'Member since {dateString}' => '{dateString} 加入',
     'Online' => '在线',
 
+    'Templates' => '模板列表',
+    'Template' => '模板',
+    'Create Template' => '添加模板',
+    'Update Template' => '编辑模板',
+    'Template Actions' => '模板操作',
+    'Insert Template' => '插入模板',
+    'Api Document' => '接口文档',
+    'DB Table Info' => '数据字典',
+    'Save to Template' => '保存为模板',
+    'Manage my Templates' => '管理我的模板',
+
     'Are you sure you want to delete this item?' => "删除操作会将此内容关联数据一并处理\n确认删除?",
 
     'Some error occurred, please contact us.' => '出现了一些未知错误,请联系我们',

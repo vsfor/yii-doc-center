@@ -16,7 +16,11 @@ $this->title = Yii::t('app', Yii::$app->name);
                 <a class="btn btn-primary" target="_blank" href="https://github.com/vsfor/yii-doc-center">源码查阅</a>
             </p>
 
-            <p></p>
+            <p><br/></p>
+            <p><br/></p>
+            <p><br/></p>
+            <p><br/></p>
+            <p><br/></p>
             <div class="callout callout-success">
                 <p class=""><span style="color:#fff;">测试账号信息:<br/> UserName: test /  PassWord: 123123</span></p>
             </div>

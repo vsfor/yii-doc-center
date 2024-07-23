@@ -61,7 +61,6 @@ $this->registerCss('
                 ['label' => Yii::t('app', 'Articles'), 'url' => ['/article/index']],
                 ['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
                 ['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],
-                ['label' => 'API在线测试', 'url' => ['/rest/index']],
             ],
         ];
 

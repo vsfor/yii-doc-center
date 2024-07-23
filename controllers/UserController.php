@@ -282,7 +282,10 @@ class UserController extends ControllerBase
         return json_encode($ret);
     }
 
-    //内测资格邮件
+    /**
+     * 内测资格邮件
+     * @return void
+     */
     public function actionBe()
     {
         Yii::$app->urlManager->setScriptUrl("http://ydc.jeen.wang/");
