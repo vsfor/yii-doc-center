@@ -17,14 +17,14 @@ class CaptchaAction extends \yii\captcha\CaptchaAction
     public $imageLibrary = 'gd';
 
     /**
-     * 固定长度 = 3
+     * 固定长度 = 2
      */
     protected function generateVerifyCode()
     {
         $letters = '他的习惯还不错ABDEFKTNH阿拉伯语不常用';
         $len = mb_strlen($letters, 'UTF-8') - 1;
         $code = '';
-        for ($i = 0; $i < 3; ++$i) {
+        for ($i = 0; $i < 2; ++$i) {
             $_i = mt_rand(0,$len);
             $code .= mb_substr($letters,$_i,1,'UTF-8');
         }
@@ -119,7 +119,7 @@ class CaptchaAction extends \yii\captcha\CaptchaAction
         for ($h = 0, $i = mb_strlen($code) - 1; $i >= 0; --$i) {
             $letter = mb_substr($code,$i,1);
             $ord = unpack('n', mb_convert_encoding($letter, 'UTF-16BE','UTF-8'));
-            $h += $ord[1];
+            $h += $ord[1] << $i;
         }
 
         return $h;

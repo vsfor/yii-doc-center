@@ -65,22 +65,3 @@ $this->registerCss('
 .section .content { text-align: left; }
 ');
 
-
-$this->registerJs('
-	$("#fullpage").fullpage({
-            autoScrolling: false,
-            animateAnchor:false, //need
-            scrollOverflow: true,
-            scrollingSpeed: 1000, 
-            
-            paddingTop: "50px", 
-            paddingBottom: "0",
-            
-            verticalCentered: true,
-            resize: false, 
-            responsive: 900
-        });
-');
-
-
-?>

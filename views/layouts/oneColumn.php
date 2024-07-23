@@ -12,9 +12,6 @@ use yii\widgets\Breadcrumbs;
 dmstr\web\AdminLteAsset::register($this);
 
 AppAssetFullPage::register($this);
-$this->registerCss('
-#oneColumn .content { margin-top:60px; }
-');
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
