@@ -169,7 +169,7 @@ class SiteController extends Controller
         }
 
         // login was successful, let user go wherever he previously wanted
-        return $this->goBack();
+        return $this->goBack('/project/index');
     }
 
     /**

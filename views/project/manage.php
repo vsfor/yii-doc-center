@@ -46,7 +46,7 @@ function getDocListRenderHtml($docList, $level=0, $pU=true, $pD=true, $cU=true, 
         {
             $html .= '<div class="box box-info">';
             $html .=    '<div class="box-header with-border">';
-            $html .=        '<h5 class="box-title">'.$prefix.'<i class="fa fa-file-pdf-o"></i> '.$doc['data']['title'].'</h5>';
+            $html .=        '<h5 class="box-title">'.$prefix.'<i class="fa fa-file-text-o"></i> '.$doc['data']['title'].'</h5>';
             $html .=        '<div class="box-tools pull-right">';
             $html .=  $pU ?     Html::a('<i class="fa fa-edit"></i>', [
                                         '/page/update',

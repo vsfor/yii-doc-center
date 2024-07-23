@@ -24,13 +24,13 @@ $auth = Yii::$app->getAuthManager();
             <div class="pull-right box-tools">
                 <a target="_blank" href="<?php
                 echo \yii\helpers\Url::to(['getpdf', 'project_id'=>$model->id]);
-                ?>" class="btn btn-success btn-sm" title="导出为pdf"><i class="fa fa-print"></i></a>
+                ?>" class="btn btn-success btn-sm" title="导出为pdf"><i class="fa fa-file-pdf-o"></i></a>
             </div>
             <?php endif; ?>
         </div>
         <div class="box-body">
 
-            <div class="callout callout-success">
+            <div class="callout">
                 <p><i class="fa fa-info-circle"></i> <?php echo $model->description; ?></p>
             </div>
 

@@ -14,6 +14,7 @@ $this->title = Yii::t('app', 'Login');
         <div class="content" style="max-width: 360px;">
 
             <p><?php echo Yii::t('app', 'Please fill out the following fields to login:'); ?></p>
+            <p>体验账号: <b>test</b> 密码: <b>123123</b></p>
             <p><?php echo Html::a('<i class="fa fa-weixin">&nbsp;使用微信登录</i>', (new \app\components\OauthLib())->wxCodeUrl()); ?></p>
 
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
