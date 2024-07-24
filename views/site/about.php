@@ -19,9 +19,9 @@ $this->title = Yii::t('app', 'About');
 
             <p class="callout">支持本站账号+微信多对多绑定</p>
 
-            <p class="callout">本站仅用于学习分享及团队内部沟通协作!内容均源于互联网!</p>
+            <p class="callout">本站仅用于学习分享及团队内部沟通协作</p>
 
-            <p class="callout">如发现有泄漏隐私或侵权内容,请及时通过各种渠道联系站长进行处理,如"联系我们"</p>
+            <p class="callout">如发现有隐私安全或侵权内容，请及时联系网站管理员</p>
 
             <div style="width:100%;height:20px;display: block;clear: both;"></div>
         </div>

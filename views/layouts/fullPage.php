@@ -121,7 +121,7 @@ AppAssetFullPage::register($this);
                 <?= Yii::t('app', Yii::$app->name) ?>
                 <?= date('Y') ?>
                 .&nbsp; Jeen All Rights Reserved.
-                <a href="https://beian.miit.gov.cn//" rel="nofollow" target="_blank">京ICP备15058100号-2</a>
+                <a href="https://beian.miit.gov.cn" rel="nofollow" target="_blank">京ICP备15058100号-2</a>
             </p>
             <p class="pull-right"><?= Yii::powered() ?></p>
         </div>

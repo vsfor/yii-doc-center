@@ -109,3 +109,24 @@ body {
     width: 100%;
     background-color: #fff;
 }
+
+.markdown-body .markdown-toc {
+    position: fixed;
+    padding: 10px;
+    background: #3b3b3b;
+    right: 10px;
+    bottom: 10px;
+    border-radius: 5px;
+    box-shadow: #00ca6d 3px 2px 13px;
+    z-index: 99;
+}
+.markdown-body .markdown-toc ul {
+    padding: 10px 20px;
+    margin: 0;
+}
+.markdown-body .markdown-toc ul li {
+    list-style: none;
+}
+.markdown-body .markdown-toc .markdown-toc-list a {
+    color: #f3f3f3;
+}

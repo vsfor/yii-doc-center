@@ -1,6 +1,9 @@
 .markdown-body p {
   margin: 10px 0;
 }
+.markdown-body .markdown-toc {
+  display: none;
+}
 
 .editormd-preview-container table thead tr,
 .editormd-html-preview table thead tr,

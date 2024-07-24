@@ -6,9 +6,8 @@ if (!is_array($model)) {
 }
 ?>
 <h3><?php echo $model['title']; ?></h3>
-<pre><?php echo $model['description']; ?></pre>
 <div class="markdown-body editormd-html-preview">
 <?php
-    echo (new \app\components\MDParser())->makeHtml(trim($model['content']));
+    echo (new \app\components\MDParser())->makeHtml($model['content']);
 ?>
 </div>
