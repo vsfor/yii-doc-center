@@ -94,6 +94,7 @@ class OauthController extends Controller
                         $user->auth_key = md5('wx'.$wxInfo['unionid']);
                         $user->username = $wxUserInfo['nickname'].'_wx'.md5($wxInfo['unionid']);
                         $user->email = 'wx_'.$wxInfo['unionid'].'@jeen.wang';
+                        $user->password = $user->email;
                         $user->setPassword($user->email);
                         $user->project_limit = User::DEFAULT_PROJECT_LIMIT;
                         $user->status = User::STATUS_ACTIVE;
