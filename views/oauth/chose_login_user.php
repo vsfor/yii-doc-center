@@ -75,19 +75,3 @@ $this->registerCss('
 .section .content .box { background: none; }
 .section .content .box .with-border { border-bottom: 1px solid #a90070; }
 ');
-$this->registerJs('
-	$("#fullpage").fullpage({
-            autoScrolling: false,
-            animateAnchor:false, //need
-            scrollOverflow: true,
-            scrollingSpeed: 1000, 
-            
-            paddingTop: "50px", 
-            paddingBottom: "0",
-            
-            verticalCentered: true,
-            resize: false, 
-            responsive: 900
-        });
-');
-?>
