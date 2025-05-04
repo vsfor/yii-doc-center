@@ -1,7 +1,7 @@
 {
     "require": {
         "yidas/yii2-bower-asset": "^2.0",
-        "yiisoft/yii2": "2.0.51",
+        "yiisoft/yii2": "2.0.52",
         "jext/yii2-jrbac": "dev-master",
         "yiisoft/yii2-swiftmailer": "2.1.3",
         "dmstr/yii2-adminlte-asset": "2.6.2",
